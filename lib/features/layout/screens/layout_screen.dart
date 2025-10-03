@@ -7,28 +7,41 @@ import 'package:taskify/features/home/screens/home_screen.dart';
 import 'package:taskify/features/profile/screens/profile_screen.dart';
 import 'package:taskify/features/services/screens/services_screen.dart';
 
-class AppLayout extends StatefulWidget {
-  const AppLayout({super.key});
+class LayoutScreen extends StatefulWidget {
+  const LayoutScreen({super.key});
 
   @override
-  State<AppLayout> createState() => _AppLayoutState();
+  State<LayoutScreen> createState() => _LayoutScreenState();
 }
 
-class _AppLayoutState extends State<AppLayout> {
-  List<Widget> screens = [
-    HomeScreen(),
-    ServicesScreen(),
-    BookingScreen(),
-    ProfileScreen(),
-  ];
+class _LayoutScreenState extends State<LayoutScreen> {
+  late List<Widget> screens = [];
 
   int currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    screens = [
+      HomeScreen(
+        onGoToServices: () {
+          setState(() {
+            currentIndex = 1;
+          });
+        },
+      ),
+      const ServicesScreen(),
+      const BookingScreen(),
+      const ProfileScreen(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
         backgroundColor: AppColors.backgroundColor,
         selectedItemColor: AppColors.blackTextColor,

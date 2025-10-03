@@ -1,4 +1,4 @@
-package com.example.taskify
+package com.DEPI.taskify
 
 import io.flutter.embedding.android.FlutterActivity
 

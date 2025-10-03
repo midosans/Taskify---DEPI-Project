@@ -7,6 +7,7 @@ class AppColors {
   static const secondaryBottomColor = Color(0xFFF0E8F2);
   static const backgroundColor = Color(0xFFFFFFFF);
   static const blackTextColor = Color(0xFF0F1217);
+  static const greyTextColor = Color(0xFF5E708C);
   static const whiteTextColor = Color(0xFFFAF7FC);
   static const hintTextColor = Color(0xFF734D99);
 }
