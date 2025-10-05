@@ -8,81 +8,63 @@ import 'package:taskify/features/auth/widgets/custom_hyper_link.dart';
 import 'package:taskify/features/auth/widgets/custom_image_header.dart';
 import 'package:taskify/features/auth/widgets/custom_text_header.dart';
 
-class AuthLogin extends StatelessWidget {
-  const AuthLogin({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final formkey = GlobalKey<FormState>();
     final size = MediaQuery.sizeOf(context);
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const PageHeader(),
               const SizedBox(height: 20),
-              const PageHeading(title: 'Login'),
+              const PageHeading(title: 'Sign Up'),
               const SizedBox(height: 20),
+
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+
                 child: Form(
-                  key: formkey,
                   child: Column(
                     children: [
                       CustomTextformfield(
                         labelText: 'Email',
                         prefixIconPath: 'assets/svgs/email.svg',
                       ),
+
                       SizedBox(height: 10.h),
                       CustomTextformfield(
-                        labelText: "password",
+                        labelText: 'Password',
                         prefixIconPath: 'assets/svgs/password.svg',
                         isObscureText: true,
                       ),
                       SizedBox(height: 10.h),
-
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            'Forgot Password?',
-                            style: TextStyle(color: AppColors.primaryColor),
-                          ),
-                        ),
+                      CustomTextformfield(
+                        labelText: 'Confirm Password',
+                        prefixIconPath: 'assets/svgs/password.svg',
+                        isObscureText: true,
                       ),
 
-                      SizedBox(height: 20.h),
+                      SizedBox(height: 15.h),
+
                       CustomButton(
-                        text: "login",
+                        text: "Next",
                         size: Size(size.width.w, 48.h),
                         color: AppColors.primaryColor,
                         fontColor: AppColors.whiteTextColor,
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            layoutScreenRoute,
-                          );
-                        },
+                        onPressed: () {},
                       ),
-                      SizedBox(height: 10.h),
-                      CustomButton(
-                        text: "Sign up with Google",
-                        size: Size(size.width.w, 48.h),
-                        color: AppColors.secondaryBottomColor,
-                        fontColor: AppColors.blackTextColor,
-                        iconPath: 'assets/svgs/google.svg',
-                      ),
-                      SizedBox(height: 30.h),
+
+                      SizedBox(height: 20.h),
 
                       CustomHyperLink(
                         title: 'Already have an account? ',
-                        link: 'sign Up',
+                        link: 'Login',
                         onPressed: () {
-                          Navigator.pushNamed(context, registerScreenRoute);
+                          Navigator.pushNamed(context, loginScreenRoute);
                         },
                       ),
                     ],
@@ -96,4 +78,3 @@ class AuthLogin extends StatelessWidget {
     );
   }
 }
-//Size(size.width, 50)

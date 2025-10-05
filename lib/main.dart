@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/features/auth/screens/login_screen.dart';
+import 'package:taskify/features/auth/screens/signup_screen.dart';
 import 'package:taskify/features/layout/screens/layout_screen.dart';
 import 'package:taskify/features/services/screens/services_screen.dart';
 
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
           initialRoute: loginScreenRoute,
           routes: {
             loginScreenRoute: (context) => const AuthLogin(),
+            registerScreenRoute: (context) => const SignUpScreen(),
             layoutScreenRoute: (context) => const LayoutScreen(),
             servicesScreenRoute: (context) => const ServicesScreen(),
           },
