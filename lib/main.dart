@@ -30,13 +30,14 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return MaterialApp(
-          theme: ThemeData(scaffoldBackgroundColor: AppColors.backgroundColor),
+          theme: ThemeData(scaffoldBackgroundColor: AppColors.backgroundColor,
+          fontFamily: 'Inter',),
           debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           title: 'Taskify app',
-          initialRoute: layoutScreenRoute,
+          initialRoute: loginScreenRoute,
           routes: {
             loginScreenRoute: (context) => const AuthLogin(),
             layoutScreenRoute: (context) => const LayoutScreen(),
