@@ -7,5 +7,11 @@
   "no_bookings_yet": "No Bookings Yet",
   "no_bookings_message": "You haven't booked any services yet. Explore our services and book now!",
   "explore_services": "Explore Services",
-  "choose_service": "Choose the suitable service for you"
+  "choose_service": "Choose the suitable service for you",
+  "ac_technician": "AC Technician",
+  "electrician": "Electrician",
+  "plumber": "Plumber",
+  "painter": "Painter",
+  "tv_repair": "TV Repair",
+  "carpenter": "Carpenter"
 }

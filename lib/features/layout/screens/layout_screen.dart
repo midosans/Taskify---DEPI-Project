@@ -29,6 +29,11 @@ class _LayoutScreenState extends State<LayoutScreen> {
             currentIndex = 1;
           });
         },
+        onGoToBookings: () {
+          setState(() {
+            currentIndex = 2;
+          });
+        },
       ),
       const ServicesScreen(),
       const BookingScreen(),

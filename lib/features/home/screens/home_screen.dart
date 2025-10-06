@@ -4,10 +4,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/features/home/widgets/home_grid_view.dart';
+import 'package:taskify/features/home/widgets/no_booking_card.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.onGoToServices});
+  const HomeScreen({
+    super.key,
+    required this.onGoToServices,
+    required this.onGoToBookings,
+  });
   final VoidCallback onGoToServices;
+  final VoidCallback onGoToBookings;
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -47,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
               options: CarouselOptions(
                 autoPlay: true,
                 autoPlayInterval: const Duration(seconds: 2),
-                height: 180.h,
+                height: 160.h,
                 viewportFraction: 1,
                 disableCenter: true,
                 onPageChanged: (index, reason) {
@@ -142,6 +150,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
+            SizedBox(height: 10.h),
+            HomeGridView(),
+            SizedBox(height: 10.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Row(
+                children: [
+                  Text(
+                    'bookings'.tr(),
+                    style: TextStyle(
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.blackTextColor,
+                    ),
+                  ),
+                  const Spacer(),
+                  ElevatedButton(
+                    onPressed: widget.onGoToBookings,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.r),
+                      ),
+                    ),
+                    child: Text(
+                      'view_all'.tr(),
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: AppColors.whiteTextColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10.h),
+            NoBookingsCard(onExploreServices: widget.onGoToServices),
           ],
         ),
       ),
