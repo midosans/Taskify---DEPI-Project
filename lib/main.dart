@@ -32,8 +32,10 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return MaterialApp(
-          theme: ThemeData(scaffoldBackgroundColor: AppColors.backgroundColor,
-          fontFamily: 'Inter',),
+          theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.backgroundColor,
+            fontFamily: 'Inter',
+          ),
           debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
@@ -44,7 +46,7 @@ class MyApp extends StatelessWidget {
             loginScreenRoute: (context) => const AuthLogin(),
             registerScreenRoute: (context) => const SignUpScreen(),
             layoutScreenRoute: (context) => const LayoutScreen(),
-            servicesScreenRoute: (context) => const ServicesScreen(),
+            servicesScreenRoute: (context) => ServicesScreen(),
           },
         );
       },

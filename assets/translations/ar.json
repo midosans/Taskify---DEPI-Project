@@ -5,13 +5,18 @@
   "profile": "الملف الشخصي",
   "view_all": "عرض الكل",
   "no_bookings_yet": "لا توجد حجوزات بعد",
-  "no_bookings_message": "لم تقم بحجز أي خدمات بعد. استكشف خدماتنا وقم بالحجز الآن!",
-  "explore_services": "استكشاف الخدمات",
+  "no_bookings_message": "لم تقم بحجز أي خدمة بعد. استكشف خدماتنا وقم بالحجز الآن",
+  "explore_services": "استكشف الخدمات",
   "choose_service": "اختر الخدمة المناسبة لك",
   "ac_technician": "فني تكييف",
-  "electrician": "فني كهرباء",
+  "electrician": "كهربائي",
   "plumber": "سباك",
   "painter": "دهان",
-  "tv_repair": "فني تصليح تلفزيون",
-  "carpenter": "نجار"
+  "tv_repair": "فني تلفزيون",
+  "carpenter": "نجار",
+  "cleaner": "عامل نظافة",
+  "mechanic": "ميكانيكي",
+  "glass_worker": "فني زجاج",
+  "internet_technician": "فني إنترنت",
+  "satellite_technician": "فني دش"
 }
