@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:taskify/core/app_colors.dart';
-import 'package:taskify/core/constants.dart';
 
 class CustomHyperLink extends StatelessWidget {
   final String title;

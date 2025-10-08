@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
-import 'package:taskify/features/auth/screens/widgets/custom_TextFormField.dart';
-import 'package:taskify/features/auth/screens/widgets/custom_button.dart';
+import 'package:taskify/features/auth/widgets/custom_TextFormField.dart';
+import 'package:taskify/features/auth/widgets/custom_button.dart';
 
 class AuthLogin extends StatelessWidget {
   const AuthLogin({super.key});
