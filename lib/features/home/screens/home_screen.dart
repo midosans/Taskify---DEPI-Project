@@ -35,16 +35,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
-        title: const Text(
+        surfaceTintColor: AppColors.backgroundColor,
+        centerTitle: true,
+        title: Text(
           'Taskify',
           style: TextStyle(
-            color: AppColors.blackTextColor,
+            fontSize: 25.sp,
             fontWeight: FontWeight.bold,
-            fontSize: 25,
+            color: Colors.black,
           ),
         ),
-        centerTitle: true,
-        leading: SizedBox(),
       ),
       body: SizedBox(
         width: size.width,

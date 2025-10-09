@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/core/constants.dart';
 import 'package:taskify/features/services/data/services_model.dart';
 
 class ServicesScreen extends StatelessWidget {
@@ -89,7 +90,13 @@ class ServicesScreen extends StatelessWidget {
                   final s = services[index];
                   return InkWell(
                     borderRadius: BorderRadius.circular(8.r),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        tasksScreenRoute,
+                        arguments: s,
+                      );
+                    },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [

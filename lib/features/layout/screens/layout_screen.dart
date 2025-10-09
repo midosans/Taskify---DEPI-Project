@@ -5,7 +5,7 @@ import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/features/bookings/screens/booking_screen.dart';
 import 'package:taskify/features/home/screens/home_screen.dart';
 import 'package:taskify/features/profile/screens/profile_screen.dart';
-import 'package:taskify/features/services/screens/services_screen.dart';
+import 'package:taskify/features/services/widgets/services_navigator.dart';
 
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({super.key});
@@ -35,7 +35,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
           });
         },
       ),
-       ServicesScreen(),
+      const ServicesNavigator(),
       const BookingScreen(),
       const ProfileScreen(),
     ];
