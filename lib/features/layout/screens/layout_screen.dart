@@ -36,7 +36,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
         },
       ),
       const ServicesScreen(),
-      const BookingScreen(),
+       BookingScreen(),
       const ProfileScreen(),
     ];
   }
