@@ -11,7 +11,6 @@ class AppColors {
   static const whiteTextColor = Color(0xFFFAF7FC); //TEXTFIELDBG
   static const hintTextColor = Color(0xFF734D99);
   static const lightGreyColor = Color(0xFFF5F5F5);
-
   static const lightprimarycolor = Color(0xFF7D6387);
   
 }
