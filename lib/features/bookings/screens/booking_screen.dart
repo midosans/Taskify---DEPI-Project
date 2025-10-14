@@ -8,7 +8,7 @@ import 'package:taskify/features/bookings/screens/bookings_tab.dart';
 class BookingScreen extends StatelessWidget {
   BookingScreen({super.key});
 
-  List<BookingModel> bookingList = [
+  final List<BookingModel> bookingList = [
     BookingModel(
       id: "b001",
       userId: "u001",
@@ -86,9 +86,9 @@ class BookingScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             Center(child: AllBookingsTab(bookings: bookingList)),
-             Center(child: AllBookingsTab(bookings: bookingList)),
-             Center(child: AllBookingsTab(bookings: bookingList)),
-             Center(child: AllBookingsTab(bookings: bookingList)),
+            Center(child: AllBookingsTab(bookings: bookingList)),
+            Center(child: AllBookingsTab(bookings: bookingList)),
+            Center(child: AllBookingsTab(bookings: bookingList)),
           ],
         ),
       ),

@@ -219,7 +219,6 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                       },
                     );
                   } else {
-                    // ✅ لو اختار نوع المستخدم
                     Navigator.pushNamed(
                       context,
                       registerScreenRoute,
@@ -249,7 +248,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                 title: 'Already have an account? ',
                 link: 'Login',
                 onPressed: () {
-                  Navigator.pushNamed(context, loginScreenRoute);
+                  Navigator.pushReplacementNamed(context, loginScreenRoute);
                 },
               ),
             ],

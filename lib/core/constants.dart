@@ -1,4 +1,4 @@
-const loginScreenRoute = '/';
+const loginScreenRoute = '/login';
 const userTypeScreenRoute = '/userType';
 const registerScreenRoute = '/register';
 const layoutScreenRoute = '/layout';
@@ -9,4 +9,4 @@ const tasksScreenRoute = '/tasks';
 const taskDetailsScreenRoute = '/task_details';
 const bookingScreenRoute = '/bookings';
 const bookingDetailsScreenRoute = '/bookingDetails';
-
+const bookserviceRoute = '/bookService';

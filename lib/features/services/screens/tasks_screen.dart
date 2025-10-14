@@ -122,10 +122,10 @@ class TasksScreen extends StatelessWidget {
                                     alignment: Alignment.centerLeft,
                                   ),
                                   onPressed: () {
-                                    Navigator.of(context).pushNamed(
-                                      taskDetailsScreenRoute,
-                                      arguments: servicesModel[index],
-                                    );
+                                    Navigator.of(
+                                      context,
+                                      rootNavigator: true,
+                                    ).pushNamed(bookserviceRoute);
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
