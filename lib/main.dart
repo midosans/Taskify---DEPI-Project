@@ -7,6 +7,7 @@ import 'package:taskify/features/auth/screens/login_screen.dart';
 import 'package:taskify/features/auth/screens/signup_screen.dart';
 import 'package:taskify/features/bookings/screens/booking_screen.dart';
 import 'package:taskify/features/layout/screens/layout_screen.dart';
+import 'package:taskify/features/onboarding/screens/user_type_screen.dart';
 import 'package:taskify/features/services/screens/services_screen.dart';
 
 void main() async {
@@ -42,8 +43,9 @@ class MyApp extends StatelessWidget {
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           title: 'Taskify app',
-          initialRoute: loginScreenRoute,
+          initialRoute: userTypeScreenRoute,
           routes: {
+            userTypeScreenRoute:(context)=> const UserTypeScreen(),
             loginScreenRoute: (context) => const AuthLogin(),
             registerScreenRoute: (context) => const SignUpScreen(),
             layoutScreenRoute: (context) => const LayoutScreen(),
