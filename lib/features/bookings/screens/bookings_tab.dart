@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskify/features/bookings/data/booking_model.dart';
 import 'package:taskify/features/bookings/screens/booking_details.dart';
-import 'package:taskify/features/bookings/screens/booking_service.dart';
 import 'package:taskify/features/bookings/widgets/custom_tile.dart';
 
 class AllBookingsTab extends StatelessWidget {

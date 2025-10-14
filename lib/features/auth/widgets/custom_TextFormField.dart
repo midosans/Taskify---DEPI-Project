@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/features/auth/widgets/custom_obsecure_icon.dart';
 
-class CustomTextformfield extends StatefulWidget {
+class CustomTextFormField extends StatefulWidget {
   final String labelText;
   final String? prefixIconPath;
   final IconData? prefixIcon;
@@ -12,7 +12,7 @@ class CustomTextformfield extends StatefulWidget {
   final Widget? suffixIcon;
   final TextEditingController? controller;
 
-  const CustomTextformfield({
+  const CustomTextFormField({
     super.key,
     required this.labelText,
     this.prefixIconPath,
@@ -23,10 +23,10 @@ class CustomTextformfield extends StatefulWidget {
   });
 
   @override
-  State<CustomTextformfield> createState() => _CustomTextformfieldState();
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
 
-class _CustomTextformfieldState extends State<CustomTextformfield> {
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
   final formkey = GlobalKey<FormState>();
   late bool isObscureText;
   @override
@@ -53,16 +53,20 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
       ),
       decoration: InputDecoration(
         fillColor: AppColors.whiteTextColor,
-        prefixIcon: widget.prefixIconPath != null
-      ? Padding(
+
+        prefixIcon: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: SvgPicture.asset(
-            widget.prefixIconPath!,
-            width: 18.w,
-            height: 18.h,
-          ),
-        )
-      : null,
+          child:
+              widget.prefixIconPath != null
+                  ? SvgPicture.asset(
+                    widget.prefixIconPath!,
+                    width: 18.w,
+                    height: 18.h,
+                  )
+                  : (widget.prefixIcon != null
+                      ? Icon(widget.prefixIcon, color: AppColors.primaryColor)
+                      : null),
+        ),
         suffixIcon:
             (widget.isObscureText ?? false)
                 ? CustomObsecureIcon(
@@ -72,7 +76,7 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
                 : widget.suffixIcon,
         labelText: widget.labelText,
         labelStyle: TextStyle(
-          color: AppColors.lightprimarycolor,
+          color: AppColors.primaryColor,
           fontWeight: FontWeight.w500,
           fontSize: 16.sp,
         ),
