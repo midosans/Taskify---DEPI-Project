@@ -58,7 +58,7 @@ class BookingDetails extends StatelessWidget {
                       SizedBox(
                         width: 228.w,
                         child: Text(
-                          "${'scheduled_for'.tr}: ${_formatFullDateTime(bookingdeatils.bookingDate!)}", // ✅ localized
+                          "${'scheduled_for'.tr}: ${_formatFullDateTime(bookingdeatils.bookingDate!)}", 
                           maxLines: 2,
                           overflow: TextOverflow.visible,
                           softWrap: true,
@@ -90,11 +90,11 @@ class BookingDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomTextColumn(
-                    title: "service".tr(), // ✅
+                    title: "service".tr(), 
                     subtitle: bookingdeatils.serviceName!,
                   ),
                   CustomTextColumn(
-                    title: "vendor".tr(), // ✅
+                    title: "vendor".tr(), 
                     subtitle: bookingdeatils.vendorName!,
                   )
                 ],
@@ -108,11 +108,11 @@ class BookingDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomTextColumn(
-                    title: "date".tr(), // ✅
+                    title: "date".tr(), 
                     subtitle: _formatDateTime(bookingdeatils.bookingDate!),
                   ),
                   CustomTextColumn(
-                    title: "time".tr(), // ✅
+                    title: "time".tr(), 
                     subtitle: _formatTime(bookingdeatils.bookingDate!),
                   ),
                 ],
@@ -120,7 +120,7 @@ class BookingDetails extends StatelessWidget {
             ),
             const Divider(thickness: 0.45, indent: 1, endIndent: 2, height: 25),
             Text(
-              "address".tr(), // ✅
+              "address".tr(), 
               style: TextStyle(
                 fontSize: 14.sp,
                 color: AppColors.lightprimarycolor,
@@ -129,7 +129,7 @@ class BookingDetails extends StatelessWidget {
             Text(bookingdeatils.address!, style: TextStyle(fontSize: 14.sp)),
             SizedBox(height: 75.h),
             Text(
-              "next_steps".tr(), // ✅
+              "next_steps".tr(), 
               style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
             ),
             ListTile(
