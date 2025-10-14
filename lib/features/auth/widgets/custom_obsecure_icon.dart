@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taskify/core/app_colors.dart';
 
+
 class CustomObsecureIcon extends StatelessWidget {
   final bool isObscure;
   final VoidCallback toggle;

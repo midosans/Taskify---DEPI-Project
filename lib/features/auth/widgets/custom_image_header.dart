@@ -7,11 +7,19 @@ class PageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
+      padding: const EdgeInsets.only(top: 30),
       child: SizedBox(
         width: size.width,
-        height: size.height * 0.3,
-        child: Image.asset('assets/pngs/logo.png'),
+        height: size.height * 0.25, 
+        child: Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20), 
+            child: Image.asset(
+              'assets/pngs/logo.png',
+              fit: BoxFit.contain, 
+            ),
+          ),
+        ),
       ),
     );
   }

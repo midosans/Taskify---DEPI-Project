@@ -7,6 +7,7 @@ import 'package:taskify/features/auth/widgets/custom_obsecure_icon.dart';
 class CustomTextformfield extends StatefulWidget {
   final String labelText;
   final String? prefixIconPath;
+  final IconData? prefixIcon;
   final bool? isObscureText;
   final Widget? suffixIcon;
   final TextEditingController? controller;
@@ -18,6 +19,7 @@ class CustomTextformfield extends StatefulWidget {
     this.isObscureText,
     this.suffixIcon,
     this.controller,
+    this.prefixIcon,
   });
 
   @override
@@ -51,6 +53,7 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
       ),
       decoration: InputDecoration(
         fillColor: AppColors.whiteTextColor,
+
         prefixIcon: Padding(
           padding: const EdgeInsets.all(10.0),
           child:
@@ -60,7 +63,9 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
                     width: 18.w,
                     height: 18.h,
                   )
-                  : null,
+                  : (widget.prefixIcon != null
+                      ? Icon(widget.prefixIcon, color: AppColors.primaryColor)
+                      : null),
         ),
         suffixIcon:
             (widget.isObscureText ?? false)
@@ -85,7 +90,7 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
           borderSide: BorderSide(color: Colors.blue, width: 2.w),
           borderRadius: BorderRadius.circular(12.r),
         ),
-        ),
+      ),
 
       autovalidateMode: AutovalidateMode.onUserInteraction,
 
