@@ -2,23 +2,23 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taskify/core/app_colors.dart';
-import 'package:taskify/features/bookings/screens/booking_screen.dart';
+import 'package:taskify/features/bookings/widgets/booking_navigator.dart';
 import 'package:taskify/features/home/screens/home_screen.dart';
 import 'package:taskify/features/profile/screens/profile_screen.dart';
 import 'package:taskify/features/services/widgets/services_navigator.dart';
- 
+
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({super.key});
- 
+
   @override
   State<LayoutScreen> createState() => _LayoutScreenState();
 }
- 
+
 class _LayoutScreenState extends State<LayoutScreen> {
   late List<Widget> screens = [];
- 
+
   int currentIndex = 0;
- 
+
   @override
   void initState() {
     super.initState();
@@ -36,11 +36,11 @@ class _LayoutScreenState extends State<LayoutScreen> {
         },
       ),
       const ServicesNavigator(),
-      const BookingScreen(),
+      const BookingNavigator(),
       const ProfileScreen(),
     ];
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,4 +82,3 @@ class _LayoutScreenState extends State<LayoutScreen> {
     );
   }
 }
- 

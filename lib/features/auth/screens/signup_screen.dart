@@ -37,114 +37,116 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ModalRoute.of(context)!.settings.arguments as String?;
 
     final size = MediaQuery.sizeOf(context);
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const PageHeader(),
-              const SizedBox(height: 20),
-              const PageHeading(title: 'Sign Up'),
-              const SizedBox(height: 20),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const PageHeader(),
+            const SizedBox(height: 20),
+            const PageHeading(title: 'Sign Up'),
+            const SizedBox(height: 20),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
 
-                child: Form(
-                  child: Column(
-                    children: [
-                      CustomTextformfield(
-                        labelText: 'Username',
-                        prefixIcon: Icons.person,
-                      ),
-                      SizedBox(height: 10.h),
+              child: Form(
+                child: Column(
+                  children: [
+                    CustomTextFormField(
+                      labelText: 'Username',
+                      prefixIcon: Icons.person,
+                    ),
+                    SizedBox(height: 10.h),
 
-                      CustomTextformfield(
-                        labelText: 'Email',
-                        prefixIcon: Icons.email,
-                      ),
-                      SizedBox(height: 10.h),
+                    CustomTextFormField(
+                      labelText: 'Email',
+                      prefixIcon: Icons.email,
+                    ),
+                    SizedBox(height: 10.h),
 
-                      CustomTextformfield(
-                        labelText: 'Password',
-                        prefixIcon: Icons.lock,
-                        isObscureText: true,
-                      ),
-                      SizedBox(height: 10.h),
+                    CustomTextFormField(
+                      labelText: 'Password',
+                      prefixIcon: Icons.lock,
+                      isObscureText: true,
+                    ),
+                    SizedBox(height: 10.h),
 
-                      CustomTextformfield(
-                        labelText: 'Phone',
-                        prefixIcon: Icons.phone,
-                      ),
-                      SizedBox(height: 10.h),
+                    CustomTextFormField(
+                      labelText: 'Phone',
+                      prefixIcon: Icons.phone,
+                    ),
+                    SizedBox(height: 10.h),
 
-                      if (userType == 'Technician') ...[
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade400),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              value: selectedRole,
-                              hint: const Text(
-                                'Select Role',
-                                style: TextStyle(color: AppColors.primaryColor),
-                              ),
-                              isExpanded: true,
-                              icon: const Icon(Icons.arrow_drop_down),
-                              items:
-                                  roles.map((String role) {
-                                    return DropdownMenuItem<String>(
-                                      value: role,
-                                      child: Text(role, style: TextStyle(
-                                        color: AppColors.primaryColor,
-                                      ),),
-                                    );
-                                  }).toList(),
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  selectedRole = newValue;
-                                });
-                              },
+                    if (userType == 'Technician') ...[
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey.shade400),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: selectedRole,
+                            hint: const Text(
+                              'Select Role',
+                              style: TextStyle(color: AppColors.primaryColor),
                             ),
+                            isExpanded: true,
+                            icon: const Icon(Icons.arrow_drop_down),
+                            items:
+                                roles.map((String role) {
+                                  return DropdownMenuItem<String>(
+                                    value: role,
+                                    child: Text(
+                                      role,
+                                      style: TextStyle(
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedRole = newValue;
+                              });
+                            },
                           ),
                         ),
-                        SizedBox(height: 15.h),
-                      ],
-
-                      SizedBox(height: 10.h),
-
-                      CustomButton(
-                        onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            layoutScreenRoute,
-                            (route) => false,
-                          );
-                        },
-                        text: "Sign Up",
-                        size: Size(size.width.w, 48.h),
-                        color: AppColors.primaryColor,
-                        fontColor: AppColors.whiteTextColor,
                       ),
-
-                      SizedBox(height: 20.h),
-
-                      CustomHyperLink(
-                        title: 'Already have an account? ',
-                        link: 'Login',
-                        onPressed: () {
-                          Navigator.pushNamed(context, loginScreenRoute);
-                        },
-                      ),
+                      SizedBox(height: 15.h),
                     ],
-                  ),
+
+                    SizedBox(height: 10.h),
+
+                    CustomButton(
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          layoutScreenRoute,
+                          (route) => false,
+                        );
+                      },
+                      text: "Sign Up",
+                      size: Size(size.width.w, 48.h),
+                      color: AppColors.primaryColor,
+                      fontColor: AppColors.whiteTextColor,
+                    ),
+                    SizedBox(height: 20.h),
+                    CustomHyperLink(
+                      title: 'Already have an account? ',
+                      link: 'Login',
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          loginScreenRoute,
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

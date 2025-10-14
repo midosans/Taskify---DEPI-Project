@@ -4,9 +4,6 @@ import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/features/auth/widgets/custom_TextFormField.dart';
 import 'package:taskify/features/auth/widgets/custom_button.dart';
-import 'package:taskify/features/auth/widgets/custom_hyper_link.dart';
-import 'package:taskify/features/auth/widgets/custom_image_header.dart';
-import 'package:taskify/features/auth/widgets/custom_text_header.dart';
 
 class AuthLogin extends StatelessWidget {
   const AuthLogin({super.key});
@@ -42,12 +39,12 @@ class AuthLogin extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 15.h),
-                      CustomTextformfield(
+                      CustomTextFormField(
                         labelText: 'Email',
                         prefixIconPath: 'assets/svgs/email.svg',
                       ),
                       SizedBox(height: 10.h),
-                      CustomTextformfield(
+                      CustomTextFormField(
                         labelText: "password",
                         prefixIconPath: 'assets/svgs/password.svg',
                         isObscureText: true,
@@ -59,9 +56,10 @@ class AuthLogin extends StatelessWidget {
                         color: AppColors.primaryColor,
                         fontColor: AppColors.whiteTextColor,
                         onPressed: () {
-                          Navigator.pushReplacementNamed(
+                          Navigator.pushNamedAndRemoveUntil(
                             context,
                             layoutScreenRoute,
+                            (route) => false,
                           );
                         },
                       ),
@@ -80,7 +78,13 @@ class AuthLogin extends StatelessWidget {
                         children: [
                           Text('Dont have an account? '),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                userTypeScreenRoute,
+                                (route) => false,
+                              );
+                            },
                             child: Text(
                               'Sign Up!',
                               style: TextStyle(color: AppColors.primaryColor),
@@ -106,4 +110,3 @@ class AuthLogin extends StatelessWidget {
     );
   }
 }
-//Size(size.width, 50)

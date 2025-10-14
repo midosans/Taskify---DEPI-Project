@@ -12,7 +12,7 @@ class UserTypeScreen extends StatefulWidget {
 }
 
 class _UserTypeScreenState extends State<UserTypeScreen> {
-  String selectedUserType = 'Customer';
+  String selectedUserType = '';
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                           fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
                           color:
-                              selectedUserType == 'Provider'
+                              selectedUserType == 'Customer'
                                   ? AppColors.primaryColor
                                   : AppColors.blackTextColor,
                         ),
@@ -153,14 +153,78 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
               ),
 
               SizedBox(height: 150.h),
-
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    registerScreenRoute,
-                    arguments: selectedUserType,
-                  );
+                  if (selectedUserType.isEmpty) {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.warning_amber_rounded,
+                                  color: AppColors.primaryColor,
+                                  size: 48,
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'Please select your role',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.blackTextColor,
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  'You need to choose whether you are a Customer or a Technician before continuing.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: AppColors.greyTextColor,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: const Size(120, 50),
+                                    backgroundColor: AppColors.primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'OK',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    Navigator.pushNamed(
+                      context,
+                      registerScreenRoute,
+                      arguments: selectedUserType,
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primaryColor,
@@ -184,7 +248,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                 title: 'Already have an account? ',
                 link: 'Login',
                 onPressed: () {
-                  Navigator.pushNamed(context, loginScreenRoute);
+                  Navigator.pushReplacementNamed(context, loginScreenRoute);
                 },
               ),
             ],

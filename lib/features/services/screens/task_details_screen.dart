@@ -39,58 +39,56 @@ class TaskDetailsScreen extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.r),
-                    child: Image.asset(
-                      servicesModel.photo ?? '',
-                      width: MediaQuery.of(context).size.width,
-                      height: 220.h,
-                      fit: BoxFit.cover,
-                    ),
+            child: ListView(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Image.asset(
+                    servicesModel.photo ?? '',
+                    width: MediaQuery.of(context).size.width,
+                    height: 250.h,
+                    fit: BoxFit.cover,
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.w),
-                    child: SizedBox(
-                      width: size.width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            servicesModel.title ?? '',
-                            style: TextStyle(
-                              fontSize: 24.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                  child: SizedBox(
+                    width: size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          servicesModel.title ?? '',
+                          style: TextStyle(
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(height: 4.h),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.w),
-                            child: Text(
-                              '${servicesModel.price ?? ''} EGP',
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                color: AppColors.hintTextColor,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 16.h),
-                          Text(
-                            servicesModel.description ?? '',
+                        ),
+                        SizedBox(height: 4.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 4.w),
+                          child: Text(
+                            '${servicesModel.price ?? ''} EGP',
                             style: TextStyle(
                               fontSize: 16.sp,
-                              height: 1.4,
-                              color: AppColors.blackTextColor,
+                              color: AppColors.hintTextColor,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 16.h),
+                        Text(
+                          servicesModel.description ?? '',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            height: 1.4,
+                            color: AppColors.blackTextColor,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           SizedBox(

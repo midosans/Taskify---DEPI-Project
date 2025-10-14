@@ -116,7 +116,7 @@ class _BookingServiceState extends State<BookingService> {
             SizedBox(height: 10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
-              child: CustomTextformfield(labelText: "enter_address".tr()),
+              child: CustomTextFormField(labelText: "enter_address".tr()),
             ),
             SizedBox(height: 20.h),
             CustomButton(
