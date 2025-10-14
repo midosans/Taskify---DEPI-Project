@@ -53,20 +53,16 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
       ),
       decoration: InputDecoration(
         fillColor: AppColors.whiteTextColor,
-
-        prefixIcon: Padding(
+        prefixIcon: widget.prefixIconPath != null
+      ? Padding(
           padding: const EdgeInsets.all(10.0),
-          child:
-              widget.prefixIconPath != null
-                  ? SvgPicture.asset(
-                    widget.prefixIconPath!,
-                    width: 18.w,
-                    height: 18.h,
-                  )
-                  : (widget.prefixIcon != null
-                      ? Icon(widget.prefixIcon, color: AppColors.primaryColor)
-                      : null),
-        ),
+          child: SvgPicture.asset(
+            widget.prefixIconPath!,
+            width: 18.w,
+            height: 18.h,
+          ),
+        )
+      : null,
         suffixIcon:
             (widget.isObscureText ?? false)
                 ? CustomObsecureIcon(
@@ -76,7 +72,7 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
                 : widget.suffixIcon,
         labelText: widget.labelText,
         labelStyle: TextStyle(
-          color: AppColors.primaryColor,
+          color: AppColors.lightprimarycolor,
           fontWeight: FontWeight.w500,
           fontSize: 16.sp,
         ),

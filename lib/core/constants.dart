@@ -6,3 +6,4 @@ const homeScreenRoute = '/home';
 const profileScreenRoute = '/profile';
 const servicesScreenRoute = '/services';
 const bookingScreenRoute = '/bookings';
+const bookingDetailsScreenRoute = '/bookingDetails';
