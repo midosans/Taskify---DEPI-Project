@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/widgets/custom_button1.dart';
+import 'package:taskify/features/bookings/screens/booking_service.dart';
 import 'package:taskify/features/services/data/services_model.dart';
 
 class TaskDetailsScreen extends StatelessWidget {
@@ -141,7 +142,13 @@ class TaskDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   CustomButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).push(
+                        MaterialPageRoute(
+                          builder: (context) => BookingService(),
+                        ),
+                      );
+                    },
                     text: 'Book Now',
                     size: Size(size.width.w, 48.h),
                     isBuld: true,

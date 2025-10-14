@@ -25,12 +25,21 @@ class _BookingServiceState extends State<BookingService> {
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: AppColors.backgroundColor,
+        surfaceTintColor: AppColors.backgroundColor,
         title: Text(
           "book_service".tr(),
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: AppColors.backgroundColor,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.blackTextColor,
+            size: 22.sp,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -78,21 +87,22 @@ class _BookingServiceState extends State<BookingService> {
                   pickedimg = pickedFile;
                 });
               },
-              child: pickedimg == null
-                  ? CustomDottedBorder(
-                      children: [
-                        Text(
-                          "upload_media".tr(),
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
+              child:
+                  pickedimg == null
+                      ? CustomDottedBorder(
+                        children: [
+                          Text(
+                            "upload_media".tr(),
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10.h),
-                        Text("upload_note".tr()),
-                      ],
-                    )
-                  : Image.file(File(pickedimg!.path)),
+                          SizedBox(height: 10.h),
+                          Text("upload_note".tr()),
+                        ],
+                      )
+                      : Image.file(File(pickedimg!.path)),
             ),
             SizedBox(height: 10.h),
             Text(

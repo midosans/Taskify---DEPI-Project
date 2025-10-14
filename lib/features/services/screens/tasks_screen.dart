@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
+import 'package:taskify/features/bookings/screens/booking_service.dart';
 import 'package:taskify/features/services/data/services_model.dart';
 
 class TasksScreen extends StatelessWidget {
@@ -125,7 +126,11 @@ class TasksScreen extends StatelessWidget {
                                     Navigator.of(
                                       context,
                                       rootNavigator: true,
-                                    ).pushNamed(bookserviceRoute);
+                                    ).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => BookingService(),
+                                      ),
+                                    );
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
