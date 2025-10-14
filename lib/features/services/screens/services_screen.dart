@@ -2,46 +2,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
-import 'package:taskify/features/services/data/services_model.dart';
+import 'package:taskify/features/services/data/categories_model.dart';
 
 class ServicesScreen extends StatelessWidget {
   ServicesScreen({super.key});
-
-  final List<ServicesModel> services = [
-    ServicesModel(
-      category: 'AC Technician',
-      photo: 'assets/pngs/AC_technician_photo.png',
+  final List<CategoriesModel> categories = [
+    CategoriesModel(
+      name: 'ac_technician',
+      image: 'assets/pngs/AC_technician_photo.png',
     ),
-    ServicesModel(category: 'Plumber', photo: 'assets/pngs/plumber_photo.png'),
-    ServicesModel(
-      category: 'Electrician',
-      photo: 'assets/pngs/electrician_photo.png',
+    CategoriesModel(name: 'plumber', image: 'assets/pngs/plumber_photo.png'),
+    CategoriesModel(
+      name: 'electrician',
+      image: 'assets/pngs/electrician_photo.png',
     ),
-    ServicesModel(
-      category: 'TV Repair',
-      photo: 'assets/pngs/tv_repair_photo.png',
+    CategoriesModel(
+      name: 'carpenter',
+      image: 'assets/pngs/carpenter_photo.png',
     ),
-    ServicesModel(
-      category: 'Carpenter',
-      photo: 'assets/pngs/carpenter_photo.png',
+    CategoriesModel(name: 'painter', image: 'assets/pngs/painter_photo.png'),
+    CategoriesModel(
+      name: 'tv_repair',
+      image: 'assets/pngs/tv_repair_photo.png',
     ),
-    ServicesModel(category: 'Painter', photo: 'assets/pngs/painter_photo.png'),
-    ServicesModel(category: 'Cleaner', photo: 'assets/pngs/cleaner_photo.png'),
-    ServicesModel(
-      category: 'Mechanic',
-      photo: 'assets/pngs/mechanic_photo.png',
+    CategoriesModel(name: 'cleaner', image: 'assets/pngs/cleaner_photo.png'),
+    CategoriesModel(name: 'mechanic', image: 'assets/pngs/mechanic_photo.png'),
+    CategoriesModel(
+      name: 'glass_worker',
+      image: 'assets/pngs/glass_worker_photo.png',
     ),
-    ServicesModel(
-      category: 'Glass Worker',
-      photo: 'assets/pngs/glass_worker_photo.png',
+    CategoriesModel(
+      name: 'internet_technician',
+      image: 'assets/pngs/internet_technician_photo.png',
     ),
-    ServicesModel(
-      category: 'Internet Technician',
-      photo: 'assets/pngs/internet_technician_photo.png',
-    ),
-    ServicesModel(
-      category: 'Satellite Technician',
-      photo: 'assets/pngs/satellite_technician_photo.png',
+    CategoriesModel(
+      name: 'satellite_technician',
+      image: 'assets/pngs/satellite_technician_photo.png',
     ),
   ];
 
@@ -85,9 +81,9 @@ class ServicesScreen extends StatelessWidget {
                   mainAxisSpacing: 12,
                   childAspectRatio: 0.95,
                 ),
-                itemCount: services.length,
+                itemCount: categories.length,
                 itemBuilder: (context, index) {
-                  final s = services[index];
+                  final s = categories[index];
                   return InkWell(
                     borderRadius: BorderRadius.circular(8.r),
                     onTap: () {
@@ -103,7 +99,7 @@ class ServicesScreen extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8.r),
                           child: Image.asset(
-                            s.photo,
+                            s.image,
                             width: double.infinity,
                             height: 145.h,
                             fit: BoxFit.cover,
@@ -111,7 +107,7 @@ class ServicesScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          s.category,
+                          s.name,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 18,

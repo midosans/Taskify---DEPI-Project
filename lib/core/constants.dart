@@ -5,4 +5,5 @@ const homeScreenRoute = '/home';
 const profileScreenRoute = '/profile';
 const servicesScreenRoute = '/services';
 const tasksScreenRoute = '/tasks';
+const taskDetailsScreenRoute = '/task_details';
 const bookingScreenRoute = '/bookings';

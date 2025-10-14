@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/core/widgets/custom_button1.dart';
 import 'package:taskify/features/home/widgets/home_grid_view.dart';
 import 'package:taskify/features/home/widgets/no_booking_card.dart';
 
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(
             fontSize: 25.sp,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: AppColors.blackTextColor,
           ),
         ),
       ),
@@ -131,21 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   const Spacer(),
-                  ElevatedButton(
+                  CustomButton(
                     onPressed: widget.onGoToServices,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.r),
-                      ),
-                    ),
-                    child: Text(
-                      'view_all'.tr(),
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.whiteTextColor,
-                      ),
-                    ),
+                    text: 'view_all',
                   ),
                 ],
               ),
@@ -166,21 +155,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const Spacer(),
-                  ElevatedButton(
+                  CustomButton(
                     onPressed: widget.onGoToBookings,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.r),
-                      ),
-                    ),
-                    child: Text(
-                      'view_all'.tr(),
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.whiteTextColor,
-                      ),
-                    ),
+                    text: 'view_all',
                   ),
                 ],
               ),
