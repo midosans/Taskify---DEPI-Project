@@ -8,11 +8,34 @@ import 'package:taskify/features/auth/widgets/custom_hyper_link.dart';
 import 'package:taskify/features/auth/widgets/custom_image_header.dart';
 import 'package:taskify/features/auth/widgets/custom_text_header.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  String? selectedRole;
+  final List<String> roles = [
+    'AC Technician',
+    'Plumber',
+    'Electrician',
+    'TV Repair',
+    'Carpenter',
+    'Painter',
+    'Cleaner',
+    'Mechanic',
+    'Glass Worker',
+    'Internet Technician',
+    'Satellite Technician',
+  ];
+
+  @override
   Widget build(BuildContext context) {
+    final String? userType =
+        ModalRoute.of(context)!.settings.arguments as String?;
+
     final size = MediaQuery.sizeOf(context);
     return SafeArea(
       child: Scaffold(
@@ -31,31 +54,80 @@ class SignUpScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       CustomTextformfield(
-                        labelText: 'Email',
-                        prefixIconPath: 'assets/svgs/email.svg',
+                        labelText: 'Username',
+                        prefixIcon: Icons.person,
                       ),
-
                       SizedBox(height: 10.h),
+
+                      CustomTextformfield(
+                        labelText: 'Email',
+                        prefixIcon: Icons.email,
+                      ),
+                      SizedBox(height: 10.h),
+
                       CustomTextformfield(
                         labelText: 'Password',
-                        prefixIconPath: 'assets/svgs/password.svg',
+                        prefixIcon: Icons.lock,
                         isObscureText: true,
                       ),
                       SizedBox(height: 10.h),
-                      CustomTextformfield(
-                        labelText: 'Confirm Password',
-                        prefixIconPath: 'assets/svgs/password.svg',
-                        isObscureText: true,
-                      ),
 
-                      SizedBox(height: 15.h),
+                      CustomTextformfield(
+                        labelText: 'Phone',
+                        prefixIcon: Icons.phone,
+                      ),
+                      SizedBox(height: 10.h),
+
+                      if (userType == 'Technician') ...[
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              value: selectedRole,
+                              hint: const Text(
+                                'Select Role',
+                                style: TextStyle(color: AppColors.primaryColor),
+                              ),
+                              isExpanded: true,
+                              icon: const Icon(Icons.arrow_drop_down),
+                              items:
+                                  roles.map((String role) {
+                                    return DropdownMenuItem<String>(
+                                      value: role,
+                                      child: Text(role, style: TextStyle(
+                                        color: AppColors.primaryColor,
+                                      ),),
+                                    );
+                                  }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  selectedRole = newValue;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 15.h),
+                      ],
+
+                      SizedBox(height: 10.h),
 
                       CustomButton(
-                        text: "Next",
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            layoutScreenRoute,
+                            (route) => false,
+                          );
+                        },
+                        text: "Sign Up",
                         size: Size(size.width.w, 48.h),
                         color: AppColors.primaryColor,
                         fontColor: AppColors.whiteTextColor,
-                        onPressed: () {},
                       ),
 
                       SizedBox(height: 20.h),

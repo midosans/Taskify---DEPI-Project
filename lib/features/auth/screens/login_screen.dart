@@ -4,6 +4,9 @@ import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/features/auth/widgets/custom_TextFormField.dart';
 import 'package:taskify/features/auth/widgets/custom_button.dart';
+import 'package:taskify/features/auth/widgets/custom_hyper_link.dart';
+import 'package:taskify/features/auth/widgets/custom_image_header.dart';
+import 'package:taskify/features/auth/widgets/custom_text_header.dart';
 
 class AuthLogin extends StatelessWidget {
   const AuthLogin({super.key});

@@ -7,6 +7,7 @@ import 'package:taskify/features/auth/widgets/custom_obsecure_icon.dart';
 class CustomTextformfield extends StatefulWidget {
   final String labelText;
   final String? prefixIconPath;
+  final IconData? prefixIcon;
   final bool? isObscureText;
   final Widget? suffixIcon;
   final TextEditingController? controller;
@@ -18,6 +19,7 @@ class CustomTextformfield extends StatefulWidget {
     this.isObscureText,
     this.suffixIcon,
     this.controller,
+    this.prefixIcon,
   });
 
   @override
@@ -51,17 +53,16 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
       ),
       decoration: InputDecoration(
         fillColor: AppColors.whiteTextColor,
-        prefixIcon: Padding(
+        prefixIcon: widget.prefixIconPath != null
+      ? Padding(
           padding: const EdgeInsets.all(10.0),
-          child:
-              widget.prefixIconPath != null
-                  ? SvgPicture.asset(
-                    widget.prefixIconPath!,
-                    width: 18.w,
-                    height: 18.h,
-                  )
-                  : null,
-        ),
+          child: SvgPicture.asset(
+            widget.prefixIconPath!,
+            width: 18.w,
+            height: 18.h,
+          ),
+        )
+      : null,
         suffixIcon:
             (widget.isObscureText ?? false)
                 ? CustomObsecureIcon(
@@ -71,7 +72,7 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
                 : widget.suffixIcon,
         labelText: widget.labelText,
         labelStyle: TextStyle(
-          color: AppColors.primaryColor,
+          color: AppColors.lightprimarycolor,
           fontWeight: FontWeight.w500,
           fontSize: 16.sp,
         ),
@@ -85,7 +86,7 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
           borderSide: BorderSide(color: Colors.blue, width: 2.w),
           borderRadius: BorderRadius.circular(12.r),
         ),
-        ),
+      ),
 
       autovalidateMode: AutovalidateMode.onUserInteraction,
 
