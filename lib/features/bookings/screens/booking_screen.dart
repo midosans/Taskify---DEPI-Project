@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
@@ -59,7 +60,7 @@ class BookingScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Bookings',
+            'bookings'.tr(),
             style: TextStyle(
               color: AppColors.blackTextColor,
               fontSize: 23.sp,
@@ -70,16 +71,14 @@ class BookingScreen extends StatelessWidget {
           bottom: TabBar(
             labelColor: AppColors.blackTextColor,
             labelStyle: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600),
-            unselectedLabelColor:
-                AppColors.lightprimarycolor, // gray/purple shade
+            unselectedLabelColor: AppColors.lightprimarycolor,
             indicatorColor: AppColors.blackTextColor,
             indicatorWeight: 1,
-
             tabs: [
-              Tab(text: 'All'),
-              Tab(text: 'Completed'),
-              Tab(text: 'Upcoming'),
-              Tab(text: 'Cancelled'),
+              Tab(text: 'all'.tr()),
+              Tab(text: 'completed'.tr()),
+              Tab(text: 'upcoming'.tr()),
+              Tab(text: 'cancelled'.tr()),
             ],
           ),
           centerTitle: true,
@@ -87,9 +86,9 @@ class BookingScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             Center(child: AllBookingsTab(bookings: bookingList)),
-            Center(child: AllBookingsTab(bookings: bookingList)),
-            Center(child: AllBookingsTab(bookings: bookingList)),
-            Center(child: AllBookingsTab(bookings: bookingList)),
+             Center(child: AllBookingsTab(bookings: bookingList)),
+             Center(child: AllBookingsTab(bookings: bookingList)),
+             Center(child: AllBookingsTab(bookings: bookingList)),
           ],
         ),
       ),

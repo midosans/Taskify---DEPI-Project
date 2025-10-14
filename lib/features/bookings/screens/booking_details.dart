@@ -1,9 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/features/bookings/data/booking_model.dart';
+import 'package:taskify/features/bookings/widgets/custom_text_column.dart';
 
 class BookingDetails extends StatelessWidget {
   final BookingModel bookingdeatils;
@@ -15,7 +16,7 @@ class BookingDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Order confirmed',
+          'order_confirmed'.tr(), 
           style: TextStyle(
             color: AppColors.blackTextColor,
             fontSize: 18.sp,
@@ -32,7 +33,7 @@ class BookingDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Order details",
+              "order_details".tr(),
               style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 15),
@@ -57,10 +58,10 @@ class BookingDetails extends StatelessWidget {
                       SizedBox(
                         width: 228.w,
                         child: Text(
-                          "Scheduled for: ${_formatFullDateTime(bookingdeatils.bookingDate!)}",
+                          "${'scheduled_for'.tr}: ${_formatFullDateTime(bookingdeatils.bookingDate!)}", // ✅ localized
                           maxLines: 2,
-                            overflow: TextOverflow.visible,
-                            softWrap: true,
+                          overflow: TextOverflow.visible,
+                          softWrap: true,
                           style: TextStyle(
                             fontSize: 14.sp,
                             color: AppColors.lightprimarycolor,
@@ -88,56 +89,14 @@ class BookingDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Service",
-                        style: TextStyle(
-                          color: AppColors.lightprimarycolor,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                      SizedBox(height: 5.h),
-                      SizedBox(
-                        width: 72.h,
-                        child: Text(
-                          bookingdeatils.serviceName!,
-                          maxLines: 2,
-                          overflow: TextOverflow.visible,
-                          softWrap: true,
-                          style: TextStyle(fontSize: 14.sp),
-                        ),
-                      ),
-                    ],
+                  CustomTextColumn(
+                    title: "service".tr(), // ✅
+                    subtitle: bookingdeatils.serviceName!,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Provider",
-                        style: TextStyle(
-                          color: AppColors.lightprimarycolor,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                      SizedBox(height: 5.h),
-                      SizedBox(
-                        width: 72.h,
-                        child: Text(
-                          bookingdeatils.vendorName!,
-                          maxLines: 2,
-                          overflow: TextOverflow.visible,
-                          softWrap: true,
-                          style: TextStyle(fontSize: 14.sp),
-                        ),
-                      ),
-                    ],
-                  ),
+                  CustomTextColumn(
+                    title: "vendor".tr(), // ✅
+                    subtitle: bookingdeatils.vendorName!,
+                  )
                 ],
               ),
             ),
@@ -148,62 +107,20 @@ class BookingDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Date",
-                        style: TextStyle(
-                          color: AppColors.lightprimarycolor,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                      SizedBox(height: 5.h),
-                      SizedBox(
-                        width: 72.h,
-                        child: Text(
-                          _formatDateTime(bookingdeatils.bookingDate!),
-                          maxLines: 2,
-                          overflow: TextOverflow.visible,
-                          softWrap: true,
-                          style: TextStyle(fontSize: 14.sp),
-                        ),
-                      ),
-                    ],
+                  CustomTextColumn(
+                    title: "date".tr(), // ✅
+                    subtitle: _formatDateTime(bookingdeatils.bookingDate!),
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Time",
-                        style: TextStyle(
-                          color: AppColors.lightprimarycolor,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                      SizedBox(height: 5.h),
-                      SizedBox(
-                        width: 72.h,
-                        child: Text(
-                          _formatTime(bookingdeatils.bookingDate!),
-                          maxLines: 2,
-                          overflow: TextOverflow.visible,
-                          softWrap: true,
-                          style: TextStyle(fontSize: 14.sp),
-                        ),
-                      ),
-                    ],
+                  CustomTextColumn(
+                    title: "time".tr(), // ✅
+                    subtitle: _formatTime(bookingdeatils.bookingDate!),
                   ),
                 ],
               ),
             ),
             const Divider(thickness: 0.45, indent: 1, endIndent: 2, height: 25),
             Text(
-              "Address",
+              "address".tr(), // ✅
               style: TextStyle(
                 fontSize: 14.sp,
                 color: AppColors.lightprimarycolor,
@@ -212,7 +129,7 @@ class BookingDetails extends StatelessWidget {
             Text(bookingdeatils.address!, style: TextStyle(fontSize: 14.sp)),
             SizedBox(height: 75.h),
             Text(
-              "Next Steps",
+              "next_steps".tr(), // ✅
               style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
             ),
             ListTile(
@@ -223,7 +140,6 @@ class BookingDetails extends StatelessWidget {
                 ),
                 height: 48.h,
                 width: 48.w,
-
                 child: SvgPicture.asset(
                   'assets/svgs/phone.svg',
                   width: 24.w,
@@ -232,11 +148,11 @@ class BookingDetails extends StatelessWidget {
                 ),
               ),
               title: Text(
-                "Contact Provider",
+                "contact_provider".tr(),
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
               subtitle: Text(
-                "Contact Sophia to confirm any special requests or instructions.",
+                "contact_provider_subtitle".tr(),
                 style: TextStyle(color: AppColors.lightprimarycolor),
               ),
             ),
@@ -249,17 +165,16 @@ class BookingDetails extends StatelessWidget {
 }
 
 String _formatFullDateTime(DateTime dateTime) {
-  // Format to "Mon, Jul 15 • 10:00 AM"
   final formatter = DateFormat('E, MMM d • h:mm a');
   return formatter.format(dateTime);
 }
+
 String _formatDateTime(DateTime dateTime) {
-  // Format to "Mon, Jul 15 • 10:00 AM"
   final formatter = DateFormat('E, MMM d');
   return formatter.format(dateTime);
 }
+
 String _formatTime(DateTime dateTime) {
-  // Format to "Mon, Jul 15 • 10:00 AM"
   final formatter = DateFormat('h:mm a');
   return formatter.format(dateTime);
 }

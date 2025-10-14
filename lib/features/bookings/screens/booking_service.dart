@@ -1,46 +1,24 @@
 import 'dart:io';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/features/auth/widgets/custom_TextFormField.dart';
 import 'package:taskify/features/auth/widgets/custom_button.dart';
+import 'package:taskify/features/bookings/widgets/custom_dotted_border.dart';
+import 'package:taskify/features/bookings/widgets/custom_time_picker.dart';
 
 class BookingService extends StatefulWidget {
-  BookingService({super.key});
+  const BookingService({super.key});
 
   @override
   State<BookingService> createState() => _BookingServiceState();
 }
 
 class _BookingServiceState extends State<BookingService> {
-  DateTime? selectedDate;
-  TimeOfDay? selectedTime;
   XFile? pickedimg;
-
-  Future<void> _pickDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2030),
-    );
-    if (picked != null) {
-      setState(() => selectedDate = picked);
-    }
-  }
-
-  Future<void> _pickTime() async {
-    final picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTime ?? const TimeOfDay(hour: 9, minute: 0),
-    );
-    if (picked != null) {
-      setState(() => selectedTime = picked);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +26,8 @@ class _BookingServiceState extends State<BookingService> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Book Service",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          "book_service".tr(),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         backgroundColor: AppColors.backgroundColor,
@@ -59,7 +37,7 @@ class _BookingServiceState extends State<BookingService> {
         child: ListView(
           children: [
             Text(
-              "service details",
+              "service_details".tr(),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
             ),
             SizedBox(height: 10.h),
@@ -71,7 +49,6 @@ class _BookingServiceState extends State<BookingService> {
                 ),
                 height: 48.h,
                 width: 48.w,
-
                 child: SvgPicture.asset(
                   'assets/svgs/setting.svg',
                   width: 24.w,
@@ -80,11 +57,11 @@ class _BookingServiceState extends State<BookingService> {
                 ),
               ),
               title: Text(
-                "AC Technician",
+                "ac_technician".tr(),
                 style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
               ),
               subtitle: Text(
-                "Ahmed Ali",
+                "ahmed_ali".tr(),
                 style: TextStyle(color: AppColors.lightprimarycolor),
               ),
             ),
@@ -101,131 +78,49 @@ class _BookingServiceState extends State<BookingService> {
                   pickedimg = pickedFile;
                 });
               },
-              child:
-                  pickedimg == null
-                      ? DottedBorder(
-                        color: Colors.grey,
-                        strokeWidth: 1,
-                        dashPattern: [5, 4],
-                        borderType: BorderType.RRect,
-                        radius: const Radius.circular(12),
-                        child: Container(
-                          width: size.width * 0.9,
-                          height: 168.h,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.all(16),
-                          child: Center(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "Upload photos/videos",
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 10.h),
-                                Text("Max 5 items, jpg/png/mp4, max 10MB each"),
-                              ],
-                            ),
+              child: pickedimg == null
+                  ? CustomDottedBorder(
+                      children: [
+                        Text(
+                          "upload_media".tr(),
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
-                      : Image.file(File(pickedimg!.path)),
+                        SizedBox(height: 10.h),
+                        Text("upload_note".tr()),
+                      ],
+                    )
+                  : Image.file(File(pickedimg!.path)),
             ),
             SizedBox(height: 10.h),
             Text(
-              'Select Date',
+              'select_date'.tr(),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
             ),
             const SizedBox(height: 8),
-            InkWell(
-              onTap: _pickDate,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteTextColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      selectedDate != null
-                          ? '${selectedDate!.day}-${selectedDate!.month}-${selectedDate!.year}'
-                          : 'Choose Date',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: AppColors.lightprimarycolor,
-                      ),
-                    ),
-                    const Icon(Icons.arrow_drop_down, color: Colors.purple),
-                  ],
-                ),
-              ),
-            ),
+            const CustomTimePicker(isTime: false),
             const SizedBox(height: 20),
             Text(
-              'Select Time',
+              'select_time'.tr(),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
             ),
             const SizedBox(height: 8),
-            InkWell(
-              onTap: _pickTime,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-                decoration: BoxDecoration(
-                  color: AppColors.whiteTextColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      selectedTime != null
-                          ? selectedTime!.format(context)
-                          : 'Choose Time',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: AppColors.lightprimarycolor,
-                      ),
-                    ),
-                    const Icon(Icons.arrow_drop_down, color: Colors.purple),
-                  ],
-                ),
-              ),
-            ),
+            const CustomTimePicker(isTime: true),
             SizedBox(height: 10),
             Text(
-              "Address",
+              "address".tr(),
               style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
-              child: TextFormField(
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.primaryColor,
-                ),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  hintText: "Enter your address",
-                  hintStyle: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.lightprimarycolor,
-                  ),
-                ),
-              ),
+              child: CustomTextformfield(labelText: "enter_address".tr()),
             ),
             SizedBox(height: 20.h),
             CustomButton(
-              text: 'Confirm Booking',
+              text: 'confirm_booking'.tr(),
               size: Size(size.width.w, 48.h),
               color: AppColors.primaryColor,
               fontColor: AppColors.whiteTextColor,
