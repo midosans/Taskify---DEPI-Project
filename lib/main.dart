@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
             loginScreenRoute: (context) => const AuthLogin(),
             registerScreenRoute: (context) => const SignUpScreen(),
             layoutScreenRoute: (context) => const LayoutScreen(),
-            servicesScreenRoute: (context) => const ServicesScreen(),
+            servicesScreenRoute: (context) => ServicesScreen(),
             bookingScreenRoute: (context) => BookingScreen(),
             // bookingDetailsScreenRoute: (context) =>  BookingDetails(bookingdeatils: BookingModel(),),
           },

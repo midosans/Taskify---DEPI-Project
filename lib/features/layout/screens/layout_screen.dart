@@ -5,20 +5,20 @@ import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/features/bookings/screens/booking_screen.dart';
 import 'package:taskify/features/home/screens/home_screen.dart';
 import 'package:taskify/features/profile/screens/profile_screen.dart';
-import 'package:taskify/features/services/screens/services_screen.dart';
-
+import 'package:taskify/features/services/widgets/services_navigator.dart';
+ 
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({super.key});
-
+ 
   @override
   State<LayoutScreen> createState() => _LayoutScreenState();
 }
-
+ 
 class _LayoutScreenState extends State<LayoutScreen> {
   late List<Widget> screens = [];
-
+ 
   int currentIndex = 0;
-
+ 
   @override
   void initState() {
     super.initState();
@@ -35,12 +35,12 @@ class _LayoutScreenState extends State<LayoutScreen> {
           });
         },
       ),
-      const ServicesScreen(),
-       BookingScreen(),
+      const ServicesNavigator(),
+      const BookingScreen(),
       const ProfileScreen(),
     ];
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,3 +82,4 @@ class _LayoutScreenState extends State<LayoutScreen> {
     );
   }
 }
+ 

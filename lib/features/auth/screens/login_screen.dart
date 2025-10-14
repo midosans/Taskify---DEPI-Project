@@ -15,46 +15,43 @@ class AuthLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     final formkey = GlobalKey<FormState>();
     final size = MediaQuery.sizeOf(context);
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: Center(
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const PageHeader(),
-              const SizedBox(height: 20),
-              const PageHeading(title: 'Login'),
-              const SizedBox(height: 20),
+              Image.asset('assets/pngs/logo.png', height: 158.h, width: 158.w),
+              SizedBox(height: 45.h),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Form(
                   key: formkey,
                   child: Column(
                     children: [
-                      CustomTextformfield(
-                        labelText: 'Email',
-                        prefixIcon: Icons.email,
-                      ),
-                      SizedBox(height: 10.h),
-                      CustomTextformfield(
-                        labelText: 'Password',
-                        prefixIcon: Icons.lock,
-                        isObscureText: true,
-                      ),
-                      SizedBox(height: 10.h),
-
                       Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            'Forgot Password?',
-                            style: TextStyle(color: AppColors.primaryColor),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
+                            fontSize: 21.sp,
+                            color: AppColors.primaryColor,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
-
+                      SizedBox(height: 15.h),
+                      CustomTextformfield(
+                        labelText: 'Email',
+                        prefixIconPath: 'assets/svgs/email.svg',
+                      ),
+                      SizedBox(height: 10.h),
+                      CustomTextformfield(
+                        labelText: "password",
+                        prefixIconPath: 'assets/svgs/password.svg',
+                        isObscureText: true,
+                      ),
                       SizedBox(height: 20.h),
                       CustomButton(
                         text: "login",
@@ -76,14 +73,27 @@ class AuthLogin extends StatelessWidget {
                         fontColor: AppColors.blackTextColor,
                         iconPath: 'assets/svgs/google.svg',
                       ),
-                      SizedBox(height: 30.h),
-
-                      CustomHyperLink(
-                        title: 'Already have an account? ',
-                        link: 'sign Up',
-                        onPressed: () {
-                          Navigator.pushNamed(context, userTypeScreenRoute);
-                        },
+                      SizedBox(height: 50.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Dont have an account? '),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Text(
+                              'Sign Up!',
+                              style: TextStyle(color: AppColors.primaryColor),
+                            ),
+                          ),
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: AppColors.primaryColor),
+                        ),
                       ),
                     ],
                   ),
