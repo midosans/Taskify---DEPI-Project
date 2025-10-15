@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taskify/core/app_colors.dart';
-import 'package:taskify/features/auth/widgets/custom_TextFormField.dart';
-import 'package:taskify/features/auth/widgets/custom_button.dart';
+import 'package:taskify/core/widgets/custom_TextFormField.dart';
+import 'package:taskify/core/widgets/custom_button.dart';
 import 'package:taskify/features/bookings/widgets/custom_dotted_border.dart';
 import 'package:taskify/features/bookings/widgets/custom_time_picker.dart';
 
@@ -126,7 +126,7 @@ class _BookingServiceState extends State<BookingService> {
             SizedBox(height: 10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
-              child: CustomTextFormField(labelText: "enter_address".tr()),
+              child: CustomTextFormField(labelText: "enter_address".tr(),),
             ),
             SizedBox(height: 20.h),
             CustomButton(

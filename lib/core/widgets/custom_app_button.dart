@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 
-class CustomButton extends StatelessWidget {
-  const CustomButton({
+class CustomAppButton extends StatelessWidget {
+  const CustomAppButton({
     super.key,
     required this.onPressed,
     required this.text,

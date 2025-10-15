@@ -25,15 +25,12 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(height: 20.h),
-
               Text(
                 'Welcome',
                 style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
-
               SizedBox(height: 8.h),
-
               Text(
                 'Please select your role to get started.',
                 style: TextStyle(

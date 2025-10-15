@@ -51,7 +51,7 @@ class ServicesScreen extends StatelessWidget {
         surfaceTintColor: AppColors.backgroundColor,
         centerTitle: true,
         title: Text(
-          'Services',
+          'services'.tr(),
           style: TextStyle(
             fontSize: 25.sp,
             fontWeight: FontWeight.bold,
@@ -80,7 +80,7 @@ class ServicesScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  childAspectRatio: 0.95,
+                  childAspectRatio: 0.93,
                 ),
                 itemCount: categories.length,
                 itemBuilder: (context, index) {
@@ -106,12 +106,12 @@ class ServicesScreen extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8.h),
                         Text(
                           s.name.tr(),
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 18,
+                          style: TextStyle(
+                            fontSize: 18.sp,
                             fontWeight: FontWeight.w700,
                             color: Colors.black,
                           ),

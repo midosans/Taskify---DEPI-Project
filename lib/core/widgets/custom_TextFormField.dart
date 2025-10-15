@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:taskify/core/app_colors.dart';
-import 'package:taskify/features/auth/widgets/custom_obsecure_icon.dart';
+import 'package:taskify/core/widgets/custom_obsecure_icon.dart';
 
 class CustomTextFormField extends StatefulWidget {
   final String labelText;
@@ -52,21 +52,27 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         color: AppColors.primaryColor,
       ),
       decoration: InputDecoration(
+        filled: true,
         fillColor: AppColors.whiteTextColor,
-
-        prefixIcon: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child:
-              widget.prefixIconPath != null
-                  ? SvgPicture.asset(
+        prefixIcon:
+            widget.prefixIconPath != null
+                ? Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SvgPicture.asset(
                     widget.prefixIconPath!,
                     width: 18.w,
                     height: 18.h,
-                  )
-                  : (widget.prefixIcon != null
-                      ? Icon(widget.prefixIcon, color: AppColors.primaryColor)
-                      : null),
-        ),
+                  ),
+                )
+                : (widget.prefixIcon != null
+                    ? Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Icon(
+                        widget.prefixIcon,
+                        color: AppColors.primaryColor,
+                      ),
+                    )
+                    : null),
         suffixIcon:
             (widget.isObscureText ?? false)
                 ? CustomObsecureIcon(
@@ -86,8 +92,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           borderRadius: BorderRadius.circular(10.r),
         ),
 
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppColors.lightprimarycolor,
+            width: 1.w,
+          ),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue, width: 2.w),
+          borderSide: BorderSide(color: AppColors.primaryColor, width: 1.w),
           borderRadius: BorderRadius.circular(12.r),
         ),
       ),

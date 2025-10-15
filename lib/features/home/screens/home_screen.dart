@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
-import 'package:taskify/core/widgets/custom_button1.dart';
+import 'package:taskify/core/widgets/custom_app_button.dart';
 import 'package:taskify/features/home/widgets/home_grid_view.dart';
 import 'package:taskify/features/home/widgets/no_booking_card.dart';
 
@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   const Spacer(),
-                  CustomButton(
+                  CustomAppButton(
                     onPressed: widget.onGoToServices,
                     text: 'view_all',
                   ),
@@ -155,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const Spacer(),
-                  CustomButton(
+                  CustomAppButton(
                     onPressed: widget.onGoToBookings,
                     text: 'view_all',
                   ),

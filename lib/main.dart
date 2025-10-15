@@ -6,7 +6,6 @@ import 'package:taskify/core/constants.dart';
 import 'package:taskify/features/auth/screens/login_screen.dart';
 import 'package:taskify/features/auth/screens/signup_screen.dart';
 import 'package:taskify/features/bookings/screens/booking_screen.dart';
-import 'package:taskify/features/bookings/screens/booking_service.dart';
 import 'package:taskify/features/layout/screens/layout_screen.dart';
 import 'package:taskify/features/onboarding/screens/user_type_screen.dart';
 import 'package:taskify/features/services/screens/services_screen.dart';

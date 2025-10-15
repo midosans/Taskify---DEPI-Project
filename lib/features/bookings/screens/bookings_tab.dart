@@ -14,27 +14,16 @@ class AllBookingsTab extends StatelessWidget {
       itemBuilder: (context, index) {
         return GestureDetector(
           child: CustomTile(service: bookings[index]),
-          onTap: 
-          // () {
-          //   Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder:
-          //           (context) =>
-          //              BookingService() ,
-          //     ),
-          //   );
-          // },
-                  () {
-                          Navigator.push(
-                    context,
-                      MaterialPageRoute(
-              builder: (context) =>
-              BookingDetails(bookingdeatils: bookings[index]
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder:
+                    (context) =>
+                        BookingDetails(bookingdeatils: bookings[index]),
               ),
-            ),
-          );
-                  },
+            );
+          },
         );
       },
     );

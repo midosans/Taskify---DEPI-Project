@@ -106,7 +106,7 @@ class TasksScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 8.h),
                               SizedBox(
-                                width: 70.w,
+                                width: 90.w,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color.fromARGB(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
-import 'package:taskify/core/widgets/custom_button1.dart';
+import 'package:taskify/core/widgets/custom_app_button.dart';
 import 'package:taskify/features/bookings/screens/booking_service.dart';
 import 'package:taskify/features/services/data/services_model.dart';
 
@@ -137,11 +137,11 @@ class TaskDetailsScreen extends StatelessWidget {
                           ],
                         ),
                         Spacer(),
-                        CustomButton(onPressed: () {}, text: 'Contact'),
+                        CustomAppButton(onPressed: () {}, text: 'Contact'),
                       ],
                     ),
                   ),
-                  CustomButton(
+                  CustomAppButton(
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).push(
                         MaterialPageRoute(
@@ -154,6 +154,7 @@ class TaskDetailsScreen extends StatelessWidget {
                     isBuld: true,
                     fontSize: 18,
                   ),
+                  SizedBox(height: 8.h),
                 ],
               ),
             ),
