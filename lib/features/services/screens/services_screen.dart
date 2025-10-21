@@ -80,7 +80,7 @@ class ServicesScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  childAspectRatio: 0.93,
+                  childAspectRatio: 0.91,
                 ),
                 itemCount: categories.length,
                 itemBuilder: (context, index) {

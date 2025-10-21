@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
@@ -26,13 +27,13 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
             children: [
               SizedBox(height: 20.h),
               Text(
-                'Welcome',
+                'welcome'.tr(),
                 style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 8.h),
               Text(
-                'Please select your role to get started.',
+                'select_role_to_start'.tr(),
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: AppColors.greyTextColor,
@@ -43,7 +44,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
               SizedBox(height: 32.h),
 
               Text(
-                'I am a...',
+                'i_am'.tr(),
                 style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),
               ),
 
@@ -83,7 +84,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                       ),
                       SizedBox(height: 8.h),
                       Text(
-                        'Customer',
+                        'customer'.tr(),
                         style: TextStyle(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
@@ -134,7 +135,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                       ),
                       SizedBox(height: 8.h),
                       Text(
-                        'Technician',
+                        'technician'.tr(),
                         style: TextStyle(
                           fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
@@ -172,7 +173,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 Text(
-                                  'Please select your role',
+                                  'please_select_role'.tr(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 18.sp,
@@ -182,7 +183,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
-                                  'You need to choose whether you are a Customer or a Technician before continuing.',
+                                  'need_to_choose_role'.tr(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 14.sp,
@@ -201,8 +202,8 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                   ),
-                                  child: const Text(
-                                    'OK',
+                                  child: Text(
+                                    'ok'.tr(),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -231,7 +232,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                   ),
                 ),
                 child: Text(
-                  'Continue',
+                  'continue'.tr(),
                   style: TextStyle(
                     color: AppColors.backgroundColor,
                     fontSize: 16.sp,
@@ -242,8 +243,8 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
 
               SizedBox(height: 16.h),
               CustomHyperLink(
-                title: 'Already have an account? ',
-                link: 'Login',
+                title: 'already_have_account'.tr(),
+                link: 'login'.tr(),
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, loginScreenRoute);
                 },
