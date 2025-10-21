@@ -1,6 +1,7 @@
 {
   "home": "Home",
   "services": "Services",
+  "tasks": "Tasks",
   "bookings": "Bookings",
   "profile": "Profile",
   "view_all": "View All",
@@ -27,6 +28,7 @@
   "order_details": "Order details",
   "scheduled_for": "Scheduled for",
   "service": "Service",
+  "my_services": "My Services",
   "vendor": "Vendor",
   "date": "Date",
   "time": "Time",
@@ -44,5 +46,8 @@
   "enter_address": "Enter your address",
   "confirm_booking": "Confirm Booking",
   "choose_date": "Choose Date",
-  "choose_time": "Choose Time"
+  "choose_time": "Choose Time",
+  "by_vendor": "By {}",
+  "new_orders": "New Orders",
+  "ongoing_work": "Ongoing Work"
 }

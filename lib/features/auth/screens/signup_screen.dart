@@ -124,9 +124,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                       CustomButton(
                         onPressed: () {
-                          Navigator.pushNamed(
+                          Navigator.pushNamedAndRemoveUntil(
                             context,
                             layoutScreenRoute,
+                            (routes)=> false,
                             arguments: '$userType',
                           );
                         },
