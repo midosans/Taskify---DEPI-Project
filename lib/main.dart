@@ -52,8 +52,7 @@ class MyApp extends StatelessWidget {
             layoutScreenRoute: (context) => const LayoutScreen(),
             servicesScreenRoute: (context) => ServicesScreen(),
             bookingScreenRoute: (context) => BookingScreen(),
-            providerAddServiceScreen:
-                (context) => const ProviderAddServiceScreen(),
+            addServiceScreenRoute: (context) => ProviderAddServiceScreen(),
             // bookserviceRoute: (context) => BookingService(),
             // bookingDetailsScreenRoute: (context) =>  BookingDetails(bookingdeatils: BookingModel(),),
           },

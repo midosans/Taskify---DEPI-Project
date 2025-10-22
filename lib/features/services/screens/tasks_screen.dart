@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
@@ -137,7 +138,7 @@ class TasksScreen extends StatelessWidget {
                                     children: [
                                       SizedBox(width: 5.w),
                                       Text(
-                                        'Book',
+                                        'book'.tr(),
                                         style: TextStyle(
                                           fontSize: 16.sp,
                                           color: AppColors.backgroundColor,
