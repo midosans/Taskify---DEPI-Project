@@ -10,6 +10,8 @@ import 'package:taskify/features/layout/screens/layout_screen.dart';
 import 'package:taskify/features/onboarding/screens/user_type_screen.dart';
 import 'package:taskify/features/services/screens/services_screen.dart';
 
+import 'features/provider_services/screens/provider_service_details.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -51,6 +53,7 @@ class MyApp extends StatelessWidget {
             layoutScreenRoute: (context) => const LayoutScreen(),
             servicesScreenRoute: (context) => ServicesScreen(),
             bookingScreenRoute: (context) => BookingScreen(),
+            providerServiceDetailsRoute :(context) => ProviderServiceDetails(),
             // bookserviceRoute: (context) => BookingService(),
             // bookingDetailsScreenRoute: (context) =>  BookingDetails(bookingdeatils: BookingModel(),),
           },

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/features/profile/widgets/build_settings_item.dart';
 
 import '../../../core/app_colors.dart';
+import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -64,7 +65,14 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>  EditProfileScreen(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.black26,
                   padding: EdgeInsets.symmetric(vertical: 12.h),

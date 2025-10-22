@@ -10,3 +10,5 @@ const taskDetailsScreenRoute = '/task_details';
 const bookingScreenRoute = '/bookings';
 const bookingDetailsScreenRoute = '/bookingDetails';
 const bookserviceRoute = '/bookService';
+const providerServiceDetailsRoute = '/providerServiceDetails';
+
