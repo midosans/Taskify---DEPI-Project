@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
@@ -18,17 +19,17 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   String? selectedRole;
   final List<String> roles = [
-    'AC Technician',
-    'Plumber',
-    'Electrician',
-    'TV Repair',
-    'Carpenter',
-    'Painter',
-    'Cleaner',
-    'Mechanic',
-    'Glass Worker',
-    'Internet Technician',
-    'Satellite Technician',
+    'ac_technician',
+    'plumber',
+    'electrician',
+    'carpenter',
+    'painter',
+    'tv_repair',
+    'cleaner',
+    'mechanic',
+    'glass_worker',
+    'internet_technician',
+    'satellite_technician',
   ];
 
   @override
@@ -41,39 +42,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const PageHeader(),
-              const SizedBox(height: 20),
-              const PageHeading(title: 'Sign Up'),
-              const SizedBox(height: 20),
-
+               SizedBox(height: 20.h),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                child: PageHeading(title: 'sign_up'),
+              ),
+              SizedBox(height: 12.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Form(
                   child: Column(
                     children: [
                       CustomTextFormField(
-                        labelText: 'Username',
+                        labelText: 'username'.tr(),
                         prefixIcon: Icons.person,
                       ),
                       SizedBox(height: 10.h),
 
                       CustomTextFormField(
-                        labelText: 'Email',
+                        labelText: 'email'.tr(),
                         prefixIcon: Icons.email,
                       ),
                       SizedBox(height: 10.h),
 
                       CustomTextFormField(
-                        labelText: 'Password',
+                        labelText: 'password'.tr(),
                         prefixIcon: Icons.lock,
                         isObscureText: true,
                       ),
                       SizedBox(height: 10.h),
 
                       CustomTextFormField(
-                        labelText: 'Phone',
+                        labelText: 'phone'.tr(),
                         prefixIcon: Icons.phone,
                       ),
                       SizedBox(height: 10.h),
@@ -91,9 +94,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
                               value: selectedRole,
-                              hint: const Text(
-                                'Select Role',
-                                style: TextStyle(color: AppColors.primaryColor),
+                              hint: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.only(
+                                      end: 12.w,
+                                    ),
+                                    child: Icon(
+                                      Icons.construction,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                  Text(
+                                    'select_role'.tr(),
+                                    style: TextStyle(
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                ],
                               ),
                               isExpanded: true,
                               icon: const Icon(Icons.arrow_drop_down),
@@ -102,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     return DropdownMenuItem<String>(
                                       value: role,
                                       child: Text(
-                                        role,
+                                        role.tr(),
                                         style: TextStyle(
                                           color: AppColors.primaryColor,
                                         ),
@@ -129,17 +147,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             layoutScreenRoute,
                             (routes)=> false,
                             arguments: '$userType',
+                            (route) => false,
                           );
                         },
-                        text: "Sign Up",
+                        text: "sign_up".tr(),
                         size: Size(size.width.w, 48.h),
                         color: AppColors.primaryColor,
                         fontColor: AppColors.whiteTextColor,
                       ),
                       SizedBox(height: 20.h),
                       CustomHyperLink(
-                        title: 'Already have an account? ',
-                        link: 'Login',
+                        title: 'already_have_account'.tr(),
+                        link: 'login'.tr(),
                         onPressed: () {
                           Navigator.pushReplacementNamed(
                             context,

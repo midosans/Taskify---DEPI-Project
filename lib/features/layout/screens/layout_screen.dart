@@ -6,7 +6,7 @@ import 'package:taskify/features/bookings/widgets/booking_navigator.dart';
 import 'package:taskify/features/home/screens/home_screen.dart';
 import 'package:taskify/features/profile/screens/profile_screen.dart';
 import 'package:taskify/features/provider_home/screens/provider_home_screen.dart';
-import 'package:taskify/features/provider_services/screens/provider_services_screen.dart';
+import 'package:taskify/features/provider_services/widgets/provider_services_navigator.dart';
 import 'package:taskify/features/services/widgets/services_navigator.dart';
 
 class LayoutScreen extends StatefulWidget {
@@ -30,7 +30,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
     if (userType == "Technician") {
       screens = [
          ProviderHomeScreen(),
-        const ProviderServicesScreens(),
+        const ProviderServicesNavigator(),
         const ProfileScreen(),
       ];
     } else {
@@ -52,10 +52,12 @@ class _LayoutScreenState extends State<LayoutScreen> {
   Widget build(BuildContext context) {
     final locale = context.locale;
     final isTechnician = userType == "Technician";
+    final locale = context.locale;
 
     return Scaffold(
       body: screens.isNotEmpty ? screens[currentIndex] : const SizedBox(),
       bottomNavigationBar: BottomNavigationBar(
+        key: ValueKey(locale.languageCode),
         type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
         backgroundColor: AppColors.backgroundColor,
@@ -67,7 +69,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                 ? [
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset('assets/svgs/home.svg'),
-                    label: 'tasks'.tr(),
+                    label: 'home'.tr(),
                     activeIcon: SvgPicture.asset('assets/svgs/home_active.svg'),
                   ),
                   BottomNavigationBarItem(

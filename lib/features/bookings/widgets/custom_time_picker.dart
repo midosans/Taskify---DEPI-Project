@@ -19,11 +19,11 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
     if (widget.isTime == false) {
       return selectedDate != null
           ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}"
-          : "Choose Date".tr();
+          : "choose_date".tr();
     } else {
       return selectedTime != null
           ? selectedTime!.format(context)
-          : "Choose Time".tr();
+          : "choose_time".tr();
     }
   }
 
@@ -52,7 +52,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: widget.isTime != true ? _pickDate: _pickTime,
+      onTap: widget.isTime != true ? _pickDate : _pickTime,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         decoration: BoxDecoration(
