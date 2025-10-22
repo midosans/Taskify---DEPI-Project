@@ -44,5 +44,12 @@
   "enter_address": "أدخل عنوانك",
   "confirm_booking": "تأكيد الحجز",
   "choose_date": "اختر التاريخ",
-  "choose_time": "اختر الوقت"
+  "choose_time": "اختر الوقت",
+  "add_service": "اضافة خدمة",
+
+  "save_Service":"حفظ الخدمة",
+  "service_name":"اسم الخدمة",
+  "description":"الوصف",
+  "price":"السعر",
+  "service_photo":"صوره الخدمة"
 }

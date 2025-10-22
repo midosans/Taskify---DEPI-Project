@@ -5,7 +5,9 @@ import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/widgets/custom_obsecure_icon.dart';
 
 class CustomTextFormField extends StatefulWidget {
-  final String labelText;
+  final String? labelText;
+  final String? hintText;
+  final int? maxLines;
   final String? prefixIconPath;
   final IconData? prefixIcon;
   final bool? isObscureText;
@@ -14,12 +16,14 @@ class CustomTextFormField extends StatefulWidget {
 
   const CustomTextFormField({
     super.key,
-    required this.labelText,
+    this.labelText,
     this.prefixIconPath,
     this.isObscureText,
     this.suffixIcon,
     this.controller,
     this.prefixIcon,
+    this.maxLines,
+    this.hintText,
   });
 
   @override
@@ -46,6 +50,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return TextFormField(
       key: formkey,
       obscureText: isObscureText,
+      maxLines: widget.maxLines,
+
       style: TextStyle(
         fontSize: 16.sp,
         fontWeight: FontWeight.w500,
@@ -80,7 +86,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   toggle: toggleObscureText,
                 )
                 : widget.suffixIcon,
+        hintText: widget.hintText ?? '',
+        hintStyle: TextStyle(
+          color: AppColors.primaryColor,
+          fontWeight: FontWeight.w500,
+          fontSize: 14.sp,
+        ),
         labelText: widget.labelText,
+
         labelStyle: TextStyle(
           color: AppColors.primaryColor,
           fontWeight: FontWeight.w500,

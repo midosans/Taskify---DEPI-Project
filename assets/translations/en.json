@@ -44,5 +44,11 @@
   "enter_address": "Enter your address",
   "confirm_booking": "Confirm Booking",
   "choose_date": "Choose Date",
-  "choose_time": "Choose Time"
+  "choose_time": "Choose Time",
+  "add_service": "Add Service",
+  "save_Service":"Save Service",
+  "service_photo":"Service Photo",
+  "service_name":"Service Name",
+  "description":"Description",
+  "price":"Price"
 }
