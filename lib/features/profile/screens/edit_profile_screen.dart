@@ -108,34 +108,34 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
 
             Text(
-              'Username',
+              'username'.tr(),
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 8.h),
             CustomTextFormField(
-              labelText: 'Enter your username',
+              labelText: 'enter_new_username'.tr(),
               controller: usernameController,
             ),
             SizedBox(height: 30.h),
 
             Text(
-              'Phone Number',
+              'phone_number'.tr(),
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 8.h),
             CustomTextFormField(
-              labelText: 'Enter your phone number',
+              labelText: 'enter_new_phone_number'.tr(),
               controller: phoneController,
             ),
             SizedBox(height: 30.h),
 
             Text(
-              'Password',
+              'password'.tr(),
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 8.h),
             CustomTextFormField(
-              labelText: 'Enter your password',
+              labelText: 'enter_new_password'.tr(),
               controller: passwordController,
               isObscureText: true,
             ),
@@ -143,7 +143,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             SizedBox(height: 60.h),
 
             CustomButton(
-              text: "Save Changes",
+              text: "save_changes".tr(),
               size: Size(size.width.w, 48.h),
               color: AppColors.primaryColor,
               fontColor: AppColors.whiteTextColor,

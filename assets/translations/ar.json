@@ -91,5 +91,10 @@
   "logout": "تسجيل الخروج",
   "egp": "جنيه",
   "delete_service": "حذف الخدمة",
-  "edit_service": "تعديل الخدمة"
+  "edit_service": "تعديل الخدمة",
+  "phone_number": "رقم الهاتف",
+  "enter_new_username": "أدخل اسم مستخدم جديد",
+  "enter_new_phone_number": "أدخل رقم هاتف جديد",
+  "enter_new_password": "أدخل كلمة مرور جديدة",
+  "save_changes": "حفظ التغييرات"
 }
