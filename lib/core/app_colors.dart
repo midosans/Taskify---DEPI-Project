@@ -13,5 +13,5 @@ class AppColors {
   static const lightGreyColor = Color(0xFFF5F5F5);
   static const lightprimarycolor = Color(0xFF7D6387);
   static const deleteColor = Color(0xFFFF6063);
-  
+
 }
