@@ -43,14 +43,11 @@ class TaskDetailsScreen extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.r),
-                  child: Image.asset(
-                    servicesModel.photo ?? '',
-                    width: MediaQuery.of(context).size.width,
-                    height: 250.h,
-                    fit: BoxFit.cover,
-                  ),
+                Image.asset(
+                  servicesModel.photo ?? '',
+                  width: MediaQuery.of(context).size.width,
+                  height: 250.h,
+                  fit: BoxFit.cover,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -70,7 +67,7 @@ class TaskDetailsScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 4.w),
                           child: Text(
-                            '${servicesModel.price ?? ''} EGP',
+                            '${'price'.tr()}: ${servicesModel.price ?? ''} ${'egp'.tr()}',
                             style: TextStyle(
                               fontSize: 16.sp,
                               color: AppColors.hintTextColor,
