@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +23,19 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
+        backgroundColor: AppColors.backgroundColor,
+        surfaceTintColor: AppColors.backgroundColor,
+        centerTitle: true,
+        title: Text(
+          ' add_service'.tr(),
+          style: TextStyle(
+            fontSize: 22.sp,
+            fontWeight: FontWeight.bold,
+            color: AppColors.blackTextColor,
+          ),
+        ),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_new,
@@ -33,16 +44,6 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        backgroundColor: Colors.white,
-        title: Text(
-          'add_service'.tr(),
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Color(0xff121717),
-          ),
-        ),
-        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16).r,

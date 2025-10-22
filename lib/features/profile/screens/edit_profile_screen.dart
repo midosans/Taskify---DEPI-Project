@@ -1,12 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/features/profile/screens/profile_screen.dart';
 
 import '../../../core/app_colors.dart';
-import '../../../core/constants.dart';
 import '../../../core/widgets/custom_TextFormField.dart';
 import '../../../core/widgets/custom_button.dart';
-
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -16,9 +15,9 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-   TextEditingController usernameController = TextEditingController();
-   TextEditingController phoneController = TextEditingController();
-   TextEditingController passwordController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   bool isPasswordVisible = false;
 
@@ -26,11 +25,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
+        surfaceTintColor: AppColors.backgroundColor,
+        centerTitle: true,
+        title: Text(
+          'edit_profile'.tr(),
+          style: TextStyle(
+            fontSize: 22.sp,
+            fontWeight: FontWeight.bold,
+            color: AppColors.blackTextColor,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.blackTextColor,
+            size: 22.sp,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: SingleChildScrollView(
-        padding:  EdgeInsets.all(24.r),
+        padding: EdgeInsets.all(24.r),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -45,12 +63,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           height: 110.h,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            image:  DecorationImage(
-                              image: AssetImage('assets/pngs/Depth 5, Frame 0.png'),
+                            image: DecorationImage(
+                              image: AssetImage(
+                                'assets/pngs/Depth 5, Frame 0.png',
+                              ),
                               fit: BoxFit.cover,
                             ),
                             border: Border.all(
-                              color:  AppColors.primaryColor,
+                              color: AppColors.primaryColor,
                               width: 3.w,
                             ),
                           ),
@@ -59,75 +79,82 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           bottom: 0,
                           right: 0,
                           child: Container(
-                            padding:  EdgeInsets.all(4),
-                            decoration:  BoxDecoration(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
                               color: AppColors.primaryColor,
                               shape: BoxShape.circle,
                             ),
-                            child:  Icon(Icons.edit, color: AppColors.backgroundColor, size: 18),
+                            child: Icon(
+                              Icons.edit,
+                              color: AppColors.backgroundColor,
+                              size: 18,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                     SizedBox(height: 16.h),
-                     Text(
+                    SizedBox(height: 16.h),
+                    Text(
                       'Sophia Carter',
                       style: TextStyle(
                         fontSize: 22.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                     SizedBox(height: 40.h),
+                    SizedBox(height: 40.h),
                   ],
                 ),
               ),
             ),
 
-             Text(
+            Text(
               'Username',
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
-             SizedBox(height: 8.h),
-            CustomTextFormField(labelText: 'Enter your username',controller:usernameController ,),
-             SizedBox(height:30.h),
+            SizedBox(height: 8.h),
+            CustomTextFormField(
+              labelText: 'Enter your username',
+              controller: usernameController,
+            ),
+            SizedBox(height: 30.h),
 
-             Text(
+            Text(
               'Phone Number',
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
-             SizedBox(height: 8.h),
-            CustomTextFormField(labelText: 'Enter your phone number',controller:phoneController ,),
-             SizedBox(height: 30.h),
+            SizedBox(height: 8.h),
+            CustomTextFormField(
+              labelText: 'Enter your phone number',
+              controller: phoneController,
+            ),
+            SizedBox(height: 30.h),
 
-             Text(
+            Text(
               'Password',
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
             ),
-             SizedBox(height: 8.h),
-            CustomTextFormField(labelText: 'Enter your password',controller:passwordController ,isObscureText: true,),
+            SizedBox(height: 8.h),
+            CustomTextFormField(
+              labelText: 'Enter your password',
+              controller: passwordController,
+              isObscureText: true,
+            ),
 
-             SizedBox(height: 60.h),
+            SizedBox(height: 60.h),
 
-             CustomButton(
-    text: "Save Changes",
-    size: Size(size.width.w, 48.h),
-    color: AppColors.primaryColor,
-    fontColor: AppColors.whiteTextColor,
-    onPressed: () {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) =>  ProfileScreen()),
-            (route) => false,
-      );
-
-
-
-    },
-    ),
-
-
-
-
+            CustomButton(
+              text: "Save Changes",
+              size: Size(size.width.w, 48.h),
+              color: AppColors.primaryColor,
+              fontColor: AppColors.whiteTextColor,
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                  (route) => false,
+                );
+              },
+            ),
           ],
         ),
       ),

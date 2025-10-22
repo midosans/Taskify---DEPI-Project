@@ -51,7 +51,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       onTapOutside: (event) => FocusScope.of(context).unfocus(),
       key: formkey,
       obscureText: isObscureText,
-      maxLines: widget.maxLines,
+      maxLines: (isObscureText) ? 1 : (widget.maxLines ?? 1),
 
       style: TextStyle(
         fontSize: 16.sp,
