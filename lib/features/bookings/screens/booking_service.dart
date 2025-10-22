@@ -135,6 +135,7 @@ class _BookingServiceState extends State<BookingService> {
               color: AppColors.primaryColor,
               fontColor: AppColors.whiteTextColor,
             ),
+            
           ],
         ),
       ),

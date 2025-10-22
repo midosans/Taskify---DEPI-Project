@@ -47,6 +47,12 @@
   "confirm_booking": "تأكيد الحجز",
   "choose_date": "اختر التاريخ",
   "choose_time": "اختر الوقت",
+  "add_service": "اضافة خدمة",
+  "save_Service":"حفظ الخدمة",
+  "service_name":"اسم الخدمة",
+  "description":"الوصف",
+  "price":"السعر",
+  "service_photo":"صوره الخدمة"
   "by_vendor": "بواسطة {}",
   "new_orders": "الطلبات الجديدة",
   "ongoing_work": "الأعمال الجارية"
