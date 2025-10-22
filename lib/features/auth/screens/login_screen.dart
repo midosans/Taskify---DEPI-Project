@@ -1,9 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_TextFormField.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
+import 'package:taskify/features/auth/widgets/custom_image_header.dart';
+import 'package:taskify/features/auth/widgets/custom_text_header.dart';
 
 class AuthLogin extends StatelessWidget {
   const AuthLogin({super.key});
@@ -18,45 +21,46 @@ class AuthLogin extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset(
-                  'assets/pngs/logo.png',
-                  height: 158.h,
-                  width: 158.w,
+                const PageHeader(),
+                SizedBox(height: 20.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
+                  child: PageHeading(title: 'login'.tr()),
                 ),
-                SizedBox(height: 45.h),
+                SizedBox(height: 12.h),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Form(
                     key: formkey,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                              fontSize: 21.sp,
-                              color: AppColors.primaryColor,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15.h),
                         CustomTextFormField(
-                          labelText: 'Email',
+                          labelText: 'email'.tr(),
                           prefixIcon: Icons.email,
                         ),
                         SizedBox(height: 10.h),
                         CustomTextFormField(
-                          labelText: "password",
+                          labelText: "password".tr(),
                           prefixIcon: Icons.lock,
                           isObscureText: true,
                         ),
-                        SizedBox(height: 20.h),
+                        SizedBox(height: 10.h),
+                        Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Text(
+                              'forgot_password'.tr(),
+                              style: TextStyle(color: AppColors.primaryColor),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
                         CustomButton(
-                          text: "login",
+                          text: "login".tr(),
                           size: Size(size.width.w, 48.h),
                           color: AppColors.primaryColor,
                           fontColor: AppColors.whiteTextColor,
@@ -70,18 +74,18 @@ class AuthLogin extends StatelessWidget {
                         ),
                         SizedBox(height: 10.h),
                         CustomButton(
-                          text: "Sign up with Google",
+                          text: "sign_up_with_google".tr(),
                           size: Size(size.width.w, 48.h),
                           color: AppColors.secondaryBottomColor,
                           fontColor: AppColors.blackTextColor,
                           iconPath: 'assets/svgs/google.svg',
                         ),
-                        SizedBox(height: 50.h),
+                        SizedBox(height: 100.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text('Dont have an account? '),
+                            Text('dont_have_account'.tr()),
                             GestureDetector(
                               onTap: () {
                                 Navigator.pushNamedAndRemoveUntil(
@@ -91,18 +95,11 @@ class AuthLogin extends StatelessWidget {
                                 );
                               },
                               child: Text(
-                                'Sign Up!',
+                                'sign_up_exclamation'.tr(),
                                 style: TextStyle(color: AppColors.primaryColor),
                               ),
                             ),
                           ],
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            'Forgot Password?',
-                            style: TextStyle(color: AppColors.primaryColor),
-                          ),
                         ),
                       ],
                     ),

@@ -8,6 +8,7 @@ import 'package:taskify/features/auth/screens/signup_screen.dart';
 import 'package:taskify/features/bookings/screens/booking_screen.dart';
 import 'package:taskify/features/layout/screens/layout_screen.dart';
 import 'package:taskify/features/onboarding/screens/user_type_screen.dart';
+import 'package:taskify/features/provider_services/screens/provider_add_service_screen.dart';
 import 'package:taskify/features/services/screens/services_screen.dart';
 
 import 'features/provider_services/screens/provider_service_details.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
             layoutScreenRoute: (context) => const LayoutScreen(),
             servicesScreenRoute: (context) => ServicesScreen(),
             bookingScreenRoute: (context) => BookingScreen(),
-            providerServiceDetailsRoute :(context) => ProviderServiceDetails(),
+            addServiceScreenRoute: (context) => ProviderAddServiceScreen(),
             // bookserviceRoute: (context) => BookingService(),
             // bookingDetailsScreenRoute: (context) =>  BookingDetails(bookingdeatils: BookingModel(),),
           },

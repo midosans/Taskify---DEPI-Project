@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
@@ -42,14 +43,11 @@ class TaskDetailsScreen extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.r),
-                  child: Image.asset(
-                    servicesModel.photo ?? '',
-                    width: MediaQuery.of(context).size.width,
-                    height: 250.h,
-                    fit: BoxFit.cover,
-                  ),
+                Image.asset(
+                  servicesModel.photo ?? '',
+                  width: MediaQuery.of(context).size.width,
+                  height: 250.h,
+                  fit: BoxFit.cover,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -69,7 +67,7 @@ class TaskDetailsScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 4.w),
                           child: Text(
-                            '${servicesModel.price ?? ''} EGP',
+                            '${'price'.tr()}: ${servicesModel.price ?? ''} ${'egp'.tr()}',
                             style: TextStyle(
                               fontSize: 16.sp,
                               color: AppColors.hintTextColor,
@@ -98,13 +96,17 @@ class TaskDetailsScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 4.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'About the Vendor',
-                    style: TextStyle(
-                      color: AppColors.blackTextColor,
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.bold,
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(
+                      'about_vendor'.tr(),
+                      style: TextStyle(
+                        color: AppColors.blackTextColor,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Padding(
@@ -137,7 +139,7 @@ class TaskDetailsScreen extends StatelessWidget {
                           ],
                         ),
                         Spacer(),
-                        CustomAppButton(onPressed: () {}, text: 'Contact'),
+                        CustomAppButton(onPressed: () {}, text: 'contact'.tr()),
                       ],
                     ),
                   ),
@@ -149,8 +151,8 @@ class TaskDetailsScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    text: 'Book Now',
-                    size: Size(size.width.w, 48.h),
+                    text: 'book_now'.tr(),
+                    size: Size(size.width, 48.h),
                     isBuld: true,
                     fontSize: 18,
                   ),
