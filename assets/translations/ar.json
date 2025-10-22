@@ -1,6 +1,8 @@
 {
   "home": "الرئيسية",
+  "tasks": "المهام",
   "services": "الخدمات",
+  "my_services": "خدماتي",
   "bookings": "الحجوزات",
   "profile": "الملف الشخصي",
   "view_all": "عرض الكل",
@@ -45,6 +47,9 @@
   "confirm_booking": "تأكيد الحجز",
   "choose_date": "اختر التاريخ",
   "choose_time": "اختر الوقت",
+  "by_vendor": "بواسطة {}",
+  "new_orders": "الطلبات الجديدة",
+  "ongoing_work": "الأعمال الجارية"
   "my_services": "خدماتي",
   "add_service": "إضافة خدمة",
   "view_details": "عرض التفاصيل",

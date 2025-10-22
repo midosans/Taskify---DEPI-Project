@@ -29,7 +29,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
 
     if (userType == "Technician") {
       screens = [
-        const ProviderHomeScreen(),
+         ProviderHomeScreen(),
         const ProviderServicesNavigator(),
         const ProfileScreen(),
       ];
@@ -50,6 +50,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale;
     final isTechnician = userType == "Technician";
     final locale = context.locale;
 
@@ -73,7 +74,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                   ),
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset('assets/svgs/services.svg'),
-                    label: 'services'.tr(),
+                    label: 'my_services'.tr(),
                     activeIcon: SvgPicture.asset(
                       'assets/svgs/services_active.svg',
                     ),
