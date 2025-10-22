@@ -79,5 +79,9 @@
   "contact_us": "اتصل بنا",
   "about_app": "عن التطبيق",
   "terms_conditions": "الشروط والأحكام",
-  "logout": "تسجيل الخروج"
+  "logout": "تسجيل الخروج",
+  "egp": "جنيه",
+  "price": "السعر",
+  "delete_service": "حذف الخدمة",
+  "edit_service": "تعديل الخدمة"
 }

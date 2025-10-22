@@ -58,8 +58,11 @@ class ProviderServicesScreens extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
             child: InkWell(
               onTap:
-                  () =>
-                      Navigator.pushNamed(context, providerServiceDetailsRoute),
+                  () => Navigator.pushNamed(
+                    context,
+                    providerServiceDetailsRoute,
+                    arguments: service,
+                  ),
               child: SizedBox(
                 height: 130.h,
                 child: Row(

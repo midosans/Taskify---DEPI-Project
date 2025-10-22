@@ -79,5 +79,9 @@
   "contact_us": "Contact Us",
   "about_app": "About App",
   "terms_conditions": "Terms & Conditions",
-  "logout": "Logout"
+  "logout": "Logout",
+  "egp": "EGP",
+  "price": "Price",
+  "delete_service": "Delete Service",
+  "edit_service": "Edit Service"
 }
