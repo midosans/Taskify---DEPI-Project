@@ -57,6 +57,7 @@ class ProviderServicesScreens extends StatelessWidget {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
             child: InkWell(
+              borderRadius: BorderRadius.circular(8.r),
               onTap:
                   () => Navigator.pushNamed(
                     context,
