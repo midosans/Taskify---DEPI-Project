@@ -147,7 +147,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             layoutScreenRoute,
                             (routes)=> false,
                             arguments: '$userType',
-                            (route) => false,
                           );
                         },
                         text: "sign_up".tr(),

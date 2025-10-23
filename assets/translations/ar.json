@@ -52,12 +52,10 @@
   "service_name":"اسم الخدمة",
   "description":"الوصف",
   "price":"السعر",
-  "service_photo":"صوره الخدمة"
+  "service_photo":"صوره الخدمة",
   "by_vendor": "بواسطة {}",
   "new_orders": "الطلبات الجديدة",
-  "ongoing_work": "الأعمال الجارية"
-  "my_services": "خدماتي",
-  "add_service": "إضافة خدمة",
+  "ongoing_work": "الأعمال الجارية",
   "view_details": "عرض التفاصيل",
   "welcome": "مرحباً",
   "select_role_to_start": "يرجى اختيار دورك للبدء.",
@@ -92,7 +90,11 @@
   "terms_conditions": "الشروط والأحكام",
   "logout": "تسجيل الخروج",
   "egp": "جنيه",
-  "price": "السعر",
   "delete_service": "حذف الخدمة",
-  "edit_service": "تعديل الخدمة"
+  "edit_service": "تعديل الخدمة",
+  "phone_number": "رقم الهاتف",
+  "enter_new_username": "أدخل اسم مستخدم جديد",
+  "enter_new_phone_number": "أدخل رقم هاتف جديد",
+  "enter_new_password": "أدخل كلمة مرور جديدة",
+  "save_changes": "حفظ التغييرات"
 }

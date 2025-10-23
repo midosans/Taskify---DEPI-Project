@@ -47,16 +47,13 @@
   "confirm_booking": "Confirm Booking",
   "choose_date": "Choose Date",
   "choose_time": "Choose Time",
-  "add_service": "Add Service",
   "save_Service":"Save Service",
   "service_photo":"Service Photo",
   "service_name":"Service Name",
   "description":"Description",
-  "price":"Price"
   "by_vendor": "By {}",
   "new_orders": "New Orders",
-  "ongoing_work": "Ongoing Work"
-  "my_services": "My Services",
+  "ongoing_work": "Ongoing Work",
   "add_service": "Add Service",
   "view_details": "View Details",
   "welcome": "Welcome",
@@ -94,5 +91,10 @@
   "egp": "EGP",
   "price": "Price",
   "delete_service": "Delete Service",
-  "edit_service": "Edit Service"
+  "edit_service": "Edit Service",
+  "phone_number": "Phone Number",
+  "enter_new_username": "Enter new username",
+  "enter_new_phone_number": "Enter new phone number",
+  "enter_new_password": "Enter new password",
+  "save_changes": "Save Changes"
 }

@@ -4,6 +4,7 @@ const registerScreenRoute = '/register';
 const layoutScreenRoute = '/layout';
 const homeScreenRoute = '/home';
 const profileScreenRoute = '/profile';
+const editProfileScreenRoute = '/editProfile';
 const servicesScreenRoute = '/services';
 const tasksScreenRoute = '/tasks';
 const taskDetailsScreenRoute = '/task_details';

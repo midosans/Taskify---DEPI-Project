@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/features/bookings/widgets/booking_navigator.dart';
 import 'package:taskify/features/home/screens/home_screen.dart';
-import 'package:taskify/features/profile/screens/profile_screen.dart';
+import 'package:taskify/features/profile/widgets/profile_navigator.dart';
 import 'package:taskify/features/provider_home/screens/provider_home_screen.dart';
 import 'package:taskify/features/provider_services/widgets/provider_services_navigator.dart';
 import 'package:taskify/features/services/widgets/services_navigator.dart';
@@ -29,9 +29,9 @@ class _LayoutScreenState extends State<LayoutScreen> {
 
     if (userType == "Technician") {
       screens = [
-         ProviderHomeScreen(),
+        ProviderHomeScreen(),
         const ProviderServicesNavigator(),
-        const ProfileScreen(),
+        const ProfileNavigator(),
       ];
     } else {
       screens = [
@@ -41,7 +41,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
         ),
         const ServicesNavigator(),
         const BookingNavigator(),
-        const ProfileScreen(),
+        const ProfileNavigator(),
       ];
     }
 
@@ -52,7 +52,6 @@ class _LayoutScreenState extends State<LayoutScreen> {
   Widget build(BuildContext context) {
     final locale = context.locale;
     final isTechnician = userType == "Technician";
-    final locale = context.locale;
 
     return Scaffold(
       body: screens.isNotEmpty ? screens[currentIndex] : const SizedBox(),
