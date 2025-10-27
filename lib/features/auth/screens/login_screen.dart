@@ -8,14 +8,24 @@ import 'package:taskify/core/widgets/custom_button.dart';
 import 'package:taskify/features/auth/data/login_repo.dart';
 import 'package:taskify/features/auth/widgets/custom_image_header.dart';
 import 'package:taskify/features/auth/widgets/custom_text_header.dart';
+import 'package:taskify/services/validator_service.dart';
 
-class AuthLogin extends StatelessWidget {
-  const AuthLogin({super.key});
+class AuthLogin extends StatefulWidget {
+   AuthLogin({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<AuthLogin> createState() => _AuthLoginState();
+}
+
+class _AuthLoginState extends State<AuthLogin> {
     final formkey = GlobalKey<FormState>();
+    bool _submitted = false; 
+  @override
+  Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final emailValidator = EmailValidator();
+    final passwordValidator = PasswordValidator();
+
     String? email, password;
     return Scaffold(
       body: SafeArea(
@@ -36,6 +46,9 @@ class AuthLogin extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Form(
                     key: formkey,
+                    autovalidateMode: _submitted
+                        ? AutovalidateMode.always
+                        : AutovalidateMode.disabled,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -45,6 +58,7 @@ class AuthLogin extends StatelessWidget {
                           onChanged: (value) {
                             email = value;
                           },
+                          validator: emailValidator.validate,
                         ),
                         SizedBox(height: 10.h),
                         CustomTextFormField(
@@ -54,6 +68,7 @@ class AuthLogin extends StatelessWidget {
                           onChanged: (value) {
                             password = value;
                           },
+                          validator: passwordValidator.validate,
                         ),
                         SizedBox(height: 10.h),
                         Align(
@@ -73,43 +88,48 @@ class AuthLogin extends StatelessWidget {
                           color: AppColors.primaryColor,
                           fontColor: AppColors.whiteTextColor,
                           onPressed: () async {
-                              try {
-    final data = await LoginRepo().login(
-      email: email!,
-      password: password!,
-    );
+                              setState(() => _submitted = true);
+                            if (formkey.currentState!.validate()) {
+                            try {
+                              final data = await LoginRepo().login(
+                                email: email!,
+                                password: password!,
+                              );
 
-    if (data == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('User not found in profile table')),
-      );
-      return;
-    }
+                              if (data == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'User not found in profile table',
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
 
-    final role = data['role'] ?? 'User';
+                              final role = data['role'] ?? 'User';
 
-    if (role == 'User') {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        layoutScreenRoute, // your normal user layout
-        (route) => false,
-        arguments: 'User',
-      );
-    } else {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        layoutScreenRoute, // a different route for technicians
-        (route) => false,
-        arguments: 'Technician',
-      );
-    }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Login failed: $e')),
-    );
-  }
-
-                          },
+                              if (role == 'User') {
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  layoutScreenRoute,
+                                  (route) => false,
+                                  arguments: 'User',
+                                );
+                              } else {
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  layoutScreenRoute,
+                                  (route) => false,
+                                  arguments: 'Technician',
+                                );
+                              }
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Login failed: $e')),
+                              );
+                            }
+                          }}
                         ),
                         SizedBox(height: 10.h),
                         CustomButton(

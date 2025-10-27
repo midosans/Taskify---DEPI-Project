@@ -14,6 +14,7 @@ class CustomTextFormField extends StatefulWidget {
   final Widget? suffixIcon;
   final TextEditingController? controller;
   final void Function(String)? onChanged;
+  final String? Function(String?)? validator;
 
   const CustomTextFormField({
     super.key,
@@ -26,6 +27,7 @@ class CustomTextFormField extends StatefulWidget {
     this.maxLines,
     this.hintText,
     this.onChanged,
+    this.validator,
   });
 
   @override
@@ -54,7 +56,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       key: formkey,
       onChanged: (value) {
         widget.onChanged?.call(value);
-        formkey.currentState?.validate();
+        // formkey.currentState?.validate();
       },
       obscureText: isObscureText,
       maxLines: (isObscureText) ? 1 : (widget.maxLines ?? 1),
@@ -126,9 +128,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
       ),
 
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      // autovalidateMode: AutovalidateMode.onUserInteraction,
 
-      validator: (textValue) {
+      validator: widget.validator  ?? (String? textValue) {
         if (textValue == null || textValue.isEmpty) {
           return 'required!';
         }
