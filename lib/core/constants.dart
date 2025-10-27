@@ -14,4 +14,4 @@ const bookserviceRoute = '/bookService';
 const providerServicesScreenRoute = '/providerServices';
 const addServiceScreenRoute = '/addService';
 const providerServiceDetailsRoute = '/providerServiceDetails';
-
+const splashScreenRoute = '/splash';

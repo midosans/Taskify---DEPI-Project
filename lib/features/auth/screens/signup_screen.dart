@@ -5,6 +5,7 @@ import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_TextFormField.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
+import 'package:taskify/features/auth/data/signup_repo.dart';
 import 'package:taskify/features/auth/widgets/custom_hyper_link.dart';
 import 'package:taskify/features/auth/widgets/custom_image_header.dart';
 import 'package:taskify/features/auth/widgets/custom_text_header.dart';
@@ -17,6 +18,11 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  String? email,password,phone,username;
   String? selectedRole;
   final List<String> roles = [
     'ac_technician',
@@ -57,27 +63,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     children: [
                       CustomTextFormField(
+                        controller: usernameController,
                         labelText: 'username'.tr(),
                         prefixIcon: Icons.person,
+                        onChanged: (value) {
+                      username = value;
+                    },
                       ),
                       SizedBox(height: 10.h),
 
                       CustomTextFormField(
+                        controller: emailController,
                         labelText: 'email'.tr(),
                         prefixIcon: Icons.email,
+                        onChanged: (value) {
+                      email = value;
+                    },
                       ),
                       SizedBox(height: 10.h),
 
                       CustomTextFormField(
+                        controller: passwordController,
                         labelText: 'password'.tr(),
                         prefixIcon: Icons.lock,
                         isObscureText: true,
+                        onChanged: (value) {
+                      password = value;
+                    },
                       ),
                       SizedBox(height: 10.h),
 
                       CustomTextFormField(
+                        controller: phoneController,
                         labelText: 'phone'.tr(),
                         prefixIcon: Icons.phone,
+                        onChanged: (value) {
+                      phone = value;
+                    },
                       ),
                       SizedBox(height: 10.h),
 
@@ -141,7 +163,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(height: 10.h),
 
                       CustomButton(
-                        onPressed: () {
+                        onPressed: () async{
+                          await SignupRepo().signUp(
+                            email: email!,
+                            password: password!,
+                            role: userType == 'Technician'
+                                ? selectedRole ?? ''
+                                : 'User',
+                            username: username,
+                            phone: phone,
+                          );
                           Navigator.pushNamedAndRemoveUntil(
                             context,
                             layoutScreenRoute,
@@ -159,6 +190,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         title: 'already_have_account'.tr(),
                         link: 'login'.tr(),
                         onPressed: () {
+                          
                           Navigator.pushReplacementNamed(
                             context,
                             loginScreenRoute,

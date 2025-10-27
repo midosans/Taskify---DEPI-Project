@@ -5,6 +5,7 @@ import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_TextFormField.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
+import 'package:taskify/features/auth/data/login_repo.dart';
 import 'package:taskify/features/auth/widgets/custom_image_header.dart';
 import 'package:taskify/features/auth/widgets/custom_text_header.dart';
 
@@ -15,6 +16,7 @@ class AuthLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     final formkey = GlobalKey<FormState>();
     final size = MediaQuery.sizeOf(context);
+    String? email, password;
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -40,12 +42,18 @@ class AuthLogin extends StatelessWidget {
                         CustomTextFormField(
                           labelText: 'email'.tr(),
                           prefixIcon: Icons.email,
+                          onChanged: (value) {
+                            email = value;
+                          },
                         ),
                         SizedBox(height: 10.h),
                         CustomTextFormField(
                           labelText: "password".tr(),
                           prefixIcon: Icons.lock,
                           isObscureText: true,
+                          onChanged: (value) {
+                            password = value;
+                          },
                         ),
                         SizedBox(height: 10.h),
                         Align(
@@ -64,12 +72,43 @@ class AuthLogin extends StatelessWidget {
                           size: Size(size.width.w, 48.h),
                           color: AppColors.primaryColor,
                           fontColor: AppColors.whiteTextColor,
-                          onPressed: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              layoutScreenRoute,
-                              (route) => false,
-                            );
+                          onPressed: () async {
+                              try {
+    final data = await LoginRepo().login(
+      email: email!,
+      password: password!,
+    );
+
+    if (data == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User not found in profile table')),
+      );
+      return;
+    }
+
+    final role = data['role'] ?? 'User';
+
+    if (role == 'User') {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        layoutScreenRoute, // your normal user layout
+        (route) => false,
+        arguments: 'User',
+      );
+    } else {
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        layoutScreenRoute, // a different route for technicians
+        (route) => false,
+        arguments: 'Technician',
+      );
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Login failed: $e')),
+    );
+  }
+
                           },
                         ),
                         SizedBox(height: 10.h),

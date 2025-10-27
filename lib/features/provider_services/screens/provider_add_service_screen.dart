@@ -29,7 +29,7 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
         surfaceTintColor: AppColors.backgroundColor,
         centerTitle: true,
         title: Text(
-          ' add_service'.tr(),
+          'add_service'.tr(),
           style: TextStyle(
             fontSize: 22.sp,
             fontWeight: FontWeight.bold,
