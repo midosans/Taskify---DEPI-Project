@@ -11,7 +11,7 @@ import 'package:taskify/features/auth/cubit/signup_state.dart';
 import 'package:taskify/features/auth/widgets/custom_hyper_link.dart';
 import 'package:taskify/features/auth/widgets/custom_image_header.dart';
 import 'package:taskify/features/auth/widgets/custom_text_header.dart';
-import 'package:taskify/services/validator_service.dart';
+import 'package:taskify/app_services/validator_service.dart';
 
 class SignUpScreen extends StatefulWidget {
   final String? userType;
