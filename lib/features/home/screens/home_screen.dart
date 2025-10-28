@@ -13,9 +13,12 @@ class HomeScreen extends StatefulWidget {
     super.key,
     required this.onGoToServices,
     required this.onGoToBookings,
+    required this.onOpenTask,
   });
+
   final VoidCallback onGoToServices;
   final VoidCallback onGoToBookings;
+  final void Function(String category) onOpenTask;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -30,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   int pageIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
@@ -52,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // 🖼️ Carousel
             CarouselSlider(
               options: CarouselOptions(
                 autoPlay: true,
@@ -60,9 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 viewportFraction: 1,
                 disableCenter: true,
                 onPageChanged: (index, reason) {
-                  setState(() {
-                    pageIndex = index;
-                  });
+                  setState(() => pageIndex = index);
                 },
               ),
               items: List.generate(images.length, (index) {
@@ -71,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 8.w),
                       child: ClipRRect(
-                        borderRadius: BorderRadiusGeometry.circular(10.r),
+                        borderRadius: BorderRadius.circular(10.r),
                         child: Image.asset(
                           images[index],
                           fit: BoxFit.cover,
@@ -91,11 +94,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           spacing: EdgeInsets.symmetric(horizontal: 4.w),
                           size: Size(24.w, 6.h),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(20.r),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           activeSize: Size(24.w, 6.h),
                           activeShape: RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(20.r),
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
                           color: Colors.grey,
                           activeColor: AppColors.backgroundColor,
@@ -107,6 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
               }),
             ),
             SizedBox(height: 10.h),
+
+            // 🔧 Services Header
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Row(
@@ -140,8 +145,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 10.h),
-            HomeGridView(),
+
+            // 🧱 Home Grid (pass onOpenTask)
+            HomeGridView(onOpenTask: widget.onOpenTask),
+
             SizedBox(height: 10.h),
+
+            // 📅 Bookings Header
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Row(
@@ -163,6 +173,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(height: 10.h),
+
+            // 📭 No Bookings
             NoBookingsCard(onExploreServices: widget.onGoToServices),
           ],
         ),

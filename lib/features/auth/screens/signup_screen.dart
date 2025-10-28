@@ -64,7 +64,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Navigator.pop(context);
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                layoutScreenRoute,
+                layoutWrapperRoute,
                 (routes) => false,
                 arguments: '$userType',
               );

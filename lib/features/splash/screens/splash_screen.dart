@@ -47,14 +47,14 @@ class _SplashScreenState extends State<SplashScreen> {
     } else if (role == 'User') {
        Navigator.pushNamedAndRemoveUntil(
                             context,
-                            layoutScreenRoute,
+                            layoutWrapperRoute,
                             (routes)=> false,
                             arguments: "customer",
                           ); 
     } else {
        Navigator.pushNamedAndRemoveUntil(
                             context,
-                            layoutScreenRoute,
+                            layoutWrapperRoute,
                             (routes)=> false,
                             arguments: 'Technician',
                           ); 

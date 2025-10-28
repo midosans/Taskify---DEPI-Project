@@ -5,12 +5,15 @@ import 'package:taskify/features/services/screens/services_screen.dart';
 import 'package:taskify/features/services/screens/task_details_screen.dart';
 import 'package:taskify/features/services/screens/tasks_screen.dart';
 
+
 class ServicesNavigator extends StatelessWidget {
-  const ServicesNavigator({super.key});
+final GlobalKey<NavigatorState> servicesNavigatorKey;
+  const ServicesNavigator({super.key, required this.servicesNavigatorKey});
 
   @override
   Widget build(BuildContext context) {
     return Navigator(
+      key: servicesNavigatorKey,
       initialRoute: servicesScreenRoute,
       onGenerateRoute: (settings) {
         if (settings.name == servicesScreenRoute) {

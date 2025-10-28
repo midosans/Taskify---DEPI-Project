@@ -1,7 +1,7 @@
 const loginScreenRoute = '/login';
 const userTypeScreenRoute = '/userType';
 const registerScreenRoute = '/register';
-const layoutScreenRoute = '/layout';
+// const layoutScreenRoute = '/layout';
 const homeScreenRoute = '/home';
 const profileScreenRoute = '/profile';
 const editProfileScreenRoute = '/editProfile';
@@ -15,3 +15,4 @@ const providerServicesScreenRoute = '/providerServices';
 const addServiceScreenRoute = '/addService';
 const providerServiceDetailsRoute = '/providerServiceDetails';
 const splashScreenRoute = '/splash';
+const layoutWrapperRoute = '/layoutWrapper';
