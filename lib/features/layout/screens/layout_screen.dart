@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/core/constants.dart';
 import 'package:taskify/features/bookings/widgets/booking_navigator.dart';
 import 'package:taskify/features/home/screens/home_screen.dart';
 import 'package:taskify/features/profile/widgets/profile_navigator.dart';
@@ -9,23 +10,25 @@ import 'package:taskify/features/provider_home/screens/provider_home_screen.dart
 import 'package:taskify/features/provider_services/widgets/provider_services_navigator.dart';
 import 'package:taskify/features/services/widgets/services_navigator.dart';
 
+final GlobalKey<NavigatorState> servicesNavigatorKey =
+    GlobalKey<NavigatorState>();
+
 class LayoutScreen extends StatefulWidget {
-  const LayoutScreen({super.key});
+  final String userType;
+  const LayoutScreen({super.key, required this.userType});
 
   @override
   State<LayoutScreen> createState() => _LayoutScreenState();
 }
 
 class _LayoutScreenState extends State<LayoutScreen> {
-  late List<Widget> screens = [];
+  late List<Widget> screens;
   int currentIndex = 0;
-  String? userType;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    userType = ModalRoute.of(context)?.settings.arguments as String?;
+  void initState() {
+    super.initState();
+    final userType = widget.userType;
 
     if (userType == "Technician") {
       screens = [
@@ -38,83 +41,63 @@ class _LayoutScreenState extends State<LayoutScreen> {
         HomeScreen(
           onGoToServices: () => setState(() => currentIndex = 1),
           onGoToBookings: () => setState(() => currentIndex = 2),
+          onOpenTask: (String category) {
+            // Push first before switching tab
+            servicesNavigatorKey.currentState?.pushNamed(
+              tasksScreenRoute,
+              arguments: category,
+            );
+
+            // Slightly delay tab change to avoid visible GridView flash
+            Future.delayed(Duration(milliseconds: 50), () {
+              setState(() => currentIndex = 1);
+            });
+          },
         ),
-        const ServicesNavigator(),
+        ServicesNavigator(servicesNavigatorKey: servicesNavigatorKey),
         const BookingNavigator(),
         const ProfileNavigator(),
       ];
     }
-
-    debugPrint('User type: $userType');
   }
 
   @override
   Widget build(BuildContext context) {
     final locale = context.locale;
-    final isTechnician = userType == "Technician";
+    final isTechnician = widget.userType == "Technician";
 
     return Scaffold(
-      body: screens.isNotEmpty ? screens[currentIndex] : const SizedBox(),
+      body: IndexedStack(index: currentIndex, children: screens),
       bottomNavigationBar: BottomNavigationBar(
         key: ValueKey(locale.languageCode),
-        type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
+        onTap: (i) => setState(() => currentIndex = i),
+        type: BottomNavigationBarType.fixed,
         backgroundColor: AppColors.backgroundColor,
         selectedItemColor: AppColors.blackTextColor,
         unselectedItemColor: AppColors.secondaryColor,
-        onTap: (index) => setState(() => currentIndex = index),
         items:
             isTechnician
                 ? [
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset('assets/svgs/home.svg'),
-                    label: 'home'.tr(),
-                    activeIcon: SvgPicture.asset('assets/svgs/home_active.svg'),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset('assets/svgs/services.svg'),
-                    label: 'my_services'.tr(),
-                    activeIcon: SvgPicture.asset(
-                      'assets/svgs/services_active.svg',
-                    ),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset('assets/svgs/profile.svg'),
-                    label: 'profile'.tr(),
-                    activeIcon: SvgPicture.asset(
-                      'assets/svgs/profile_active.svg',
-                    ),
-                  ),
+                  _navItem('home', 'home'),
+                  _navItem('my_services', 'services'),
+                  _navItem('profile', 'profile'),
                 ]
                 : [
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset('assets/svgs/home.svg'),
-                    label: 'home'.tr(),
-                    activeIcon: SvgPicture.asset('assets/svgs/home_active.svg'),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset('assets/svgs/services.svg'),
-                    label: 'services'.tr(),
-                    activeIcon: SvgPicture.asset(
-                      'assets/svgs/services_active.svg',
-                    ),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset('assets/svgs/booking.svg'),
-                    label: 'bookings'.tr(),
-                    activeIcon: SvgPicture.asset(
-                      'assets/svgs/booking_active.svg',
-                    ),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset('assets/svgs/profile.svg'),
-                    label: 'profile'.tr(),
-                    activeIcon: SvgPicture.asset(
-                      'assets/svgs/profile_active.svg',
-                    ),
-                  ),
+                  _navItem('home', 'home'),
+                  _navItem('services', 'services'),
+                  _navItem('bookings', 'booking'),
+                  _navItem('profile', 'profile'),
                 ],
       ),
+    );
+  }
+
+  BottomNavigationBarItem _navItem(String labelKey, String iconName) {
+    return BottomNavigationBarItem(
+      icon: SvgPicture.asset('assets/svgs/$iconName.svg'),
+      activeIcon: SvgPicture.asset('assets/svgs/${iconName}_active.svg'),
+      label: labelKey.tr(),
     );
   }
 }
