@@ -23,7 +23,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
-  bool _submitted = false; 
+  bool _submitted = false;
 
   String? email, password, phone, username;
   String? selectedRole;
@@ -54,26 +54,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: SafeArea(
         child: BlocListener<SignupCubit, SignupState>(
           listener: (context, state) {
-            if (state is SignupLoading) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (_) => const Center(child: CircularProgressIndicator()),
-              );
-            } else if (state is SignupSuccess) {
-              Navigator.pop(context);
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                layoutWrapperRoute,
-                (routes) => false,
-                arguments: '$userType',
-              );
-            } else if (state is SignupFailure) {
-              Navigator.pop(context); 
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errorMessage)),
-              );
-            }
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (state is SignupLoading) {
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) => const Center(child: CircularProgressIndicator()),
+                );
+              } else if (state is SignupSuccess) {
+                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  layoutWrapperRoute,
+                  (routes) => false,
+                  arguments: '$userType',
+                );
+              } else if (state is SignupFailure) {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.errorMessage)),
+                );
+              }
+            });
           },
           child: SingleChildScrollView(
             child: Column(
@@ -183,7 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                         CustomButton(
                           onPressed: () {
-                            setState(() => _submitted = true); // ✅ enable validation
+                            setState(() => _submitted = true);
                             if (formKey.currentState!.validate()) {
                               context.read<SignupCubit>().SignUp(
                                     email: email!,

@@ -44,7 +44,7 @@ class _AuthLoginState extends State<AuthLogin> {
                 context,
                 layoutWrapperRoute,
                 (routes) => false,
-                arguments: '${state.profileData?['role'] ?? 'User'}',
+                arguments: '${state.profileData?['role']}',
               );
             } else if (state is LoginFailure) {
               Navigator.pop(context); 
