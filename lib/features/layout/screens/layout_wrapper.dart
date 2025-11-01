@@ -21,16 +21,16 @@ class LayoutWrapper extends StatelessWidget {
       BlocProvider(create: (_) => ProfileCubit()),
     ];
 
-    if (userType == "Technician") {
-      providers.addAll([
-        BlocProvider(create: (_) => ProviderServicesCubit()),
-        // Maybe a cubit for technician home, etc.
-      ]);
-    } else {
+    if (userType == "User") {
       providers.addAll([
         BlocProvider(create: (_) => HomeCubit()),
         BlocProvider(create: (_) => ServicesCubit()),
         BlocProvider(create: (_) => BookingsCubit()),
+      ]);
+    } else {
+      providers.addAll([
+        BlocProvider(create: (_) => ProviderServicesCubit()),
+        // Maybe a cubit for technician home, etc.
       ]);
     }
 

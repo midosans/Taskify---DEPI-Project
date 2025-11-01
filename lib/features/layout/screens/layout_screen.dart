@@ -30,13 +30,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
     super.initState();
     final userType = widget.userType;
 
-    if (userType == "Technician") {
-      screens = [
-        ProviderHomeScreen(),
-        const ProviderServicesNavigator(),
-        const ProfileNavigator(),
-      ];
-    } else {
+    if (userType == "User") {
       screens = [
         HomeScreen(
           onGoToServices: () => setState(() => currentIndex = 1),
@@ -58,13 +52,19 @@ class _LayoutScreenState extends State<LayoutScreen> {
         const BookingNavigator(),
         const ProfileNavigator(),
       ];
+    } else {
+      screens = [
+        ProviderHomeScreen(),
+        const ProviderServicesNavigator(),
+        const ProfileNavigator(),
+      ];
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final locale = context.locale;
-    final isTechnician = widget.userType == "Technician";
+    final isUser = widget.userType == "User";
 
     return Scaffold(
       body: IndexedStack(index: currentIndex, children: screens),
@@ -77,18 +77,18 @@ class _LayoutScreenState extends State<LayoutScreen> {
         selectedItemColor: AppColors.blackTextColor,
         unselectedItemColor: AppColors.secondaryColor,
         items:
-            isTechnician
-                ? [
-                  _navItem('home', 'home'),
-                  _navItem('my_services', 'services'),
-                  _navItem('profile', 'profile'),
-                ]
-                : [
+            isUser
+                ?[
                   _navItem('home', 'home'),
                   _navItem('services', 'services'),
                   _navItem('bookings', 'booking'),
                   _navItem('profile', 'profile'),
-                ],
+                ]
+                : [
+                  _navItem('home', 'home'),
+                  _navItem('my_services', 'services'),
+                  _navItem('profile', 'profile'),
+                ]
       ),
     );
   }
