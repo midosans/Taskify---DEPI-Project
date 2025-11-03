@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskify/core/constants.dart';
+import 'package:taskify/features/provider_services/cubit/add_service_cubit.dart';
 import 'package:taskify/features/provider_services/cubit/provider_services_cubit.dart';
+import 'package:taskify/features/provider_services/data/add_service_repo.dart';
 import 'package:taskify/features/provider_services/data/provider_services_model.dart';
 import 'package:taskify/features/provider_services/data/provider_services_repo.dart';
+import 'package:taskify/features/provider_services/screens/provider_add_service_screen.dart';
 import 'package:taskify/features/provider_services/screens/provider_service_details.dart';
 import 'package:taskify/features/provider_services/screens/provider_services_screen.dart';
 
@@ -19,7 +22,10 @@ class ProviderServicesNavigator extends StatelessWidget {
           return MaterialPageRoute(
             builder:
                 (_) => BlocProvider(
-                  create: (context) => ProviderServicesCubit(providerServicesRepo: ProviderServicesRepo())..fetchData(),
+                  create:
+                      (context) => ProviderServicesCubit(
+                        providerServicesRepo: ProviderServicesRepo(),
+                      )..fetchData(),
                   child: ProviderServicesScreens(),
                 ),
           );
@@ -28,6 +34,14 @@ class ProviderServicesNavigator extends StatelessWidget {
           return MaterialPageRoute(
             builder:
                 (context) => ProviderServiceDetails(servicesModel: service),
+          );
+        } else if (settings.name == addServiceScreenRoute) {
+          return MaterialPageRoute(
+            builder:
+                (context) => BlocProvider(
+                  create: (context) => AddServiceCubit(addServiceRepo: AddServiceRepo()),
+                  child: ProviderAddServiceScreen(),
+                ),
           );
         }
         return null;

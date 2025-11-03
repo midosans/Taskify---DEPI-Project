@@ -3,14 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/core/constants.dart';
 import 'package:taskify/features/provider_services/cubit/provider_services_cubit.dart';
 import 'package:taskify/features/provider_services/cubit/provider_services_state.dart';
-import 'package:taskify/features/provider_services/screens/provider_add_service_screen.dart';
 import 'package:taskify/features/provider_services/widgets/custom_service_list_tile.dart';
 
-class ProviderServicesScreens extends StatelessWidget {
+class ProviderServicesScreens extends StatefulWidget {
   const ProviderServicesScreens({super.key});
 
+  @override
+  State<ProviderServicesScreens> createState() =>
+      _ProviderServicesScreensState();
+}
+
+class _ProviderServicesScreensState extends State<ProviderServicesScreens> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +33,11 @@ class ProviderServicesScreens extends StatelessWidget {
             color: Colors.black,
           ),
         ),
+        leading: GestureDetector(
+          onTap: () {
+            context.read<ProviderServicesCubit>().fetchData();
+          },
+          child:Icon(Icons.replay) ,),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.h),
@@ -47,7 +58,7 @@ class ProviderServicesScreens extends StatelessWidget {
                 itemCount: services.length,
                 itemBuilder: (context, index) {
                   final service = services[index];
-                  return CustomServiceListTile(service: service,);
+                  return CustomServiceListTile(service: service);
                 },
               );
             } else {
@@ -61,12 +72,16 @@ class ProviderServicesScreens extends StatelessWidget {
         height: 50.h,
         width: 140.w,
         child: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).push(
-              MaterialPageRoute(
-                builder: (context) => ProviderAddServiceScreen(),
-              ),
+          onPressed: () async {
+            final result = await Navigator.pushNamed(
+              context,
+              addServiceScreenRoute,
             );
+
+            // When AddServiceScreen returns true, refresh the list
+            if (result == true && context.mounted) {
+              context.read<ProviderServicesCubit>().fetchData();
+            }
           },
           backgroundColor: AppColors.primaryColor,
           child: Row(
