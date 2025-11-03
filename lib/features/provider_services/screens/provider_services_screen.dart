@@ -1,38 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
-import 'package:taskify/core/constants.dart';
+import 'package:taskify/features/provider_services/cubit/provider_services_cubit.dart';
+import 'package:taskify/features/provider_services/cubit/provider_services_state.dart';
 import 'package:taskify/features/provider_services/screens/provider_add_service_screen.dart';
-import 'package:taskify/features/services/data/services_model.dart';
+import 'package:taskify/features/provider_services/widgets/custom_service_list_tile.dart';
 
 class ProviderServicesScreens extends StatelessWidget {
-  ProviderServicesScreens({super.key});
-
-  final List<ServicesModel> proServices = [
-    ServicesModel(
-      category: 'Plumbing',
-      description: 'Fixing leaks and clogs',
-      title: 'Pipe Repair',
-      price: 50.0,
-      photo: 'assets/pngs/provider_service1.png',
-    ),
-    ServicesModel(
-      category: 'Electrical',
-      description:
-          'Wiring and installations Wiring and installations Wiring and installations Wiring and installations',
-      title: 'Wiring Setup',
-      price: 75.0,
-      photo: 'assets/pngs/provider_service2.png',
-    ),
-    ServicesModel(
-      category: 'Cleaning',
-      description: 'Home and office cleaning',
-      title: 'Deep Cleaning',
-      price: 100.0,
-      photo: 'assets/pngs/provider_service3.png',
-    ),
-  ];
+  const ProviderServicesScreens({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,103 +28,34 @@ class ProviderServicesScreens extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          final service = proServices[index];
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(8.r),
-              onTap:
-                  () => Navigator.pushNamed(
-                    context,
-                    providerServiceDetailsRoute,
-                    arguments: service,
-                  ),
-              child: SizedBox(
-                height: 130.h,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            service.category!,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            service.title!,
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            service.description!,
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            '\$${service.price!.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              color: AppColors.primaryColor,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 110.w,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xffF0F2F5),
-                                elevation: 0,
-                                padding: EdgeInsets.zero,
-                                minimumSize: Size(80.w, 30.h),
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                alignment: Alignment.centerLeft,
-                              ),
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  providerServiceDetailsRoute,
-                                );
-                              },
-                              child: Center(
-                                child: Text(
-                                  'view_details'.tr(),
-                                  style: TextStyle(
-                                    fontSize: 16.sp,
-                                    color: AppColors.blackTextColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8.r),
-                      child: SizedBox(
-                        width: 130.w,
-                        height: 130.h,
-                        child: Image.asset(service.photo!, fit: BoxFit.cover),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-        itemCount: proServices.length,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.h),
+        child: BlocBuilder<ProviderServicesCubit, ProviderServicesState>(
+          builder: (context, state) {
+            if (state is ProviderServicesLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is ProviderServicesFailure) {
+              return Center(child: Text(state.errorMessage));
+            } else if (state is ProviderServicesSuccess) {
+              final services = state.providerServicesdata;
+              debugPrint(services.isEmpty.toString());
+              if (services.isEmpty) {
+                return const Center(child: Text("You don't have any service"));
+              }
+
+              return ListView.builder(
+                itemCount: services.length,
+                itemBuilder: (context, index) {
+                  final service = services[index];
+                  return CustomServiceListTile(service: service,);
+                },
+              );
+            } else {
+              debugPrint(state.toString());
+              return const SizedBox();
+            }
+          },
+        ),
       ),
       floatingActionButton: SizedBox(
         height: 50.h,

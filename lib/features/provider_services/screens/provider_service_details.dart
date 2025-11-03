@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
+import 'package:taskify/core/widgets/custom_cashed_image.dart';
+import 'package:taskify/features/provider_services/data/provider_services_model.dart';
 import 'package:taskify/features/provider_services/screens/provider_add_service_screen.dart';
-import 'package:taskify/features/services/data/services_model.dart';
 
 class ProviderServiceDetails extends StatelessWidget {
-  final ServicesModel servicesModel;
+  final ProviderServicesModel servicesModel;
 
   const ProviderServiceDetails({super.key, required this.servicesModel});
 
@@ -43,12 +44,8 @@ class ProviderServiceDetails extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                Image.asset(
-                  servicesModel.photo ?? '',
-                  width: MediaQuery.of(context).size.width,
-                  height: 250.h,
-                  fit: BoxFit.cover,
-                ),
+                CustomCashedImage(url: servicesModel.photo!, size: Size(double.infinity,250.h))
+                ,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
                   child: SizedBox(
