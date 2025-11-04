@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -22,6 +23,13 @@ import 'package:taskify/features/splash/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown,
+  // ]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   await EasyLocalization.ensureInitialized();
   await Supabase.initialize(url: Project_URL, anonKey: API_KEY);
   Bloc.observer = AppBlocObserver();
