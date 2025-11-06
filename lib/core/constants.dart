@@ -14,4 +14,9 @@ const bookserviceRoute = '/bookService';
 const providerServicesScreenRoute = '/providerServices';
 const addServiceScreenRoute = '/addService';
 const providerServiceDetailsRoute = '/providerServiceDetails';
-
+const contactScreenRoute = '/contact';
+const aboutAppScreenRoute = '/about';
+const termsConditionsScreenRoute = '/terms';
+const forgotPasswordScreenRoute = '/forgotPassword';
+const verifyCodeScreenRoute = '/verifyCode';
+const resetPasswordScreenRoute = '/resetPassword';

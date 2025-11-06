@@ -51,7 +51,12 @@ class AuthLogin extends StatelessWidget {
                         Align(
                           alignment: AlignmentDirectional.centerEnd,
                           child: GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                forgotPasswordScreenRoute,
+                              );
+                            },
                             child: Text(
                               'forgot_password'.tr(),
                               style: TextStyle(color: AppColors.primaryColor),

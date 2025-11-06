@@ -3,14 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
+import 'package:taskify/features/auth/screens/forgot_password_screen.dart';
 import 'package:taskify/features/auth/screens/login_screen.dart';
+import 'package:taskify/features/auth/screens/reset_password_screen.dart';
 import 'package:taskify/features/auth/screens/signup_screen.dart';
+import 'package:taskify/features/auth/screens/verify_code_screen.dart';
 import 'package:taskify/features/bookings/screens/booking_screen.dart';
 import 'package:taskify/features/layout/screens/layout_screen.dart';
 import 'package:taskify/features/onboarding/screens/user_type_screen.dart';
 import 'package:taskify/features/provider_services/screens/provider_add_service_screen.dart';
 import 'package:taskify/features/services/screens/services_screen.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,6 +56,21 @@ class MyApp extends StatelessWidget {
             servicesScreenRoute: (context) => ServicesScreen(),
             bookingScreenRoute: (context) => BookingScreen(),
             addServiceScreenRoute: (context) => ProviderAddServiceScreen(),
+            forgotPasswordScreenRoute:
+                (context) => const ForgotPasswordScreen(),
+            verifyCodeScreenRoute: (context) {
+              final args = ModalRoute.of(context)!.settings.arguments as String;
+              return VerifyCodeScreen(email: args);
+            },
+            resetPasswordScreenRoute: (context) {
+              final args =
+                  ModalRoute.of(context)!.settings.arguments
+                      as Map<String, dynamic>;
+              return ResetPasswordScreen(
+                email: args['email'],
+                code: args['code'],
+              );
+            },
             // bookserviceRoute: (context) => BookingService(),
             // bookingDetailsScreenRoute: (context) =>  BookingDetails(bookingdeatils: BookingModel(),),
           },
