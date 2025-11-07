@@ -6,6 +6,7 @@ import 'package:taskify/features/layout/screens/layout_screen.dart';
 import 'package:taskify/features/profile/cubit/profile_cubit.dart';
 import 'package:taskify/features/provider_services/cubit/provider_services_cubit.dart';
 import 'package:taskify/features/services/cubit/services_cubit.dart';
+import 'package:taskify/features/services/data/services_repo.dart';
 
 class LayoutWrapper extends StatelessWidget {
   final String userType;
@@ -24,7 +25,6 @@ class LayoutWrapper extends StatelessWidget {
     if (userType == "User") {
       providers.addAll([
         BlocProvider(create: (_) => HomeCubit()),
-        BlocProvider(create: (_) => ServicesCubit()),
         BlocProvider(create: (_) => BookingsCubit()),
       ]);
     } else {

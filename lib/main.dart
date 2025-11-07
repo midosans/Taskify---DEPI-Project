@@ -18,7 +18,7 @@ import 'package:taskify/features/bookings/screens/booking_screen.dart';
 import 'package:taskify/features/layout/screens/layout_wrapper.dart';
 import 'package:taskify/features/onboarding/screens/user_type_screen.dart';
 import 'package:taskify/features/provider_services/screens/provider_add_service_screen.dart';
-import 'package:taskify/features/services/screens/services_screen.dart';
+import 'package:taskify/features/services/screens/categories_screen.dart';
 import 'package:taskify/features/splash/screens/splash_screen.dart';
 
 void main() async {
@@ -98,8 +98,8 @@ class MyApp extends StatelessWidget {
                 );
               // case layoutScreenRoute:
               //   return MaterialPageRoute(builder: (_) => const LayoutScreen());
-              case servicesScreenRoute:
-                return MaterialPageRoute(builder: (_) => ServicesScreen());
+              case categoriesScreenRoute:
+                return MaterialPageRoute(builder: (_) => CategoriesScreen());
               case bookingScreenRoute:
                 return MaterialPageRoute(builder: (_) => BookingScreen());
               case addServiceScreenRoute:

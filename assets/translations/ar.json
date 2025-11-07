@@ -96,5 +96,7 @@
   "enter_new_username": "أدخل اسم مستخدم جديد",
   "enter_new_phone_number": "أدخل رقم هاتف جديد",
   "enter_new_password": "أدخل كلمة مرور جديدة",
-  "save_changes": "حفظ التغييرات"
+  "save_changes": "حفظ التغييرات",
+  "no_services_found": "لم يتم العثور على خدمات.",
+  "provider_number_unavailable":"رقم المزوّد غير متوفر"
 }
