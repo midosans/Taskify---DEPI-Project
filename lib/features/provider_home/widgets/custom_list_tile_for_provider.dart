@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/features/bookings/data/booking_model.dart';
 
@@ -28,18 +27,18 @@ class CustomListTileForProvider extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _formatDateTime(service.bookingDate!),
+                      _formatDateTime(service.date!),
                       style: TextStyle(color: AppColors.lightprimarycolor),
                     ),
                     Text(
-                      service.serviceName!,
+                      service.serviceTitel!,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.sp,
                       ),
                     ),
                     Text(
-                      "by_vendor".tr(args: [service.vendorName!]),
+                      "by_vendor".tr(args: [service.providerName!]),
                       style: TextStyle(color: AppColors.lightprimarycolor),
                     ),
                     Padding(
@@ -84,7 +83,7 @@ class CustomListTileForProvider extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              service.status!.toUpperCase(),
+                              service.status.toUpperCase(),
                               style: TextStyle(
                                 color: AppColors.blackTextColor,
                                 fontSize: 14.sp,
@@ -115,7 +114,7 @@ class CustomListTileForProvider extends StatelessWidget {
               margin: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: Image.asset(service.serviceImage!).image,
+                  image: Image.asset(service.imageUrl!).image,
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.circular(8.r),

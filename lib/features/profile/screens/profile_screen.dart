@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:taskify/core/constants.dart';
+import 'package:taskify/features/profile/data/logout_repo.dart';
 import 'package:taskify/features/profile/widgets/build_settings_item.dart';
 import 'edit_profile_screen.dart';
 import 'package:taskify/core/constants.dart';
@@ -131,7 +133,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
               BuildSettingsItem(
                 icon: Icons.logout,
                 title: 'logout'.tr(),
-                onTap: () {},
+                onTap: () async {
+                  await LogoutRepo().signOut();
+
+                  print('Navigating to: $userTypeScreenRoute'); // debug
+
+                  Navigator.of(
+                    context,
+                    rootNavigator: true,
+                  ).pushNamedAndRemoveUntil(
+                    userTypeScreenRoute,
+                    (route) => false,
+                  );
+                },
               ),
               // Optionally: visually mark logout as important
               SizedBox(height: 12.h),

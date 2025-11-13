@@ -45,97 +45,112 @@ class BookingDetails extends StatelessWidget {
               style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 15),
-            SizedBox(
-              height: 66.h,
-              width: size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        bookingdeatils.serviceName!,
+                        bookingdeatils.serviceTitel ?? 'Unnamed Service',
                         style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.blackTextColor,
+                          height: 1.2,
                         ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
                       ),
-                      SizedBox(
-                        width: 228.w,
-                        child: Text(
-                          "${'scheduled_for'.tr()}: ",
-                          // maxLines: 2,
-                          // overflow: TextOverflow.visible,
-                          // softWrap: true,
-                          style: TextStyle(
-                            fontSize: 14.sp,
+                      SizedBox(height: 6.h),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_today_outlined,
+                            size: 14.sp,
                             color: AppColors.lightprimarycolor,
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 228.w,
-                        child: Text(
-                          " ${_formatFullDateTime(bookingdeatils.bookingDate!)}",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.lightprimarycolor,
+                          SizedBox(width: 6.w),
+                          Expanded(
+                            child: Text(
+                              bookingdeatils.date != null
+                                  ? _formatFullDateTime(bookingdeatils.date!)
+                                  : '${'scheduled_for'.tr()}',
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColors.lightprimarycolor,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.r),
-                    child: Image.asset(
-                      bookingdeatils.serviceImage!,
-                      height: 66.h,
-                      width: 130.w,
-                      fit: BoxFit.cover,
+                ),
+                SizedBox(width: 12.w),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: SizedBox(
+                    width: 130.w,
+                    height: 66.h,
+                    child: _buildImage(),
+                  ),
+                ),
+              ],
+            ),
+            const Divider(thickness: 0.45, indent: 1, endIndent: 2, height: 25),
+            SizedBox(
+              width: size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: CustomTextColumn(
+                      title: "service".tr(),
+                      subtitle:
+                          bookingdeatils.serviceTitel ?? 'Unnamed Service',
+                    ),
+                  ),
+                  SizedBox(width: 16.w),
+                  Expanded(
+                    child: CustomTextColumn(
+                      title: "vendor".tr(),
+                      subtitle: bookingdeatils.providerName ?? 'Not specified',
                     ),
                   ),
                 ],
               ),
             ),
             const Divider(thickness: 0.45, indent: 1, endIndent: 2, height: 25),
-            SizedBox(
-              width: 185.w,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTextColumn(
-                    title: "service".tr(),
-                    subtitle: bookingdeatils.serviceName!,
-                  ),
-                  CustomTextColumn(
-                    title: "vendor".tr(),
-                    subtitle: bookingdeatils.vendorName!,
-                  ),
-                ],
+            if (bookingdeatils.date != null)
+              SizedBox(
+                width: size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: CustomTextColumn(
+                        title: "date".tr(),
+                        subtitle: _formatDateTime(bookingdeatils.date!),
+                      ),
+                    ),
+                    SizedBox(width: 16.w),
+                    Expanded(
+                      child: CustomTextColumn(
+                        title: "time".tr(),
+                        subtitle: _formatTime(bookingdeatils.date!),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Divider(thickness: 0.45, indent: 1, endIndent: 2, height: 25),
-            SizedBox(
-              width: 185.w,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomTextColumn(
-                    title: "date".tr(),
-                    subtitle: _formatDateTime(bookingdeatils.bookingDate!),
-                  ),
-                  CustomTextColumn(
-                    title: "time".tr(),
-                    subtitle: _formatTime(bookingdeatils.bookingDate!),
-                  ),
-                ],
-              ),
-            ),
             const Divider(thickness: 0.45, indent: 1, endIndent: 2, height: 25),
             Text(
               "address".tr(),
@@ -144,8 +159,10 @@ class BookingDetails extends StatelessWidget {
                 color: AppColors.lightprimarycolor,
               ),
             ),
-            Text(bookingdeatils.address!, style: TextStyle(fontSize: 14.sp)),
-            // SizedBox(height: 75.h),
+            Text(
+              bookingdeatils.address ?? 'No address provided',
+              style: TextStyle(fontSize: 14.sp),
+            ),
             Spacer(),
             Text(
               "next_steps".tr(),
@@ -179,6 +196,33 @@ class BookingDetails extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildImage() {
+    if (bookingdeatils.imageUrl == null || bookingdeatils.imageUrl!.isEmpty) {
+      return Image.asset(
+        'assets/pngs/logo.png',
+        height: 66.h,
+        width: 130.w,
+        fit: BoxFit.cover,
+      );
+    }
+
+    if (bookingdeatils.imageUrl!.startsWith('http')) {
+      return Image.network(
+        bookingdeatils.imageUrl!,
+        height: 66.h,
+        width: 130.w,
+        fit: BoxFit.cover,
+      );
+    }
+
+    return Image.asset(
+      bookingdeatils.imageUrl!,
+      height: 66.h,
+      width: 130.w,
+      fit: BoxFit.cover,
     );
   }
 }

@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/widgets/custom_app_button.dart';
+import 'package:taskify/core/widgets/custom_cashed_image.dart';
 import 'package:taskify/features/bookings/screens/booking_service.dart';
 import 'package:taskify/features/services/data/services_model.dart';
+import 'package:taskify/features/services/widgets/launcher_helper.dart';
 
-class TaskDetailsScreen extends StatelessWidget {
+class ServiceDetailsScreen extends StatelessWidget {
   final ServicesModel servicesModel;
 
-  const TaskDetailsScreen({super.key, required this.servicesModel});
-
+  const ServiceDetailsScreen({super.key, required this.servicesModel});
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
@@ -43,12 +44,16 @@ class TaskDetailsScreen extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                Image.asset(
-                  servicesModel.photo ?? '',
-                  width: MediaQuery.of(context).size.width,
-                  height: 250.h,
-                  fit: BoxFit.cover,
+                CustomCashedImage(
+                  url: servicesModel.photo ?? 'assets/pngs/error.png',
+                  size: Size(size.width, 250.h),
                 ),
+                // Image.asset(
+                //   servicesModel.photo ?? '',
+                //   width: MediaQuery.of(context).size.width,
+                //   height: 250.h,
+                //   fit: BoxFit.cover,
+                // ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
                   child: SizedBox(
@@ -58,8 +63,9 @@ class TaskDetailsScreen extends StatelessWidget {
                       children: [
                         Text(
                           servicesModel.title ?? '',
+                          maxLines: 1,
                           style: TextStyle(
-                            fontSize: 24.sp,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -115,31 +121,57 @@ class TaskDetailsScreen extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 28.r,
-                          child: Image.asset('assets/pngs/vendor_photo.png'),
+                          child: CustomCashedImage(
+                            url: 'assets/pngs/vendor_photo.png', // ⚠⚠⚠❌❌
+                            size: Size(28.r, 28.r),
+                          ),
+                          // child: Image.asset('assets/pngs/vendor_photo.png'),
                         ),
                         SizedBox(width: 8.w),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              servicesModel.providername ?? '',
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                servicesModel.providername ?? '',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              servicesModel.category ?? '',
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                color: AppColors.hintTextColor,
+                              SizedBox(height: 4.h),
+                              Text(
+                                servicesModel.category?.tr() ?? '',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: AppColors.hintTextColor,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         Spacer(),
-                        CustomAppButton(onPressed: () {}, text: 'contact'.tr()),
+                        CustomAppButton(
+                          onPressed: () async {
+                            final phoneNumber = '01060052583'; // ◀◀◀🔂
+                            if (phoneNumber.isNotEmpty) {
+                              await LauncherHelper.openDialer(phoneNumber);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'provider_number_unavailable'.tr(),
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          text: 'contact'.tr(),
+                        ),
                       ],
                     ),
                   ),
