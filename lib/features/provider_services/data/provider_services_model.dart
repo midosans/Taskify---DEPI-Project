@@ -1,4 +1,5 @@
 class ProviderServicesModel {
+  String? id;
   String? providername;
   String? category;
   String? title;
@@ -9,6 +10,7 @@ class ProviderServicesModel {
   bool? avilablity;
 
   ProviderServicesModel({
+    this.id,
     this.providername,
     this.category,
     this.title,
@@ -21,6 +23,7 @@ class ProviderServicesModel {
 
   factory ProviderServicesModel.fromJson(Map<String, dynamic> json) {
     return ProviderServicesModel(
+      id: json['id'] as String?,
       providername: json['provider_name'] as String?,
       category: json['category'] as String?,
       title: json['title'] as String?,

@@ -8,15 +8,15 @@ import 'package:taskify/features/provider_services/cubit/provider_services_cubit
 import 'package:taskify/features/provider_services/cubit/provider_services_state.dart';
 import 'package:taskify/features/provider_services/widgets/custom_service_list_tile.dart';
 
-class ProviderServicesScreens extends StatefulWidget {
-  const ProviderServicesScreens({super.key});
+class ProviderServicesScreen extends StatefulWidget {
+  const ProviderServicesScreen({super.key});
 
   @override
-  State<ProviderServicesScreens> createState() =>
+  State<ProviderServicesScreen> createState() =>
       _ProviderServicesScreensState();
 }
 
-class _ProviderServicesScreensState extends State<ProviderServicesScreens> {
+class _ProviderServicesScreensState extends State<ProviderServicesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,12 +55,27 @@ class _ProviderServicesScreensState extends State<ProviderServicesScreens> {
               }
 
               return ListView.builder(
-                itemCount: services.length,
-                itemBuilder: (context, index) {
-                  final service = services[index];
-                  return CustomServiceListTile(service: service);
-                },
-              );
+              itemCount: services.length,
+              itemBuilder: (context, index) {
+                final service = services[index];
+                return CustomServiceListTile(
+                  service: service,
+                  onTap: () async {
+                    final result = await Navigator.pushNamed(
+                      context,
+                      providerServiceDetailsRoute,
+                      arguments: service,
+                    );
+
+                    // 🔄 Refresh the list when returning from details screen
+                    if (result == true && context.mounted) {
+                      await Future.delayed(const Duration(milliseconds: 300)); // optional small delay
+                      context.read<ProviderServicesCubit>().fetchData();
+                    }
+                  },
+                );
+              },
+            );
             } else {
               debugPrint(state.toString());
               return const SizedBox();
