@@ -128,25 +128,31 @@ class ServiceDetailsScreen extends StatelessWidget {
                           // child: Image.asset('assets/pngs/vendor_photo.png'),
                         ),
                         SizedBox(width: 8.w),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              servicesModel.providername ?? '', // ⚠⚠⚠❌❌
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                servicesModel.providername ?? '',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              servicesModel.category?.tr() ?? '',
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                color: AppColors.hintTextColor,
+                              SizedBox(height: 4.h),
+                              Text(
+                                servicesModel.category?.tr() ?? '',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: AppColors.hintTextColor,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         Spacer(),
                         CustomAppButton(
