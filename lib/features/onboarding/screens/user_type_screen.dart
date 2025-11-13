@@ -53,7 +53,9 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    selectedUserType = 'Customer';
+                    // Use internal value 'User' to match other parts of the app
+                    // (LayoutWrapper and SignUp expect "User").
+                    selectedUserType = 'User';
                   });
                 },
                 child: Container(
@@ -62,13 +64,13 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                     borderRadius: BorderRadius.circular(22),
                     border: Border.all(
                       color:
-                          selectedUserType == 'Customer'
+                          selectedUserType == 'User'
                               ? AppColors.primaryColor
                               : Colors.grey.shade300,
                       width: 2,
                     ),
                     color:
-                        selectedUserType == 'Customer'
+                        selectedUserType == 'User'
                             ? AppColors.primaryColor.withOpacity(0.1)
                             : Colors.white,
                   ),
@@ -78,7 +80,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                         Icons.person,
                         size: 40.sp,
                         color:
-                            selectedUserType == 'Customer'
+                            selectedUserType == 'User'
                                 ? AppColors.primaryColor
                                 : Colors.grey,
                       ),
@@ -89,7 +91,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                           fontSize: 22.sp,
                           fontWeight: FontWeight.bold,
                           color:
-                              selectedUserType == 'Customer'
+                              selectedUserType == 'User'
                                   ? AppColors.primaryColor
                                   : AppColors.blackTextColor,
                         ),
