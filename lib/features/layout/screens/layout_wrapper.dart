@@ -6,6 +6,7 @@ import 'package:taskify/features/home/cubit/home_cubit.dart';
 import 'package:taskify/features/layout/screens/layout_screen.dart';
 import 'package:taskify/features/profile/cubit/profile_cubit.dart';
 import 'package:taskify/features/services/cubit/services_cubit.dart';
+import 'package:taskify/features/services/data/services_repo.dart';
 
 class LayoutWrapper extends StatelessWidget {
   final String userType;

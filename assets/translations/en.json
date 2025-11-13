@@ -96,5 +96,8 @@
   "enter_new_username": "Enter new username",
   "enter_new_phone_number": "Enter new phone number",
   "enter_new_password": "Enter new password",
-  "save_changes": "Save Changes"
+  "save_changes": "Save Changes",
+  "no_services_found": "No services found.",
+  "provider_number_unavailable": "Provider number not available"
+
 }
