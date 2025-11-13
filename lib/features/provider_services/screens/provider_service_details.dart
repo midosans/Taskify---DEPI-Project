@@ -8,7 +8,6 @@ import 'package:taskify/core/widgets/custom_cashed_image.dart';
 import 'package:taskify/features/provider_services/cubit/delete_service_cubit.dart';
 import 'package:taskify/features/provider_services/cubit/delete_service_state.dart';
 import 'package:taskify/features/provider_services/data/provider_services_model.dart';
-import 'package:taskify/features/provider_services/screens/provider_add_service_screen.dart';
 
 class ProviderServiceDetails extends StatelessWidget {
   final ProviderServicesModel servicesModel;

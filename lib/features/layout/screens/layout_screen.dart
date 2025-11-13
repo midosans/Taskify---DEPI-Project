@@ -30,7 +30,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
     super.initState();
     final userType = widget.userType;
 
-    if (userType == "customer") {
+    if (userType == "User") {
       screens = [
         HomeScreen(
           onGoToServices: () => setState(() => currentIndex = 1),
@@ -64,7 +64,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
   @override
   Widget build(BuildContext context) {
     final locale = context.locale;
-    final isUser = widget.userType == "customer";
+    final isUser = widget.userType == "User";
 
     return Scaffold(
       body: IndexedStack(index: currentIndex, children: screens),
