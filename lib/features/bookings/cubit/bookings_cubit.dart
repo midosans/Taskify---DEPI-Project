@@ -35,22 +35,7 @@ class BookingsCubit extends Cubit<BookingState> {
     }
   }
 
-  Future<void> updateBookingStatus({
-    required String bookingId,
-    required String newStatus,
-  }) async {
-    emit(BookingLoading());
-    try {
-      await bookingRepo.updateBookingStatus(
-        bookingId: bookingId,
-        newStatus: newStatus,
-      );
-      emit(BookingStatusUpdated());
-      await getAllBookings();
-    } catch (e) {
-      emit(BookingError('Failed to update booking status: $e'));
-    }
-  }
+  
 
   Future<void> fetchForTab(int tabIndex) async {
     switch (tabIndex) {

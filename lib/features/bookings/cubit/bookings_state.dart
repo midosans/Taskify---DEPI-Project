@@ -17,5 +17,3 @@ class BookingError extends BookingState {
   final String message;
   BookingError(this.message);
 }
-
-class BookingStatusUpdated extends BookingState {}
