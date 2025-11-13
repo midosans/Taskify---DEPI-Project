@@ -14,13 +14,11 @@ import 'package:taskify/features/auth/widgets/custom_text_header.dart';
 /// successfully verified their identity using the OTP code. Users
 /// must enter and confirm their new password to complete the reset process.
 class ResetPasswordScreen extends StatefulWidget {
-  final String email;
-  final String code;
+  // final String email;
+  // final String code;
 
   const ResetPasswordScreen({
     super.key,
-    required this.email,
-    required this.code,
   });
 
   @override

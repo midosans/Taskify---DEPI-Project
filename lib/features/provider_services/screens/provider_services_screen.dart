@@ -77,7 +77,6 @@ class _ProviderServicesScreensState extends State<ProviderServicesScreen> {
               },
             );
             } else {
-              debugPrint(state.toString());
               return const SizedBox();
             }
           },

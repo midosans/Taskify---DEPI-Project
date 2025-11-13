@@ -96,16 +96,20 @@ class _AuthLoginState extends State<AuthLogin> {
                             validator: passwordValidator.validate,
                           ),
                           SizedBox(height: 10.h),
-                          Align(
-                            alignment: AlignmentDirectional.centerEnd,
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: Text(
-                                'forgot_password'.tr(),
-                                style: TextStyle(color: AppColors.primaryColor),
-                              ),
-                            ),
-                          ),
+                           Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                forgotPasswordScreenRoute,
+                              );
+                            },
+                            child: Text(
+                              'forgot_password'.tr(),
+                              style: TextStyle(color: AppColors.primaryColor),
+                            ),)),
+
                           SizedBox(height: 10.h),
                           CustomButton(
                             text: "login".tr(),

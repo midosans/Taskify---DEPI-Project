@@ -8,16 +8,10 @@ import 'package:taskify/core/widgets/custom_button.dart';
 import 'package:taskify/features/auth/widgets/custom_image_header.dart';
 import 'package:taskify/features/auth/widgets/custom_text_header.dart';
 
-/// Verify Code Screen
-///
-/// This screen allows users to enter the OTP (One-Time Password) or
-/// verification code that was sent to their email address. The code
-/// is used to verify the user's identity before allowing them to reset
-/// their password.
 class VerifyCodeScreen extends StatefulWidget {
-  final String email;
+  // final String email;
 
-  const VerifyCodeScreen({super.key, required this.email});
+  const VerifyCodeScreen({super.key});
 
   @override
   State<VerifyCodeScreen> createState() => _VerifyCodeScreenState();
@@ -93,7 +87,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                             ),
                             SizedBox(height: 8.h),
                             Text(
-                              widget.email,
+                              //made edit here
+                              "enter_code_sent_to",
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: AppColors.primaryColor,
@@ -207,7 +202,8 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                             Navigator.pushNamed(
                               context,
                               resetPasswordScreenRoute,
-                              arguments: {'email': widget.email, 'code': code},
+                              //made edit here
+                              arguments: {'email': "test@gmail.com", 'code': code},
                             );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(

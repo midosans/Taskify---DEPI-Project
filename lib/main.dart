@@ -20,18 +20,16 @@ import 'package:taskify/features/auth/screens/verify_code_screen.dart';
 import 'package:taskify/features/bookings/screens/booking_screen.dart';
 import 'package:taskify/features/layout/screens/layout_wrapper.dart';
 import 'package:taskify/features/onboarding/screens/user_type_screen.dart';
+import 'package:taskify/features/profile/screens/about_app_screen.dart';
+import 'package:taskify/features/profile/screens/contact_screen.dart';
+import 'package:taskify/features/profile/screens/terms_conditions_screen.dart';
 import 'package:taskify/features/provider_services/screens/provider_add_service_screen.dart';
-import 'package:taskify/features/services/screens/services_screen.dart';
 import 'package:taskify/features/services/screens/categories_screen.dart';
 import 'package:taskify/features/splash/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // SystemChrome.setPreferredOrientations([
-  //   DeviceOrientation.portraitUp,
-  //   DeviceOrientation.portraitDown,
-  // ]);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   await EasyLocalization.ensureInitialized();
@@ -110,6 +108,25 @@ class MyApp extends StatelessWidget {
                 return MaterialPageRoute(
                   builder: (_) => ProviderAddServiceScreen(),
                 );
+              case forgotPasswordScreenRoute:
+                return MaterialPageRoute(
+                  builder: (context) => const ForgotPasswordScreen(),
+                );
+              case verifyCodeScreenRoute:
+                // final args =
+                //     ModalRoute.of(context)!.settings.arguments as String;
+                return MaterialPageRoute(
+                  builder: (_) => VerifyCodeScreen(),
+                );
+              case resetPasswordScreenRoute:
+                return MaterialPageRoute(builder: (_) => ResetPasswordScreen(
+                ));
+                case contactScreenRoute:
+                return MaterialPageRoute(builder: (_) => ContactScreen());
+                case aboutAppScreenRoute:
+                return MaterialPageRoute(builder: (_) => AboutAppScreen());
+                case termsConditionsScreenRoute:
+                return MaterialPageRoute(builder: (_) => TermsConditionsScreen());
               default:
                 return null;
             }

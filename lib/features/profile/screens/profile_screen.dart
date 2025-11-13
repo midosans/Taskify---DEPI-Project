@@ -125,25 +125,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 BuildSettingsItem(
                   icon: Icons.help_outline,
                   title: 'contact_us'.tr(),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+              context,
+              contactScreenRoute,
+            );
+                  },
                 ),
                 BuildSettingsItem(
                   icon: Icons.info_outline,
                   title: 'about_app'.tr(),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+              context,
+              aboutAppScreenRoute,
+            );
+                  },
                 ),
                 BuildSettingsItem(
                   icon: Icons.description_outlined,
                   title: 'terms_conditions'.tr(),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+              context,
+              termsConditionsScreenRoute,
+            );
+                  },
                 ),
                 BuildSettingsItem(
                   icon: Icons.logout,
                   title: 'logout'.tr(),
                   onTap: () async {
                     await LogoutRepo().signOut();
-
-                    print('Navigating to: $userTypeScreenRoute'); // debug
 
                     Navigator.of(
                       context,

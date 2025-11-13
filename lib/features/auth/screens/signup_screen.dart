@@ -59,12 +59,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 showDialog(
                   context: context,
                   barrierDismissible: false,
-                  builder:
-                      (_) => const Center(child: CircularProgressIndicator()),
+                  builder: (_) => const Center(child: CircularProgressIndicator()),
                 );
               } else if (state is SignupSuccess) {
                 Navigator.pop(context);
-                // Use the same role value that was saved to the database
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   layoutWrapperRoute,
@@ -73,9 +71,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 );
               } else if (state is SignupFailure) {
                 Navigator.pop(context);
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(state.errorMessage)),
+                );
               }
             });
           },
@@ -87,17 +85,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 20.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.w),
-                  child: PageHeading(title:'sign_up'),
+                  child: PageHeading(title: 'sign_up'),
                 ),
                 SizedBox(height: 12.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Form(
                     key: formKey,
-                    autovalidateMode:
-                        _submitted
-                            ? AutovalidateMode.always
-                            : AutovalidateMode.disabled,
+                    autovalidateMode: _submitted
+                        ? AutovalidateMode.always
+                        : AutovalidateMode.disabled,
                     child: Column(
                       children: [
                         CustomTextFormField(
@@ -148,9 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 hint: Row(
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.only(
-                                        end: 12.w,
-                                      ),
+                                      padding: EdgeInsetsDirectional.only(end: 12.w),
                                       child: Icon(
                                         Icons.construction,
                                         color: AppColors.primaryColor,
@@ -166,22 +161,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 isExpanded: true,
                                 icon: const Icon(Icons.arrow_drop_down),
-                                items:
-                                    roles
-                                        .map(
-                                          (String role) =>
-                                              DropdownMenuItem<String>(
-                                                value: role,
-                                                child: Text(
-                                                  role.tr(),
-                                                  style: TextStyle(
-                                                    color:
-                                                        AppColors.primaryColor,
-                                                  ),
-                                                ),
-                                              ),
-                                        )
-                                        .toList(),
+                                items: roles
+                                    .map((String role) => DropdownMenuItem<String>(
+                                          value: role,
+                                          child: Text(
+                                            role.tr(),
+                                            style: TextStyle(
+                                              color: AppColors.primaryColor,
+                                            ),
+                                          ),
+                                        ))
+                                    .toList(),
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     selectedRole = newValue;
@@ -192,27 +182,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           SizedBox(height: 15.h),
                         ],
-                        //انا عدلت هنا يا شباب 
+
                         CustomButton(
                           onPressed: () {
                             setState(() => _submitted = true);
                             if (formKey.currentState!.validate()) {
-                              // Calculate role value once to ensure consistency
-                              final roleValue =
-                                  userType == 'Technician'
-                                      ? selectedRole ?? ''
-                                      : 'User';
-
                               context.read<SignupCubit>().SignUp(
-                                email: email!,
-                                password: password!,
-                                role:
-                                    userType == 'Technician'
+                                    email: email!,
+                                    password: password!,
+                                    role: userType == 'Technician'
                                         ? selectedRole ?? ''
                                         : 'User',
-                                username: username!,
-                                phone: phone!,
-                              );
+                                    username: username!,
+                                    phone: phone!,
+                                  );
                             }
                           },
                           text: "sign_up".tr(),
