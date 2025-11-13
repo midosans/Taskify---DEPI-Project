@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/api_helper.dart';
 import 'package:taskify/core/constants.dart';
 
@@ -21,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _checkUser() async {
-    await Future.delayed(const Duration(seconds: 2)); 
+    await Future.delayed(const Duration(seconds: 2));
 
     final user = _client.auth.currentUser;
 
@@ -53,16 +54,14 @@ class _SplashScreenState extends State<SplashScreen> {
                             arguments: "User",
                           ); 
     } else {
-       Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            layoutWrapperRoute,
-                            (routes)=> false,
-                            arguments: 'Technician',
-                          ); 
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        layoutWrapperRoute,
+        (routes) => false,
+        arguments: 'Technician',
+      );
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -72,22 +71,29 @@ class _SplashScreenState extends State<SplashScreen> {
         child: SizedBox(
           width: 200.w,
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 150.w,
+                height: 150.h,
+                child: Image.asset(
                   'assets/pngs/logo.png',
                   width: 125,
                   height: 125,
                 ),
-                LinearProgressIndicator(
+              ),
+              SizedBox(
+                width: 160.w,
+                child: LinearProgressIndicator(
                   minHeight: 5.h,
-                )
-              ],
-            ),
+                  color: AppColors.primaryColor,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      
     );
   }
 }

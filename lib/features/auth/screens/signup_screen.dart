@@ -69,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   context,
                   layoutWrapperRoute,
                   (routes) => false,
-                  arguments: selectedRole ?? 'User',
+                  arguments: '$userType',
                 );
               } else if (state is SignupFailure) {
                 Navigator.pop(context);
@@ -206,13 +206,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               context.read<SignupCubit>().SignUp(
                                 email: email!,
                                 password: password!,
-                                role: roleValue, 
+                                role:
+                                    userType == 'Technician'
+                                        ? selectedRole ?? ''
+                                        : 'User',
                                 username: username!,
                                 phone: phone!,
                               );
-
-                              // Store roleValue to use in navigation
-                              setState(() => selectedRole = roleValue);
                             }
                           },
                           text: "sign_up".tr(),
