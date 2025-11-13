@@ -4,3 +4,6 @@ const API_KEY =
 const String profileTable = 'profile';
 const String servicesTable = 'services';
 const String bookingsTable = 'bookings';
+const String avatarBucket = "User Avatar";
+const String serviceBucket = "Service_img";
+const String bookingBucket = "Booking_img";

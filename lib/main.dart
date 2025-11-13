@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -7,21 +8,32 @@ import 'package:taskify/app_services/bloc_observer.dart';
 import 'package:taskify/core/api_helper.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
+import 'package:taskify/features/auth/screens/forgot_password_screen.dart';
 import 'package:taskify/features/auth/cubit/login_cubit.dart';
 import 'package:taskify/features/auth/cubit/signup_cubit.dart';
 import 'package:taskify/features/auth/data/login_repo.dart';
 import 'package:taskify/features/auth/data/signup_repo.dart';
 import 'package:taskify/features/auth/screens/login_screen.dart';
+import 'package:taskify/features/auth/screens/reset_password_screen.dart';
 import 'package:taskify/features/auth/screens/signup_screen.dart';
+import 'package:taskify/features/auth/screens/verify_code_screen.dart';
 import 'package:taskify/features/bookings/screens/booking_screen.dart';
 import 'package:taskify/features/layout/screens/layout_wrapper.dart';
 import 'package:taskify/features/onboarding/screens/user_type_screen.dart';
 import 'package:taskify/features/provider_services/screens/provider_add_service_screen.dart';
 import 'package:taskify/features/services/screens/services_screen.dart';
+import 'package:taskify/features/services/screens/categories_screen.dart';
 import 'package:taskify/features/splash/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown,
+  // ]);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   await EasyLocalization.ensureInitialized();
   await Supabase.initialize(url: Project_URL, anonKey: API_KEY);
   Bloc.observer = AppBlocObserver();
@@ -90,8 +102,8 @@ class MyApp extends StatelessWidget {
                 );
               // case layoutScreenRoute:
               //   return MaterialPageRoute(builder: (_) => const LayoutScreen());
-              case servicesScreenRoute:
-                return MaterialPageRoute(builder: (_) => ServicesScreen());
+              case categoriesScreenRoute:
+                return MaterialPageRoute(builder: (_) => CategoriesScreen());
               case bookingScreenRoute:
                 return MaterialPageRoute(builder: (_) => BookingScreen());
               case addServiceScreenRoute:

@@ -1,13 +1,13 @@
 class ServicesModel {
-  int? id;
-  int? providerid;
+  String? id;
+  String? providerid;
   String? providername;
   String? category;
   String? title;
   String? description;
   String? photo;
   num? price;
-  String? duration;
+  int? duration;
   String? avilablity;
 
   ServicesModel({
@@ -22,4 +22,18 @@ class ServicesModel {
     this.duration,
     this.avilablity,
   });
+  factory ServicesModel.fromJson(Map<String, dynamic> json) {
+    return ServicesModel(
+      id: json['id'],
+      providerid: json['providerid'],
+      providername: json['providername'],
+      category: json['category'],
+      title: json['title'],
+      description: json['description'],
+      photo: json['photo'],
+      price: json['price'],
+      duration: json['duration'],
+      avilablity: json['avilablity'],
+    );
+  }
 }

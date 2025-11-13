@@ -38,7 +38,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
           onOpenTask: (String category) {
             // Push first before switching tab
             servicesNavigatorKey.currentState?.pushNamed(
-              tasksScreenRoute,
+              servicesScreenRoute,
               arguments: category,
             );
 
@@ -78,7 +78,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
         unselectedItemColor: AppColors.secondaryColor,
         items:
             isUser
-                ?[
+                ? [
                   _navItem('home', 'home'),
                   _navItem('services', 'services'),
                   _navItem('bookings', 'booking'),
@@ -88,7 +88,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                   _navItem('home', 'home'),
                   _navItem('my_services', 'services'),
                   _navItem('profile', 'profile'),
-                ]
+                ],
       ),
     );
   }
