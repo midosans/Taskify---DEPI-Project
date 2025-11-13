@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             context,
                             layoutWrapperRoute,
                             (routes)=> false,
-                            arguments: "customer",
+                            arguments: "User",
                           ); 
     } else {
        Navigator.pushNamedAndRemoveUntil(
