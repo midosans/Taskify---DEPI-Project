@@ -16,3 +16,4 @@ const addServiceScreenRoute = '/addService';
 const providerServiceDetailsRoute = '/providerServiceDetails';
 const splashScreenRoute = '/splash';
 const layoutWrapperRoute = '/layoutWrapper';
+const updateServiceRoute = '/updateService';

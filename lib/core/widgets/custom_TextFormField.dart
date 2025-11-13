@@ -15,6 +15,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController? controller;
   final void Function(String)? onChanged;
   final String? Function(String?)? validator;
+  final TextInputType? keyboardType; // 🟩 NEW PARAMETER
 
   const CustomTextFormField({
     super.key,
@@ -28,6 +29,7 @@ class CustomTextFormField extends StatefulWidget {
     this.hintText,
     this.onChanged,
     this.validator,
+    this.keyboardType, // 🟩 include in constructor
   });
 
   @override
@@ -37,6 +39,7 @@ class CustomTextFormField extends StatefulWidget {
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   final formkey = GlobalKey<FormState>();
   late bool isObscureText;
+
   @override
   void initState() {
     super.initState();
@@ -54,12 +57,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return TextFormField(
       onTapOutside: (event) => FocusScope.of(context).unfocus(),
       key: formkey,
-      onChanged: (value) {
-        widget.onChanged?.call(value);
-        // formkey.currentState?.validate();
-      },
+      controller: widget.controller,
+      onChanged: (value) => widget.onChanged?.call(value),
       obscureText: isObscureText,
-      maxLines: (isObscureText) ? 1 : (widget.maxLines ?? 1),
+      maxLines: isObscureText ? 1 : (widget.maxLines ?? 1),
+      keyboardType: widget.keyboardType ?? TextInputType.text, // 🟩 default keyboard type
 
       style: TextStyle(
         fontSize: 16.sp,
@@ -69,32 +71,30 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       decoration: InputDecoration(
         filled: true,
         fillColor: AppColors.whiteTextColor,
-        prefixIcon:
-            widget.prefixIconPath != null
+        prefixIcon: widget.prefixIconPath != null
+            ? Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SvgPicture.asset(
+                  widget.prefixIconPath!,
+                  width: 18.w,
+                  height: 18.h,
+                ),
+              )
+            : (widget.prefixIcon != null
                 ? Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SvgPicture.asset(
-                    widget.prefixIconPath!,
-                    width: 18.w,
-                    height: 18.h,
-                  ),
-                )
-                : (widget.prefixIcon != null
-                    ? Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Icon(
-                        widget.prefixIcon,
-                        color: AppColors.primaryColor,
-                      ),
-                    )
-                    : null),
-        suffixIcon:
-            (widget.isObscureText ?? false)
-                ? CustomObsecureIcon(
-                  isObscure: isObscureText,
-                  toggle: toggleObscureText,
-                )
-                : widget.suffixIcon,
+                    padding: const EdgeInsets.all(10.0),
+                    child: Icon(
+                      widget.prefixIcon,
+                      color: AppColors.primaryColor,
+                    ),
+                  )
+                : null),
+        suffixIcon: (widget.isObscureText ?? false)
+            ? CustomObsecureIcon(
+                isObscure: isObscureText,
+                toggle: toggleObscureText,
+              )
+            : widget.suffixIcon,
         hintText: widget.hintText ?? '',
         hintStyle: TextStyle(
           color: AppColors.primaryColor,
@@ -102,18 +102,15 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           fontSize: 14.sp,
         ),
         labelText: widget.labelText,
-
         labelStyle: TextStyle(
           color: AppColors.primaryColor,
           fontWeight: FontWeight.w500,
           fontSize: 16.sp,
         ),
-
         border: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.primaryColor, width: 2.w),
           borderRadius: BorderRadius.circular(10.r),
         ),
-
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: AppColors.lightprimarycolor,
@@ -121,21 +118,18 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           ),
           borderRadius: BorderRadius.circular(10.r),
         ),
-
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.primaryColor, width: 1.w),
           borderRadius: BorderRadius.circular(12.r),
         ),
       ),
-
-      // autovalidateMode: AutovalidateMode.onUserInteraction,
-
-      validator: widget.validator  ?? (String? textValue) {
-        if (textValue == null || textValue.isEmpty) {
-          return 'required!';
-        }
-        return null;
-      },
+      validator: widget.validator ??
+          (String? textValue) {
+            if (textValue == null || textValue.isEmpty) {
+              return 'required!';
+            }
+            return null;
+          },
     );
   }
 }

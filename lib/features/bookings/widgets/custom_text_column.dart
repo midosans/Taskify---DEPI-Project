@@ -27,7 +27,7 @@ class CustomTextColumn extends StatelessWidget {
         ),
         SizedBox(height: 5.h),
         SizedBox(
-          width: 72.h,
+          width: double.infinity,
           child: Text(
             subtitle,
             maxLines: 2,

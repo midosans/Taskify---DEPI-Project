@@ -69,7 +69,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                       borderRadius: BorderRadius.circular(22),
                       border: Border.all(
                         color:
-                            selectedUserType == 'Customer'
+                            selectedUserType == 'User'
                                 ? AppColors.primaryColor
                                 : Colors.grey.shade300,
                         width: 2,
@@ -85,7 +85,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                           Icons.person,
                           size: 40.sp,
                           color:
-                              selectedUserType == 'Customer'
+                              selectedUserType == 'User'
                                   ? AppColors.primaryColor
                                   : Colors.grey,
                         ),
