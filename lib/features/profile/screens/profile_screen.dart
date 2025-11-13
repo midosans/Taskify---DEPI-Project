@@ -5,6 +5,7 @@ import 'package:taskify/core/constants.dart';
 import 'package:taskify/features/profile/data/logout_repo.dart';
 import 'package:taskify/features/profile/widgets/build_settings_item.dart';
 import 'edit_profile_screen.dart';
+import 'package:taskify/core/constants.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -48,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Ethan Carter",
+                          'profile_name'.tr(),
                           style: TextStyle(
                             fontSize: 24.sp,
                             fontWeight: FontWeight.bold,
@@ -56,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         SizedBox(height: 6.h),
                         Text(
-                          "+1 (555) 123-4567",
+                          'profile_phone'.tr(),
                           style: TextStyle(fontSize: 15.sp),
                         ),
                       ],
@@ -93,7 +94,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 28.h),
+              SizedBox(height: 36.h),
+              Text(
+                'profile_settings_section'.tr(),
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              Divider(thickness: 2),
               BuildSettingsItem(
                 icon: Icons.language,
                 title: 'language'.tr(),
@@ -102,17 +112,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
               BuildSettingsItem(
                 icon: Icons.help_outline,
                 title: 'contact_us'.tr(),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, contactScreenRoute);
+                },
               ),
               BuildSettingsItem(
                 icon: Icons.info_outline,
                 title: 'about_app'.tr(),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, aboutAppScreenRoute);
+                },
               ),
               BuildSettingsItem(
                 icon: Icons.description_outlined,
                 title: 'terms_conditions'.tr(),
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, termsConditionsScreenRoute);
+                },
               ),
               BuildSettingsItem(
                 icon: Icons.logout,
@@ -131,6 +147,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   );
                 },
               ),
+              // Optionally: visually mark logout as important
+              SizedBox(height: 12.h),
             ],
           ),
         ),
