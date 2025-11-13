@@ -13,7 +13,7 @@ import 'package:taskify/features/auth/widgets/custom_text_header.dart';
 import 'package:taskify/app_services/validator_service.dart';
 
 class AuthLogin extends StatefulWidget {
-  AuthLogin({super.key});
+  const AuthLogin({super.key});
 
   @override
   State<AuthLogin> createState() => _AuthLoginState();
@@ -44,7 +44,7 @@ class _AuthLoginState extends State<AuthLogin> {
                 context,
                 layoutWrapperRoute,
                 (routes) => false,
-                arguments: '${state.profileData?['role'] ?? 'User'}',
+                arguments: '${state.profileData?['role']}',
               );
             } else if (state is LoginFailure) {
               Navigator.pop(context); 

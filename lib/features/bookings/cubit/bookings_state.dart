@@ -1,6 +1,19 @@
-part of 'bookings_cubit.dart';
+import 'package:taskify/features/bookings/data/booking_model.dart';
 
-@immutable
-sealed class BookingsState {}
+abstract class BookingState {}
 
-final class BookingsInitial extends BookingsState {}
+class BookingsInitial extends BookingState {}
+
+class BookingLoading extends BookingState {}
+
+class BookingSuccess extends BookingState {
+  final List<BookingModel> bookings;
+  BookingSuccess(this.bookings);
+}
+
+class BookingEmpty extends BookingState {}
+
+class BookingError extends BookingState {
+  final String message;
+  BookingError(this.message);
+}

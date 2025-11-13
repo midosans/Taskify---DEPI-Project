@@ -64,6 +64,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 );
               } else if (state is SignupSuccess) {
                 Navigator.pop(context);
+                // Use the same role value that was saved to the database
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   layoutWrapperRoute,
@@ -86,7 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 20.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.w),
-                  child: PageHeading(title: 'sign_up'),
+                  child: PageHeading(title:'sign_up'),
                 ),
                 SizedBox(height: 12.h),
                 Padding(
@@ -191,11 +192,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           SizedBox(height: 15.h),
                         ],
-
+                        //انا عدلت هنا يا شباب 
                         CustomButton(
                           onPressed: () {
                             setState(() => _submitted = true);
                             if (formKey.currentState!.validate()) {
+                              // Calculate role value once to ensure consistency
+                              final roleValue =
+                                  userType == 'Technician'
+                                      ? selectedRole ?? ''
+                                      : 'User';
+
                               context.read<SignupCubit>().SignUp(
                                 email: email!,
                                 password: password!,
