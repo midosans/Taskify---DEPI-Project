@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:taskify/core/api_helper.dart';
 import 'package:taskify/core/constants.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     final profileResponse = await _client
-        .from('profile')
+        .from(profileTable)
         .select()
         .eq('id', user.id)
         .maybeSingle();
