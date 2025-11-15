@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
 import 'package:taskify/core/widgets/custom_cashed_image.dart';
 import 'package:taskify/features/provider_services/cubit/delete_service_cubit.dart';
 import 'package:taskify/features/provider_services/cubit/delete_service_state.dart';
 import 'package:taskify/features/provider_services/data/provider_services_model.dart';
+import 'package:taskify/features/provider_services/screens/provider_update_service_screen.dart';
 
 class ProviderServiceDetails extends StatelessWidget {
   final ProviderServicesModel servicesModel;
@@ -138,12 +140,12 @@ class ProviderServiceDetails extends StatelessWidget {
                       color: AppColors.primaryColor,
                       fontColor: AppColors.whiteTextColor,
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ProviderAddServiceScreen(),
-                        //   ),
-                        // );
+                       Navigator.pushNamed(
+              context,
+              updateServiceRoute,
+               arguments: servicesModel,
+            );
+
                       },
                     ),
                     SizedBox(height: 12.h),
