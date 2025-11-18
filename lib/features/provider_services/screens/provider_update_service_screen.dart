@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:taskify/app_services/dialog_extension.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_TextFormField.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
 import 'package:taskify/core/widgets/custom_cashed_image.dart';
+import 'package:taskify/core/widgets/custom_confirm_dialog.dart';
+import 'package:taskify/core/widgets/custom_notify_dialog.dart';
 import 'package:taskify/core/widgets/spacing_widget.dart';
 import 'package:taskify/features/provider_services/cubit/update_service_cubit.dart';
 import 'package:taskify/features/provider_services/cubit/update_service_state.dart';
@@ -51,10 +55,8 @@ class _ProviderUpdateServiceScreenState
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<UpdateServiceCubit>();
     final size = MediaQuery.sizeOf(context);
-    final updatedName = nameController.text;
-    final updatedDesc = descController.text;
-    final updatedPrice = double.tryParse(priceController.text);
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
@@ -82,8 +84,12 @@ class _ProviderUpdateServiceScreenState
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16).r,
         child: BlocListener<UpdateServiceCubit, UpdateServiceState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is UpdateServiceLoading) {
+              if (Navigator.of(context, rootNavigator: true).canPop()) {
+                Navigator.of(context, rootNavigator: true).pop();
+              }
+
               showDialog(
                 context: context,
                 barrierDismissible: false,
@@ -92,26 +98,48 @@ class _ProviderUpdateServiceScreenState
                     (_) => const Center(child: CircularProgressIndicator()),
               );
             } else if (state is UpdateServiceSuccess) {
-              //  Close the loading dialog safely
               if (Navigator.of(context, rootNavigator: true).canPop()) {
                 Navigator.of(context, rootNavigator: true).pop();
               }
 
-              //  Return to previous screen and signal success
-              Navigator.of(context).pop(true);
+              if (!context.mounted) return;
 
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Service Updated successfully")),
-              );
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder:
+                    (_) => CustomNotifyDialog(
+                      title: "Service Updated",
+                      subtitle: "Your service has been updated successfully.",
+                      buttontext: "OK",
+                      icon: Icons.check_circle,
+                    ),
+              ).then((_) {
+                if (context.mounted) {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    providerServicesScreenRoute,
+                    (route) => false,
+                  );
+                }
+              });
             } else if (state is UpdateServiceFailure) {
-              //  Close loading if it’s still open
               if (Navigator.of(context, rootNavigator: true).canPop()) {
                 Navigator.of(context, rootNavigator: true).pop();
               }
 
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+              if (!context.mounted) return;
+
+              showDialog(
+                context: context,
+                builder:
+                    (_) => CustomNotifyDialog(
+                      title: "Error",
+                      subtitle: state.errorMessage,
+                      buttontext: "OK",
+                      icon: Icons.error,
+                    ),
+              );
             }
           },
           child: SizedBox(
@@ -226,15 +254,29 @@ class _ProviderUpdateServiceScreenState
                     onPressed: () {
                       setState(() => _submitted = true);
                       if (formKey.currentState!.validate()) {
-                        context.read<UpdateServiceCubit>().updateService(
-                          id: widget.servicesModel.id!,
-                          title: nameController.text.trim(),
-                          description: descController.text.trim(),
-                          price: double.parse(priceController.text),
-                          photo:
-                              pickedimg != null
-                                  ? File(pickedimg!.path)
-                                  : null, // Optional
+                        context.showBlocDialog(
+                          cubit: cubit,
+                          dialog: CustomConfirmDialog(
+                            title: "Edit Service",
+                            subtitle: "Are you sure you want to update?",
+                            buttontext: "Edit",
+                            onConfirm: () {
+                              Navigator.of(
+                                context,
+                                rootNavigator: true,
+                              ).pop(); // closes the dialog
+                              cubit.updateService(
+                                id: widget.servicesModel.id!,
+                                title: nameController.text.trim(),
+                                description: descController.text.trim(),
+                                price: double.parse(priceController.text),
+                                photo:
+                                    pickedimg != null
+                                        ? File(pickedimg!.path)
+                                        : null,
+                              );
+                            },
+                          ),
                         );
                       }
                     },
