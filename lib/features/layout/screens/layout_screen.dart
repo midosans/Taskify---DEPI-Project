@@ -1,9 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
+import 'package:taskify/features/bookings/data/booking_model.dart';
 import 'package:taskify/features/bookings/widgets/booking_navigator.dart';
+import 'package:taskify/features/home/cubit/home_cubit.dart';
+import 'package:taskify/features/home/data/home_repo.dart';
 import 'package:taskify/features/home/screens/home_screen.dart';
 import 'package:taskify/features/profile/widgets/profile_navigator.dart';
 import 'package:taskify/features/provider_home/screens/provider_home_screen.dart';
@@ -11,6 +15,9 @@ import 'package:taskify/features/provider_services/widgets/provider_services_nav
 import 'package:taskify/features/services/widgets/services_navigator.dart';
 
 final GlobalKey<NavigatorState> servicesNavigatorKey =
+    GlobalKey<NavigatorState>();
+
+final GlobalKey<NavigatorState> bookingNavigatorKey =
     GlobalKey<NavigatorState>();
 
 class LayoutScreen extends StatefulWidget {
@@ -32,24 +39,37 @@ class _LayoutScreenState extends State<LayoutScreen> {
 
     if (userType == "User") {
       screens = [
-        HomeScreen(
-          onGoToServices: () => setState(() => currentIndex = 1),
-          onGoToBookings: () => setState(() => currentIndex = 2),
-          onOpenTask: (String category) {
-            // Push first before switching tab
-            servicesNavigatorKey.currentState?.pushNamed(
-              servicesScreenRoute,
-              arguments: category,
-            );
-
-            // Slightly delay tab change to avoid visible GridView flash
-            Future.delayed(Duration(milliseconds: 50), () {
-              setState(() => currentIndex = 1);
-            });
-          },
+        BlocProvider(
+          create: (context) => HomeCubit(homeRepo: HomeRepo()),
+          child: HomeScreen(
+            onGoToServices: () => setState(() => currentIndex = 1),
+            onGoToBookings: () => setState(() => currentIndex = 2),
+            onOpenTask: (String category) {
+              // Push first before switching tab
+              servicesNavigatorKey.currentState?.pushNamed(
+                servicesScreenRoute,
+                arguments: category,
+              );
+              // Slightly delay tab change to avoid visible GridView flash
+              Future.delayed(Duration(milliseconds: 50), () {
+                setState(() => currentIndex = 1);
+              });
+            },
+            onOpenBook: (BookingModel bookingModel) {
+              // Push first before switching tab
+              bookingNavigatorKey.currentState?.pushNamed(
+                bookingDetailsScreenRoute,
+                arguments: bookingModel,
+              );
+              // Slightly delay tab change to avoid visible GridView flash
+              Future.delayed(Duration(milliseconds: 50), () {
+                setState(() => currentIndex = 2);
+              });
+            },
+          ),
         ),
         ServicesNavigator(servicesNavigatorKey: servicesNavigatorKey),
-        const BookingNavigator(),
+        BookingNavigator(bookingNavigatorKey: bookingNavigatorKey),
         const ProfileNavigator(),
       ];
     } else {

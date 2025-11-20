@@ -11,47 +11,49 @@ class NoBookingsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
-    return Center(
-      child: DottedBorder(
-        color: Colors.grey,
-        strokeWidth: 1,
-        dashPattern: [5, 4],
-        borderType: BorderType.RRect,
-        radius: const Radius.circular(12),
-        child: Container(
-          width: size.width * 0.9,
-          height: 200.h,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'no_bookings_yet'.tr(),
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'no_bookings_message'.tr(),
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: onExploreServices,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.lightGreyColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+    return SingleChildScrollView(
+      child: Center(
+        child: DottedBorder(
+          color: Colors.grey,
+          strokeWidth: 1,
+          dashPattern: [5, 4],
+          borderType: BorderType.RRect,
+          radius: const Radius.circular(12),
+          child: Container(
+            width: size.width * 0.9,
+            height: 200.h,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'no_bookings_yet'.tr(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
-                child:
-                    const Text(
-                      'explore_services',
-                      style: TextStyle(color: AppColors.blackTextColor),
-                    ).tr(),
-              ),
-            ],
+                const SizedBox(height: 8),
+                Text(
+                  'no_bookings_message'.tr(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: onExploreServices,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.lightGreyColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child:
+                      const Text(
+                        'explore_services',
+                        style: TextStyle(color: AppColors.blackTextColor),
+                      ).tr(),
+                ),
+              ],
+            ),
           ),
         ),
       ),

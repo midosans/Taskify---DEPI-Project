@@ -6,11 +6,13 @@ import 'package:taskify/features/bookings/screens/booking_screen.dart';
 import 'package:taskify/features/bookings/screens/booking_service.dart';
 
 class BookingNavigator extends StatelessWidget {
-  const BookingNavigator({super.key});
+    final GlobalKey<NavigatorState> bookingNavigatorKey;
+  const BookingNavigator({super.key, required this.bookingNavigatorKey});
 
   @override
   Widget build(BuildContext context) {
     return Navigator(
+      key: bookingNavigatorKey,
       initialRoute: bookingScreenRoute,
       onGenerateRoute: (settings) {
         if (settings.name == bookingScreenRoute) {
