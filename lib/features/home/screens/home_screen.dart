@@ -2,9 +2,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_app_button.dart';
+import 'package:taskify/core/widgets/custom_cashed_image.dart';
+import 'package:taskify/features/bookings/data/booking_model.dart';
+import 'package:taskify/features/home/cubit/home_cubit.dart';
+import 'package:taskify/features/home/cubit/home_state.dart';
 import 'package:taskify/features/home/widgets/home_grid_view.dart';
 import 'package:taskify/features/home/widgets/no_booking_card.dart';
 
@@ -14,11 +20,13 @@ class HomeScreen extends StatefulWidget {
     required this.onGoToServices,
     required this.onGoToBookings,
     required this.onOpenTask,
+    required this.onOpenBook,
   });
 
   final VoidCallback onGoToServices;
   final VoidCallback onGoToBookings;
   final void Function(String category) onOpenTask;
+  final void Function(BookingModel bookingModel) onOpenBook;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -35,8 +43,17 @@ class _HomeScreenState extends State<HomeScreen> {
   int pageIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<HomeCubit>().getUpcomingBookings();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
@@ -57,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 🖼️ Carousel
+              //Carousel
               CarouselSlider(
                 options: CarouselOptions(
                   autoPlay: true,
@@ -112,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 10.h),
 
-              // 🔧 Services Header
+              // Services Header
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Row(
@@ -147,12 +164,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 10.h),
 
-              // 🧱 Home Grid (pass onOpenTask)
+              //Home Grid (pass onOpenTask)
               HomeGridView(onOpenTask: widget.onOpenTask),
 
               SizedBox(height: 10.h),
 
-              // 📅 Bookings Header
+              //Bookings Header
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Row(
@@ -175,8 +192,75 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 10.h),
 
-              // 📭 No Bookings
-              NoBookingsCard(onExploreServices: widget.onGoToServices),
+              // Bookings List (scrolls independently)
+              BlocBuilder<HomeCubit, HomeState>(
+                builder: (context, state) {
+                  if (state is HomeLoading || state is HomeInitial) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is HomeFailure) {
+                    return Center(
+                      child: Text(
+                        state.errorMessage,
+                        style: TextStyle(fontSize: 16.sp, color: Colors.red),
+                      ),
+                    );
+                  } else if (state is HomeSuccess) {
+                    if (state.bookings.isEmpty) {
+                      return NoBookingsCard(
+                        onExploreServices: widget.onGoToServices,
+                      );
+                    }
+
+                    return SizedBox(
+                      height: 280.h, // scrollable area height
+                      child: ListView.builder(
+                        itemCount: state.bookings.length,
+                        itemBuilder: (context, index) {
+                          final booking = state.bookings[index];
+                          final imageUrl = booking.imageUrl ?? '';
+                          final titleText =
+                              booking.serviceTitel ??
+                              booking.providerName ??
+                              '';
+
+                          return InkWell(
+                            onTap: () => widget.onOpenBook(booking),
+                            child: ListTile(
+                              leading:
+                                  imageUrl.isNotEmpty
+                                      ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          8.r,
+                                        ),
+                                        child: CustomCashedImage(
+                                          url: imageUrl,
+                                          size: Size(50.w, 50.h),
+                                        ),
+                                      )
+                                      : CircleAvatar(
+                                        radius: 25.r,
+                                        backgroundColor:
+                                            AppColors.secondaryColor,
+                                        child: Icon(
+                                          Icons.calendar_today,
+                                          size: 18.sp,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                              title: Text(titleText),
+                              subtitle: Text(booking.status),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+
+                  return const SizedBox.shrink();
+                },
+              ),
+
+              SizedBox(height: 20.h),
             ],
           ),
         ),

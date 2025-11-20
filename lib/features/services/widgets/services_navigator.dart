@@ -25,15 +25,24 @@ class ServicesNavigator extends StatelessWidget {
         if (settings.name == categoriesScreenRoute) {
           return MaterialPageRoute(builder: (context) => CategoriesScreen());
         } else if (settings.name == servicesScreenRoute) {
-          final category = settings.arguments as CategoriesModel;
+          final arg = settings.arguments;
+          CategoriesModel? category;
+          if (arg is CategoriesModel) {
+            category = arg;
+          } else if (arg is String) {
+            category = CategoriesModel(name: arg, image: '');
+          }
+
+          if (category == null) return null;
+
           return MaterialPageRoute(
             builder:
                 (context) => BlocProvider(
                   create:
                       (context) =>
                           ServicesCubit(servicesRepo: ServicesRepo())
-                            ..getServices(category: category.name),
-                  child: ServicesScreen(category: category),
+                            ..getServices(category: category!.name),
+                  child: ServicesScreen(category: category!),
                 ),
           );
         } else if (settings.name == serviceDetailsScreenRoute) {
