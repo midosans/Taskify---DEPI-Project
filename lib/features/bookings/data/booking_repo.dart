@@ -49,66 +49,84 @@ class BookingRepo {
     }
   }
 
-  Future<BookingModel> createBooking({
-    required String serviceId,
-    required String providerId,
-    required String providerName,
-    required String serviceTitle,
-    required DateTime date,
-    required DateTime time,
-    required String address,
-    required File photo
-  }) async {
+ Future<void> createBooking({
+  required String serviceId,
+  required String providerId,
+  required String providerName,
+  required String serviceTitle,
+  required DateTime date,
+  required DateTime time,
+  required String address,
+  required File photo,
+}) async {
+  final user = _supabase.auth.currentUser;
+  if (user == null) throw Exception("Not logged in");
 
-    final user = _supabase.auth.currentUser;
-    if (user == null) throw Exception("Not logged in");
-    
-    final profileResponse = await _supabase
-        .from(profileTable)
-        .select('username')
-        .eq('id', user.id)
-        .maybeSingle();
+  // Fetch username
+  final profileResponse = await _supabase
+      .from(profileTable)
+      .select('username')
+      .eq('id', user.id)
+      .maybeSingle();
 
-    if (profileResponse == null) {
-      throw Exception("User profile not found");
-    }
+  if (profileResponse == null) {
+    throw Exception("User profile not found");
+  }
 
-    final userName = profileResponse['username'] ?? '';
-    
+  final userName = profileResponse['username'] ?? '';
 
-    try {
-      // هرفع الصورة لو موجودة
-       String? photoUrl;
+  try {
+    // -----------------------------------
+    // 1️⃣ Upload Photo (optional)
+    // -----------------------------------
+    String? photoUrl;
     if (photo.path.isNotEmpty) {
       final fileName = "${user.id}_${DateTime.now().millisecondsSinceEpoch}.jpg";
       await _supabase.storage.from(serviceBucket).upload(fileName, photo);
       photoUrl = _supabase.storage.from(serviceBucket).getPublicUrl(fileName);
     }
-    
-      // insert row
-      final inserted =
-          await _supabase
-              .from('bookings')
-              .insert({
-                'user_id': user.id,
-                'user_name': userName,
-                'provider_name': providerName,
-                'service_id': serviceId,
-                'service_title': serviceTitle,
-                'provider_id': providerId,
-                'date': date.toIso8601String(),
-                'time': time.toIso8601String(), 
-                'address': address,
-                'image_url': photoUrl,
-                'status': 'upcoming',
-              })
-              .select()
-              .single();
 
-      return BookingModel.fromMap(inserted);
-    } catch (e) {
-      debugPrint('Error creating booking: $e');
-      rethrow;
-    }
+    // -----------------------------------
+    // 2️⃣ Convert Date & Time for Supabase
+    // -----------------------------------
+
+    // Supabase DATE → "YYYY-MM-DD"
+    final supabaseDate =
+        "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+
+    // Supabase TIME → "HH:MM:SS"
+    final supabaseTime =
+        "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}:00";
+
+    // -----------------------------------
+    // 3️⃣ Insert Row
+    // -----------------------------------
+     await _supabase
+        .from('bookings')
+        .insert({
+          'user_id': user.id,
+          'username': userName,
+          'provider_name': providerName,
+          'service_id': serviceId,
+          'service_title': serviceTitle,
+          'provider_id': providerId,
+
+          // ✔ Correct formats for Supabase columns
+          'date': supabaseDate,
+          'time': supabaseTime,
+
+          'address': address,
+          'photo_url': photoUrl,
+          'status': 'pending',
+        })
+        .select()
+        .single();
+
+    // return BookingModel.fromMap(inserted);
+  } catch (e) {
+    debugPrint('Error creating booking: $e');
+    rethrow;
   }
+}
+
 }

@@ -34,6 +34,7 @@ class CustomTimePickerState extends State<CustomTimePicker> {
       initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2030),
+      useRootNavigator: true,
     );
     if (picked != null) {
       setState(() => selectedDate = picked);
@@ -44,6 +45,7 @@ class CustomTimePickerState extends State<CustomTimePicker> {
     final picked = await showTimePicker(
       context: context,
       initialTime: selectedTime ?? const TimeOfDay(hour: 9, minute: 0),
+        useRootNavigator: true,
     );
     if (picked != null) {
       setState(() => selectedTime = picked);

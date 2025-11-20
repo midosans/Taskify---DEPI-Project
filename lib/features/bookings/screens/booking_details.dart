@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/core/widgets/custom_cashed_image.dart';
 import 'package:taskify/features/bookings/data/booking_model.dart';
 import 'package:taskify/features/bookings/widgets/custom_text_column.dart';
 
@@ -98,7 +99,7 @@ class BookingDetails extends StatelessWidget {
                   child: SizedBox(
                     width: 130.w,
                     height: 66.h,
-                    child: _buildImage(),
+                    child: CustomCashedImage(url:bookingdeatils.imageUrl! , size: Size(130.w,66.h),),
                   ),
                 ),
               ],

@@ -8,8 +8,8 @@ class BookingModel {
   final String? userName;
   final String? serviceTitle;
 
-  final DateTime? date;
-  final DateTime? time;
+  final DateTime? date;   // keep this 
+  final String? time;     // <-- FIXED: time is string
   final String? address;
   final String? imageUrl;
   final double? price;
@@ -38,31 +38,13 @@ class BookingModel {
       serviceId: map['service_id'],
       providerId: map['provider_id'],
       providerName: map['provider_name'],
-      userName: map['user_name'],
+      userName: map['username'],
       serviceTitle: map['service_title'],
       date: map['date'] != null ? DateTime.parse(map['date']) : null,
-      time: map['time'],
+      time: map['time'],   // now correct type
       address: map['address'],
-      imageUrl: map['image_url'],
+      imageUrl: map['photo_url'],
       price: map['price'],
     );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'user_id': userId,
-      'status': status,
-      'service_id': serviceId,
-      'provider_id': providerId,
-      'provider_name': providerName,
-      'user_name': userName,
-      'service_title': serviceTitle,
-      'date': date?.toIso8601String(),
-      'time': time,
-      'address': address,
-      'image_url': imageUrl,
-      'price': price,
-    };
   }
 }

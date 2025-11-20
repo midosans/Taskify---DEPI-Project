@@ -11,7 +11,7 @@ import 'package:taskify/core/widgets/custom_button.dart';
 import 'package:taskify/features/bookings/cubit/create_booking_cubit.dart';
 import 'package:taskify/features/bookings/cubit/create_booking_state.dart';
 import 'package:taskify/features/bookings/widgets/custom_dotted_border.dart';
-import 'package:taskify/features/bookings/widgets/custom_time_picker.dart';
+import 'package:taskify/features/services/widgets/custom_time_picker.dart';
 import 'package:taskify/features/services/data/services_model.dart';
 
 class BookingService extends StatefulWidget {
@@ -114,7 +114,7 @@ class _BookingServiceState extends State<BookingService> {
                 children: [
                  
                   Text(
-                    "service_details".tr(),
+                    widget.serviceModel.title ?? '',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18.sp,
@@ -139,14 +139,14 @@ class _BookingServiceState extends State<BookingService> {
                       ),
                     ),
                     title: Text(
-                      "ac_technician".tr(),
+                      (widget.serviceModel.category!).toUpperCase(),
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     subtitle: Text(
-                      "ahmed_ali".tr(),
+                      widget.serviceModel.providername ?? '',
                       style: TextStyle(color: AppColors.lightprimarycolor),
                     ),
                   ),
