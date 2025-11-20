@@ -54,7 +54,7 @@ class BookingDetails extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        bookingdeatils.serviceTitel ?? 'Unnamed Service',
+                        bookingdeatils.serviceTitle ?? 'Unnamed Service',
                         style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w700,
@@ -114,7 +114,7 @@ class BookingDetails extends StatelessWidget {
                     child: CustomTextColumn(
                       title: "service".tr(),
                       subtitle:
-                          bookingdeatils.serviceTitel ?? 'Unnamed Service',
+                          bookingdeatils.serviceTitle ?? 'Unnamed Service',
                     ),
                   ),
                   SizedBox(width: 16.w),

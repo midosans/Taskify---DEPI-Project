@@ -102,8 +102,7 @@ class MyApp extends StatelessWidget {
               //   return MaterialPageRoute(builder: (_) => const LayoutScreen());
               case categoriesScreenRoute:
                 return MaterialPageRoute(builder: (_) => CategoriesScreen());
-              case bookingScreenRoute:
-                return MaterialPageRoute(builder: (_) => BookingScreen());
+              
               case addServiceScreenRoute:
                 return MaterialPageRoute(
                   builder: (_) => ProviderAddServiceScreen(),

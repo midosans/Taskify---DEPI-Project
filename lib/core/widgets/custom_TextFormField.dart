@@ -15,7 +15,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController? controller;
   final void Function(String)? onChanged;
   final String? Function(String?)? validator;
-  final TextInputType? keyboardType; // 🟩 NEW PARAMETER
+  final TextInputType? keyboardType; 
 
   const CustomTextFormField({
     super.key,
@@ -29,7 +29,7 @@ class CustomTextFormField extends StatefulWidget {
     this.hintText,
     this.onChanged,
     this.validator,
-    this.keyboardType, // 🟩 include in constructor
+    this.keyboardType, 
   });
 
   @override
@@ -61,7 +61,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       onChanged: (value) => widget.onChanged?.call(value),
       obscureText: isObscureText,
       maxLines: isObscureText ? 1 : (widget.maxLines ?? 1),
-      keyboardType: widget.keyboardType ?? TextInputType.text, // 🟩 default keyboard type
+      keyboardType: widget.keyboardType ?? TextInputType.text, 
 
       style: TextStyle(
         fontSize: 16.sp,

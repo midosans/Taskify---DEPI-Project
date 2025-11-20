@@ -31,7 +31,7 @@ class CustomListTileForProvider extends StatelessWidget {
                       style: TextStyle(color: AppColors.lightprimarycolor),
                     ),
                     Text(
-                      service.serviceTitel!,
+                      service.serviceTitle!,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.sp,

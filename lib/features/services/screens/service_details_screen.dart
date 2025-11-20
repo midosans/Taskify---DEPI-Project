@@ -179,7 +179,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).push(
                         MaterialPageRoute(
-                          builder: (context) => BookingService(),
+                          builder: (context) => BookingService(serviceModel: servicesModel,),
                         ),
                       );
                     },

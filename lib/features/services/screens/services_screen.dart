@@ -12,7 +12,7 @@ import 'package:taskify/features/services/data/categories_model.dart';
 
 class ServicesScreen extends StatefulWidget {
   final CategoriesModel category;
-  ServicesScreen({super.key, required this.category});
+  const ServicesScreen({super.key, required this.category});
 
   @override
   State<ServicesScreen> createState() => _ServicesScreenState();
@@ -148,8 +148,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                             rootNavigator: true,
                                           ).push(
                                             MaterialPageRoute(
-                                              builder:
-                                                  (context) => BookingService(),
+                                              builder: (context) => BookingService(
+                                                serviceModel: state.services[index],
+                                              ),
                                             ),
                                           );
                                         },

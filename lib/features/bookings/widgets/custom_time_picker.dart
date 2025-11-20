@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 
+
 class CustomTimePicker extends StatefulWidget {
   final bool isTime;
   const CustomTimePicker({super.key, required this.isTime});
 
   @override
-  State<CustomTimePicker> createState() => _CustomTimePickerState();
+  CustomTimePickerState createState() => CustomTimePickerState();
 }
 
-class _CustomTimePickerState extends State<CustomTimePicker> {
+class CustomTimePickerState extends State<CustomTimePicker> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
 
   String _getDisplayText(BuildContext context) {
-    if (widget.isTime == false) {
+    if (!widget.isTime) {
       return selectedDate != null
           ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}"
           : "choose_date".tr();
@@ -52,7 +53,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: widget.isTime != true ? _pickDate : _pickTime,
+      onTap: widget.isTime ? _pickTime : _pickDate,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         decoration: BoxDecoration(

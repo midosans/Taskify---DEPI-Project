@@ -1,14 +1,15 @@
 class BookingModel {
-  final String id;
+  final String? id;
   final String userId;
   final String status;
   final String? serviceId;
   final String? providerId;
   final String? providerName;
   final String? userName;
-  final String? serviceTitel;
+  final String? serviceTitle;
+
   final DateTime? date;
-  final String? time;
+  final DateTime? time;
   final String? address;
   final String? imageUrl;
   final double? price;
@@ -21,7 +22,7 @@ class BookingModel {
     this.providerId,
     this.providerName,
     this.userName,
-    this.serviceTitel,
+    this.serviceTitle,
     this.date,
     this.time,
     this.address,
@@ -38,7 +39,7 @@ class BookingModel {
       providerId: map['provider_id'],
       providerName: map['provider_name'],
       userName: map['user_name'],
-      serviceTitel: map['service_title'],
+      serviceTitle: map['service_title'],
       date: map['date'] != null ? DateTime.parse(map['date']) : null,
       time: map['time'],
       address: map['address'],
@@ -56,7 +57,7 @@ class BookingModel {
       'provider_id': providerId,
       'provider_name': providerName,
       'user_name': userName,
-      'service_title': serviceTitel,
+      'service_title': serviceTitle,
       'date': date?.toIso8601String(),
       'time': time,
       'address': address,
