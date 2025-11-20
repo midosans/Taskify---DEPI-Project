@@ -23,7 +23,7 @@ class _BookingScreenState extends State<BookingScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
     _bookingsCubit = BookingsCubit(bookingRepo: BookingRepo());
 
     _tabController.addListener(() {
@@ -59,6 +59,9 @@ class _BookingScreenState extends State<BookingScreen>
           backgroundColor: AppColors.backgroundColor,
           bottom: TabBar(
             controller: _tabController,
+            isScrollable: true,
+            padding: EdgeInsets.zero,             
+            tabAlignment: TabAlignment.start, 
             labelColor: AppColors.blackTextColor,
             labelStyle: TextStyle(
                 fontSize: 13.sp, fontWeight: FontWeight.w600),
@@ -68,7 +71,8 @@ class _BookingScreenState extends State<BookingScreen>
             tabs: [
               Tab(text: 'all'.tr()),
               Tab(text: 'completed'.tr()),
-              Tab(text: 'upcoming'.tr()),
+              Tab(text: 'accepted'.tr()),
+              Tab(text: 'pending'.tr()),
               Tab(text: 'cancelled'.tr()),
             ],
           ),
@@ -76,7 +80,7 @@ class _BookingScreenState extends State<BookingScreen>
         ),
         body: TabBarView(
           controller: _tabController,
-          children: List.generate(4, (index) {
+          children: List.generate(5, (index) {
             return BlocBuilder<BookingsCubit, BookingState>(
               builder: (context, state) {
                 if (state is BookingLoading) {

@@ -23,3 +23,5 @@ const resetPasswordScreenRoute = '/resetPassword';
 const splashScreenRoute = '/splash';
 const layoutWrapperRoute = '/layoutWrapper';
 const updateServiceRoute = '/updateService';
+const providerhomeScreenRoute = '/providerHome';
+const providerBookingDetailsRoute = '/providerBookingDetails';

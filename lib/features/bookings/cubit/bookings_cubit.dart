@@ -46,9 +46,12 @@ class BookingsCubit extends Cubit<BookingState> {
         await getBookingsByStatus(status: 'completed');
         break;
       case 2:
-        await getBookingsByStatus(status: 'upcoming');
+        await getBookingsByStatus(status: 'accepted');
         break;
       case 3:
+        await getBookingsByStatus(status: 'pending');
+        break;
+      case 4:
         await getBookingsByStatus(status: 'cancelled');
         break;
       default:

@@ -37,12 +37,12 @@ class BookingModel {
       serviceId: map['service_id'],
       providerId: map['provider_id'],
       providerName: map['provider_name'],
-      userName: map['user_name'],
+      userName: map['username'],
       serviceTitel: map['service_title'],
       date: map['date'] != null ? DateTime.parse(map['date']) : null,
       time: map['time'],
       address: map['address'],
-      imageUrl: map['image_url'],
+      imageUrl: map['photo_url'],
       price: map['price'],
     );
   }
