@@ -5,14 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_cashed_image.dart';
-import 'package:taskify/features/bookings/screens/booking_service.dart';
 import 'package:taskify/features/services/cubit/services_cubit.dart';
 import 'package:taskify/features/services/cubit/services_state.dart';
 import 'package:taskify/features/services/data/categories_model.dart';
 
 class ServicesScreen extends StatefulWidget {
   final CategoriesModel category;
-  ServicesScreen({super.key, required this.category});
+  const ServicesScreen({super.key, required this.category});
 
   @override
   State<ServicesScreen> createState() => _ServicesScreenState();
@@ -143,14 +142,10 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                           alignment: Alignment.centerLeft,
                                         ),
                                         onPressed: () {
-                                          Navigator.of(
+                                          Navigator.pushNamed(
                                             context,
-                                            rootNavigator: true,
-                                          ).push(
-                                            MaterialPageRoute(
-                                              builder:
-                                                  (context) => BookingService(),
-                                            ),
+                                            bookserviceRoute,
+                                            arguments: state.services[index],
                                           );
                                         },
                                         child: Row(

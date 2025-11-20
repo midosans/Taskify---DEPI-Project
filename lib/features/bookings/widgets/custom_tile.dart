@@ -32,7 +32,7 @@ class CustomTile extends StatelessWidget {
                         style: TextStyle(color: AppColors.lightprimarycolor),
                       ),
                     Text(
-                      service.serviceTitel ?? 'Unnamed Service',
+                      service.serviceTitle ?? 'Unnamed Service',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.sp,

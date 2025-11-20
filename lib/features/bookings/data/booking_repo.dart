@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:taskify/core/api_helper.dart';
 import 'package:taskify/features/bookings/data/booking_model.dart';
 
 class BookingRepo {
   final SupabaseClient _supabase = Supabase.instance.client;
-
 
   Future<List<BookingModel>> getAllBookings() async {
     final user = _supabase.auth.currentUser;
@@ -25,7 +27,6 @@ class BookingRepo {
     }
   }
 
-  
   Future<List<BookingModel>> getBookingsByStatus({
     required String status,
   }) async {
@@ -48,23 +49,84 @@ class BookingRepo {
     }
   }
 
+ Future<void> createBooking({
+  required String serviceId,
+  required String providerId,
+  required String providerName,
+  required String serviceTitle,
+  required DateTime date,
+  required DateTime time,
+  required String address,
+  required File photo,
+}) async {
+  final user = _supabase.auth.currentUser;
+  if (user == null) throw Exception("Not logged in");
 
-  Future<void> updateBookingStatus({
-    required String bookingId,
-    required String newStatus,
-  }) async {
-    try {
-      final response = await _supabase
-          .from('bookings')
-          .update({'status': newStatus})
-          .eq('id', bookingId);
+  // Fetch username
+  final profileResponse = await _supabase
+      .from(profileTable)
+      .select('username')
+      .eq('id', user.id)
+      .maybeSingle();
 
-      if (response == null) {
-        throw Exception("Failed to update booking");
-      }
-    } catch (e) {
-      debugPrint('Error updating booking status: $e');
-      rethrow;
-    }
+  if (profileResponse == null) {
+    throw Exception("User profile not found");
   }
+
+  final userName = profileResponse['username'] ?? '';
+
+  try {
+    // -----------------------------------
+    // 1️⃣ Upload Photo (optional)
+    // -----------------------------------
+    String? photoUrl;
+    if (photo.path.isNotEmpty) {
+      final fileName = "${user.id}_${DateTime.now().millisecondsSinceEpoch}.jpg";
+      await _supabase.storage.from(serviceBucket).upload(fileName, photo);
+      photoUrl = _supabase.storage.from(serviceBucket).getPublicUrl(fileName);
+    }
+
+    // -----------------------------------
+    // 2️⃣ Convert Date & Time for Supabase
+    // -----------------------------------
+
+    // Supabase DATE → "YYYY-MM-DD"
+    final supabaseDate =
+        "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+
+    // Supabase TIME → "HH:MM:SS"
+    final supabaseTime =
+        "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}:00";
+
+    // -----------------------------------
+    // 3️⃣ Insert Row
+    // -----------------------------------
+     await _supabase
+        .from('bookings')
+        .insert({
+          'user_id': user.id,
+          'username': userName,
+          'provider_name': providerName,
+          'service_id': serviceId,
+          'service_title': serviceTitle,
+          'provider_id': providerId,
+
+          // ✔ Correct formats for Supabase columns
+          'date': supabaseDate,
+          'time': supabaseTime,
+
+          'address': address,
+          'photo_url': photoUrl,
+          'status': 'pending',
+        })
+        .select()
+        .single();
+
+    // return BookingModel.fromMap(inserted);
+  } catch (e) {
+    debugPrint('Error creating booking: $e');
+    rethrow;
+  }
+}
+
 }

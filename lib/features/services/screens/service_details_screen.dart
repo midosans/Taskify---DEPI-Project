@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_app_button.dart';
 import 'package:taskify/core/widgets/custom_cashed_image.dart';
-import 'package:taskify/features/bookings/screens/booking_service.dart';
 import 'package:taskify/features/services/data/services_model.dart';
 import 'package:taskify/features/services/widgets/launcher_helper.dart';
 
@@ -177,10 +177,10 @@ class ServiceDetailsScreen extends StatelessWidget {
                   ),
                   CustomAppButton(
                     onPressed: () {
-                      Navigator.of(context, rootNavigator: true).push(
-                        MaterialPageRoute(
-                          builder: (context) => BookingService(),
-                        ),
+                      Navigator.pushNamed(
+                        context,
+                        bookserviceRoute,
+                        arguments: servicesModel,
                       );
                     },
                     text: 'book_now'.tr(),

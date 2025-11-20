@@ -84,7 +84,6 @@
   "others": "Others",
   "edit_profile": "Edit Profile",
   "edit_profile_subtitle": "Edit your details",
-  
   "language": "Language",
   "contact_us": "Contact Us",
   "about_app": "About App",
@@ -132,6 +131,6 @@
   "passwords_do_not_match": "Passwords do not match. Please try again.",
   "password_reset_success": "Password reset successfully! You can now login with your new password.",
   "back_to_verify_code": "Back to Verify Code",
-  "code_resent": "Verification code has been resent to your email"
-
+  "code_resent": "Verification code has been resent to your email",
+  "no_services_found": "No services found."
 }

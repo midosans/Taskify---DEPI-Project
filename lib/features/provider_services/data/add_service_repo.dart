@@ -14,11 +14,12 @@ class AddServiceRepo {
 
     if (user == null) throw Exception("Not logged in");
 
-    final profileResponse = await supabase
-        .from(profileTable)
-        .select('username, role')
-        .eq('id', user.id)
-        .maybeSingle();
+    final profileResponse =
+        await supabase
+            .from(profileTable)
+            .select('username, role')
+            .eq('id', user.id)
+            .maybeSingle();
 
     if (profileResponse == null) {
       throw Exception("User profile not found");
@@ -29,7 +30,8 @@ class AddServiceRepo {
 
     String? photoUrl;
     if (photo.path.isNotEmpty) {
-      final fileName = "${user.id}_${DateTime.now().millisecondsSinceEpoch}.jpg";
+      final fileName =
+          "${user.id}_${DateTime.now().millisecondsSinceEpoch}.jpg";
       await supabase.storage.from(serviceBucket).upload(fileName, photo);
       photoUrl = supabase.storage.from(serviceBucket).getPublicUrl(fileName);
     }
@@ -37,7 +39,7 @@ class AddServiceRepo {
     await supabase.from('services').insert({
       'provider_id': user.id,
       'provider_name': providerName,
-      'category': providerRole, 
+      'category': providerRole,
       'title': title,
       'description': description,
       'price': price,

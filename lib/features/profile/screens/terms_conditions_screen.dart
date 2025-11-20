@@ -14,7 +14,10 @@ class TermsConditionsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: backgroundColor,
         elevation: 0,
-        iconTheme: const IconThemeData(color: AppColors.primaryColor),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, color: AppColors.primaryColor),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(
           'terms_conditions'.tr(),
           style: TextStyle(
