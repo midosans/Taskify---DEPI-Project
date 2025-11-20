@@ -54,13 +54,14 @@ class ProviderServicesNavigator extends StatelessWidget {
                 ),
           );
         }else if (settings.name == updateServiceRoute) {
+          final service = settings.arguments as ProviderServicesModel;
           return MaterialPageRoute(
             builder:
                 (context) => BlocProvider(
                   create:
                       (context) =>
                           UpdateServiceCubit(updateServiceRepo: UpdateServiceRepo()),
-                  child: ProviderUpdateServiceScreen(),
+                  child: ProviderUpdateServiceScreen(servicesModel: service,),
                 ),
           );
         }

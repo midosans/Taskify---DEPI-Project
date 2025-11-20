@@ -112,8 +112,10 @@ class CustomTile extends StatelessWidget {
     switch (status) {
       case 'completed':
         return Colors.green;
-      case 'upcoming':
+      case 'accepted':
         return Colors.blue;
+      case 'pending':
+        return Colors.orange;
       case 'cancelled':
         return Colors.red;
       default:

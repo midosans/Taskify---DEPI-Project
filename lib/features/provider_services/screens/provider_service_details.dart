@@ -2,9 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:taskify/app_services/dialog_extension.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
 import 'package:taskify/core/widgets/custom_cashed_image.dart';
+import 'package:taskify/core/widgets/custom_confirm_dialog.dart';
+import 'package:taskify/core/widgets/custom_notify_dialog.dart';
 import 'package:taskify/features/provider_services/cubit/delete_service_cubit.dart';
 import 'package:taskify/features/provider_services/cubit/delete_service_state.dart';
 import 'package:taskify/features/provider_services/data/provider_services_model.dart';
@@ -17,6 +21,7 @@ class ProviderServiceDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
+    final cubit = context.read<DeleteServiceCubit>();
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
@@ -42,9 +47,12 @@ class ProviderServiceDetails extends StatelessWidget {
       ),
 
       body: BlocListener<DeleteServiceCubit, DeleteServiceState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is DeleteServiceLoading) {
-            // Show loading indicator using root navigator
+            if (Navigator.of(context, rootNavigator: true).canPop()) {
+              Navigator.of(context, rootNavigator: true).pop();
+            }
+
             showDialog(
               context: context,
               barrierDismissible: false,
@@ -53,27 +61,41 @@ class ProviderServiceDetails extends StatelessWidget {
             );
           } else if (state is DeleteServiceSuccess) {
             if (Navigator.of(context, rootNavigator: true).canPop()) {
-              Navigator.of(context, rootNavigator: true).pop(); // close dialog
+              Navigator.of(context, rootNavigator: true).pop();
             }
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('service_deleted_successfully'.tr())),
-            );
-
-            Future.delayed(const Duration(milliseconds: 600), () {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder:
+                  (_) => CustomNotifyDialog(
+                    title: "Service Deleted",
+                    subtitle: "Your service has been successfully removed.",
+                    buttontext: "OK",
+                    icon: Icons.check_circle,
+                  ),
+            ).then((_) {
               if (context.mounted) {
-                Navigator.of(context).pop(true); // 👈 return true on success
+                Navigator.of(context).pop(true);
               }
             });
           } else if (state is DeleteServiceFailure) {
-            // Ensure the loading dialog is closed first
             if (Navigator.of(context, rootNavigator: true).canPop()) {
               Navigator.of(context, rootNavigator: true).pop();
             }
 
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+            if (!context.mounted) return;
+
+            showDialog(
+              context: context,
+              builder:
+                  (_) => CustomNotifyDialog(
+                    title: "Error",
+                    subtitle: state.errorMessage,
+                    buttontext: "OK",
+                    icon: Icons.error,
+                  ),
+            );
           }
         },
         child: Column(
@@ -138,12 +160,11 @@ class ProviderServiceDetails extends StatelessWidget {
                       color: AppColors.primaryColor,
                       fontColor: AppColors.whiteTextColor,
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => ProviderAddServiceScreen(),
-                        //   ),
-                        // );
+                        Navigator.pushNamed(
+                          context,
+                          updateServiceRoute,
+                          arguments: servicesModel,
+                        );
                       },
                     ),
                     SizedBox(height: 12.h),
@@ -153,8 +174,21 @@ class ProviderServiceDetails extends StatelessWidget {
                       color: AppColors.deleteColor,
                       fontColor: AppColors.whiteTextColor,
                       onPressed: () {
-                        context.read<DeleteServiceCubit>().deleteService(
-                          id: servicesModel.id!,
+                        context.showBlocDialog(
+                          cubit: cubit,
+                          dialog: CustomConfirmDialog(
+                            title: "Delete Service",
+                            subtitle:
+                                "Are you sure you want to Delete ${servicesModel.title}?",
+                            buttontext: "Delete",
+                            onConfirm: () {
+                              Navigator.of(
+                                context,
+                                rootNavigator: true,
+                              ).pop(); // closes the dialog
+                              cubit.deleteService(id: servicesModel.id!);
+                            },
+                          ),
                         );
                       },
                     ),

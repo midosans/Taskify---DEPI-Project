@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:taskify/app_services/dialog_extension.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/widgets/custom_TextFormField.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
+import 'package:taskify/core/widgets/custom_confirm_dialog.dart';
+import 'package:taskify/core/widgets/custom_notify_dialog.dart';
 import 'package:taskify/core/widgets/spacing_widget.dart';
 import 'package:taskify/features/bookings/widgets/custom_dotted_border.dart';
 import 'package:taskify/features/provider_services/cubit/add_service_cubit.dart';
@@ -21,15 +24,17 @@ class ProviderAddServiceScreen extends StatefulWidget {
 }
 
 class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
+  final nameController = TextEditingController();
+  final descController = TextEditingController();
+  final priceController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   bool _submitted = false;
-  String? title, description;
-  double? price;
   XFile? pickedimg;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
+    final cubit = context.read<AddServiceCubit>();
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
@@ -59,44 +64,55 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
         child: BlocListener<AddServiceCubit, AddServiceState>(
           listener: (context, state) async {
             if (state is AddServiceLoading) {
+              if (Navigator.of(context, rootNavigator: true).canPop()) {
+                Navigator.of(context, rootNavigator: true).pop();
+              }
+
               showDialog(
                 context: context,
                 barrierDismissible: false,
                 useRootNavigator: true,
-                builder: (_) =>
-                    const Center(child: CircularProgressIndicator()),
+                builder:
+                    (_) => const Center(child: CircularProgressIndicator()),
               );
             } else if (state is AddServiceSuccess) {
-              //  Close the loading dialog
               if (Navigator.of(context, rootNavigator: true).canPop()) {
                 Navigator.of(context, rootNavigator: true).pop();
               }
 
-              //  Optional: Small delay before popping back
-              await Future.delayed(const Duration(milliseconds: 300));
+              if (!context.mounted) return;
 
-              //  Return `true` to refresh previous screen
-              if (context.mounted) {
-                Navigator.of(context).pop(true);
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Service added successfully"),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-              }
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder:
+                    (_) => CustomNotifyDialog(
+                      title: "Service Added",
+                      subtitle: "Your service was added successfully.",
+                      buttontext: "OK",
+                      icon: Icons.check_circle,
+                    ),
+              ).then((_) {
+                if (context.mounted) {
+                  Navigator.of(context).pop(true);
+                }
+              });
             } else if (state is AddServiceFailure) {
-              //  Close loading dialog safely
               if (Navigator.of(context, rootNavigator: true).canPop()) {
                 Navigator.of(context, rootNavigator: true).pop();
               }
 
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage),
-                  backgroundColor: Colors.red,
-                ),
+              if (!context.mounted) return;
+
+              showDialog(
+                context: context,
+                builder:
+                    (_) => CustomNotifyDialog(
+                      title: "Error",
+                      subtitle: state.errorMessage,
+                      buttontext: "OK",
+                      icon: Icons.error,
+                    ),
               );
             }
           },
@@ -104,9 +120,10 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
             height: size.height,
             child: Form(
               key: formKey,
-              autovalidateMode: _submitted
-                  ? AutovalidateMode.always
-                  : AutovalidateMode.disabled,
+              autovalidateMode:
+                  _submitted
+                      ? AutovalidateMode.always
+                      : AutovalidateMode.disabled,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -127,12 +144,8 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
                           HeightSpace(8),
                           CustomTextFormField(
                             hintText: "service_name".tr(),
+                            controller: nameController,
                             prefixIcon: Icons.build,
-                            onChanged: (value) => title = value,
-                            validator: (value) =>
-                                (value == null || value.isEmpty)
-                                    ? 'Required field'
-                                    : null,
                           ),
                           HeightSpace(12),
                           Text(
@@ -146,11 +159,7 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
                           HeightSpace(8),
                           CustomTextFormField(
                             maxLines: 4,
-                            onChanged: (value) => description = value,
-                            validator: (value) =>
-                                (value == null || value.isEmpty)
-                                    ? 'Required field'
-                                    : null,
+                            controller: descController,
                           ),
                           HeightSpace(12),
                           Text(
@@ -164,14 +173,9 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
                           HeightSpace(8),
                           CustomTextFormField(
                             hintText: "price".tr(),
+                            controller: priceController,
                             prefixIcon: Icons.attach_money,
-                            onChanged: (value) =>
-                                price = double.tryParse(value),
                             keyboardType: TextInputType.number,
-                            validator: (value) =>
-                                (value == null || double.tryParse(value) == null)
-                                    ? 'Enter a valid price'
-                                    : null,
                           ),
                           HeightSpace(12),
                           Text(
@@ -193,21 +197,22 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
 
                                 setState(() => pickedimg = pickedFile);
                               },
-                              child: pickedimg == null
-                                  ? CustomDottedBorder(
-                                      children: [
-                                        Text(
-                                          "upload_media".tr(),
-                                          style: TextStyle(
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.bold,
+                              child:
+                                  pickedimg == null
+                                      ? CustomDottedBorder(
+                                        children: [
+                                          Text(
+                                            "upload_media".tr(),
+                                            style: TextStyle(
+                                              fontSize: 18.sp,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                        ),
-                                        SizedBox(height: 10.h),
-                                        Text("upload_note".tr()),
-                                      ],
-                                    )
-                                  : Image.file(File(pickedimg!.path)),
+                                          SizedBox(height: 10.h),
+                                          Text("upload_note".tr()),
+                                        ],
+                                      )
+                                      : Image.file(File(pickedimg!.path)),
                             ),
                           ),
                         ],
@@ -221,13 +226,30 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
                     fontColor: AppColors.whiteTextColor,
                     onPressed: () {
                       setState(() => _submitted = true);
-                      if (formKey.currentState!.validate() && pickedimg != null) {
-                        context.read<AddServiceCubit>().addService(
-                              title: title!,
-                              description: description!,
-                              price: price!,
-                              photo: File(pickedimg!.path),
-                            );
+                      if (formKey.currentState!.validate() &&
+                          pickedimg != null) {
+                        context.showBlocDialog(
+                          cubit: cubit,
+                          dialog: CustomConfirmDialog(
+                            title: "Add Service",
+                            subtitle:
+                                "Are you sure you want to Add ${nameController.text}",
+                            buttontext: "Add",
+                            onConfirm: () {
+                              Navigator.of(
+                                context,
+                                rootNavigator: true,
+                              ).pop(); // closes the dialog
+
+                              context.read<AddServiceCubit>().addService(
+                                title: nameController.text,
+                                description: descController.text,
+                                price: double.parse(priceController.text),
+                                photo: File(pickedimg!.path),
+                              );
+                            },
+                          ),
+                        );
                       } else if (pickedimg == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

@@ -10,7 +10,7 @@ import 'package:taskify/features/home/cubit/home_cubit.dart';
 import 'package:taskify/features/home/data/home_repo.dart';
 import 'package:taskify/features/home/screens/home_screen.dart';
 import 'package:taskify/features/profile/widgets/profile_navigator.dart';
-import 'package:taskify/features/provider_home/screens/provider_home_screen.dart';
+import 'package:taskify/features/provider_home/widgets/provider_home_navigator.dart';
 import 'package:taskify/features/provider_services/widgets/provider_services_navigator.dart';
 import 'package:taskify/features/services/widgets/services_navigator.dart';
 
@@ -74,7 +74,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
       ];
     } else {
       screens = [
-        ProviderHomeScreen(),
+        ProviderHomeNavigator(),
         const ProviderServicesNavigator(),
         const ProfileNavigator(),
       ];
