@@ -114,7 +114,7 @@ class ProviderBookingDetails extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          bookingdeatils.serviceTitel ?? 'Unnamed Service',
+                          bookingdeatils.serviceTitle ?? 'Unnamed Service',
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w700,
@@ -179,7 +179,7 @@ class ProviderBookingDetails extends StatelessWidget {
                       child: CustomTextColumn(
                         title: "service".tr(),
                         subtitle:
-                            bookingdeatils.serviceTitel ?? 'Unnamed Service',
+                            bookingdeatils.serviceTitle ?? 'Unnamed Service',
                       ),
                     ),
                     SizedBox(width: 16.w),
@@ -259,7 +259,7 @@ class ProviderBookingDetails extends StatelessWidget {
                   ),
                 ),
                 title: Text(
-                  "contact_provider".tr(),
+                  "contact_client".tr(),
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -283,7 +283,7 @@ class ProviderBookingDetails extends StatelessWidget {
                             dialog: CustomConfirmDialog(
                               title: "finish Service",
                               subtitle:
-                                  "Are you sure you want to finish ${bookingdeatils.serviceTitel}?",
+                                  "Are you sure you want to finish ${bookingdeatils.serviceTitle}?",
                               buttontext: "Finish",
                               onConfirm: () {
                                 Navigator.of(
@@ -292,7 +292,7 @@ class ProviderBookingDetails extends StatelessWidget {
                                 ).pop(); // closes the dialog
                                 cubit.updateBoookingStatus(
                                   status: "completed",
-                                  bookingId: bookingdeatils.id,
+                                  bookingId: bookingdeatils.id!,
                                 );
                               },
                             ),
@@ -314,7 +314,7 @@ class ProviderBookingDetails extends StatelessWidget {
                             dialog: CustomConfirmDialog(
                               title: "accept Service",
                               subtitle:
-                                  "Are you sure you want to Accept ${bookingdeatils.serviceTitel}?",
+                                  "Are you sure you want to Accept ${bookingdeatils.serviceTitle}?",
                               buttontext: "Accept",
                               onConfirm: () {
                                 Navigator.of(
@@ -323,7 +323,7 @@ class ProviderBookingDetails extends StatelessWidget {
                                 ).pop(); // closes the dialog
                                 cubit.updateBoookingStatus(
                                   status: "accepted",
-                                  bookingId: bookingdeatils.id,
+                                  bookingId: bookingdeatils.id!,
                                 );
                               },
                             ),
@@ -341,7 +341,7 @@ class ProviderBookingDetails extends StatelessWidget {
                             dialog: CustomConfirmDialog(
                               title: "Cancel Service",
                               subtitle:
-                                  "Are you sure you want to Cancel ${bookingdeatils.serviceTitel}?",
+                                  "Are you sure you want to Cancel ${bookingdeatils.serviceTitle}?",
                               buttontext: "Decline",
                               onConfirm: () {
                                 Navigator.of(
@@ -350,7 +350,7 @@ class ProviderBookingDetails extends StatelessWidget {
                                 ).pop(); // closes the dialog
                                 cubit.updateBoookingStatus(
                                   status: "cancelled",
-                                  bookingId: bookingdeatils.id,
+                                  bookingId: bookingdeatils.id!,
                                 );
                               },
                             ),

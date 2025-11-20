@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
-import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_app_button.dart';
 import 'package:taskify/core/widgets/custom_cashed_image.dart';
 import 'package:taskify/features/bookings/data/booking_model.dart';
@@ -219,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           final booking = state.bookings[index];
                           final imageUrl = booking.imageUrl ?? '';
                           final titleText =
-                              booking.serviceTitel ??
+                              booking.serviceTitle ??
                               booking.providerName ??
                               '';
 

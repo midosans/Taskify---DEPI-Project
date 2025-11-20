@@ -126,14 +126,14 @@ class _AuthLoginState extends State<AuthLogin> {
                               }
                             },
                           ),
-                          SizedBox(height: 10.h),
-                          CustomButton(
-                            text: "sign_up_with_google".tr(),
-                            size: Size(size.width.w, 48.h),
-                            color: AppColors.secondaryBottomColor,
-                            fontColor: AppColors.blackTextColor,
-                            iconPath: 'assets/svgs/google.svg',
-                          ),
+                          // SizedBox(height: 10.h),
+                          // CustomButton(
+                          //   text: "sign_up_with_google".tr(),
+                          //   size: Size(size.width.w, 48.h),
+                          //   color: AppColors.secondaryBottomColor,
+                          //   fontColor: AppColors.blackTextColor,
+                          //   iconPath: 'assets/svgs/google.svg',
+                          // ),
                           SizedBox(height: 100.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

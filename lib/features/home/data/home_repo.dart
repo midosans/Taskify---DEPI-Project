@@ -34,7 +34,7 @@ class HomeRepo {
           .from(bookingsTable)
           .select()
           .eq('user_id', user.id)
-          .eq('status', 'upcoming')
+          .eq('status', 'pending')
           .order('date', ascending: true);
       final List<BookingModel> upcomingBookings =
           (response as List)
