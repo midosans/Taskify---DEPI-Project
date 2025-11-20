@@ -1,14 +1,15 @@
 class BookingModel {
-  final String id;
+  final String? id;
   final String userId;
   final String status;
   final String? serviceId;
   final String? providerId;
   final String? providerName;
   final String? userName;
-  final String? serviceTitel;
-  final DateTime? date;
-  final String? time;
+  final String? serviceTitle;
+
+  final DateTime? date;   // keep this 
+  final String? time;     // <-- FIXED: time is string
   final String? address;
   final String? imageUrl;
   final double? price;
@@ -21,7 +22,7 @@ class BookingModel {
     this.providerId,
     this.providerName,
     this.userName,
-    this.serviceTitel,
+    this.serviceTitle,
     this.date,
     this.time,
     this.address,
@@ -37,31 +38,13 @@ class BookingModel {
       serviceId: map['service_id'],
       providerId: map['provider_id'],
       providerName: map['provider_name'],
-      userName: map['user_name'],
-      serviceTitel: map['service_title'],
+      userName: map['username'],
+      serviceTitle: map['service_title'],
       date: map['date'] != null ? DateTime.parse(map['date']) : null,
-      time: map['time'],
+      time: map['time'],   // now correct type
       address: map['address'],
-      imageUrl: map['image_url'],
+      imageUrl: map['photo_url'],
       price: map['price'],
     );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'user_id': userId,
-      'status': status,
-      'service_id': serviceId,
-      'provider_id': providerId,
-      'provider_name': providerName,
-      'user_name': userName,
-      'service_title': serviceTitel,
-      'date': date?.toIso8601String(),
-      'time': time,
-      'address': address,
-      'image_url': imageUrl,
-      'price': price,
-    };
   }
 }

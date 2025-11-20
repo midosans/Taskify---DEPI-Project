@@ -35,8 +35,6 @@ class BookingsCubit extends Cubit<BookingState> {
     }
   }
 
-  
-
   Future<void> fetchForTab(int tabIndex) async {
     switch (tabIndex) {
       case 0:

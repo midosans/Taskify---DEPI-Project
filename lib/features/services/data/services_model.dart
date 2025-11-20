@@ -25,8 +25,8 @@ class ServicesModel {
   factory ServicesModel.fromJson(Map<String, dynamic> json) {
     return ServicesModel(
       id: json['id'],
-      providerid: json['providerid'],
-      providername: json['providername'],
+      providerid: json['provider_id'],
+      providername: json['provider_name'],
       category: json['category'],
       title: json['title'],
       description: json['description'],
