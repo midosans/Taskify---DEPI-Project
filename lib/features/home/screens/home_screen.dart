@@ -67,201 +67,184 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: size.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //Carousel
-              CarouselSlider(
-                options: CarouselOptions(
-                  autoPlay: true,
-                  autoPlayInterval: const Duration(seconds: 2),
-                  height: 160.h,
-                  viewportFraction: 1,
-                  disableCenter: true,
-                  onPageChanged: (index, reason) {
-                    setState(() => pageIndex = index);
-                  },
-                ),
-                items: List.generate(images.length, (index) {
-                  return Stack(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 8.w),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10.r),
-                          child: Image.asset(
-                            images[index],
-                            fit: BoxFit.cover,
-                            width: size.width,
-                            height: size.height * 0.3,
-                          ),
+      body: SizedBox(
+        width: size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //Carousel
+            CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: true,
+                autoPlayInterval: const Duration(seconds: 2),
+                height: 160.h,
+                viewportFraction: 1,
+                disableCenter: true,
+                onPageChanged: (index, reason) {
+                  setState(() => pageIndex = index);
+                },
+              ),
+              items: List.generate(images.length, (index) {
+                return Stack(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 8.w),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.r),
+                        child: Image.asset(
+                          images[index],
+                          fit: BoxFit.cover,
+                          width: size.width,
+                          height: size.height * 0.3,
                         ),
                       ),
-                      Positioned(
-                        bottom: 10.h,
-                        left: 0,
-                        right: 0,
-                        child: DotsIndicator(
-                          dotsCount: images.length,
-                          position: pageIndex.toDouble(),
-                          decorator: DotsDecorator(
-                            spacing: EdgeInsets.symmetric(horizontal: 4.w),
-                            size: Size(24.w, 6.h),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            activeSize: Size(24.w, 6.h),
-                            activeShape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            color: Colors.grey,
-                            activeColor: AppColors.backgroundColor,
+                    ),
+                    Positioned(
+                      bottom: 10.h,
+                      left: 0,
+                      right: 0,
+                      child: DotsIndicator(
+                        dotsCount: images.length,
+                        position: pageIndex.toDouble(),
+                        decorator: DotsDecorator(
+                          spacing: EdgeInsets.symmetric(horizontal: 4.w),
+                          size: Size(24.w, 6.h),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.r),
                           ),
+                          activeSize: Size(24.w, 6.h),
+                          activeShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          color: Colors.grey,
+                          activeColor: AppColors.backgroundColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }),
+            ),
+            SizedBox(height: 10.h),
+            // Services Header
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'services'.tr(),
+                        style: TextStyle(
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.blackTextColor,
+                        ),
+                      ),
+                      Text(
+                        'choose_service'.tr(),
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: AppColors.greyTextColor,
                         ),
                       ),
                     ],
+                  ),
+                  const Spacer(),
+                  CustomAppButton(
+                    onPressed: widget.onGoToServices,
+                    text: 'view_all',
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10.h),
+            //Home Grid (pass onOpenTask)
+            HomeGridView(onOpenTask: widget.onOpenTask),
+            SizedBox(height: 10.h),
+            //Bookings Header
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Row(
+                children: [
+                  Text(
+                    'bookings'.tr(),
+                    style: TextStyle(
+                      fontSize: 22.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.blackTextColor,
+                    ),
+                  ),
+                  const Spacer(),
+                  CustomAppButton(
+                    onPressed: widget.onGoToBookings,
+                    text: 'view_all',
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10.h),
+            // Bookings List (scrolls independently)
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                if (state is HomeLoading || state is HomeInitial) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is HomeFailure) {
+                  return Center(
+                    child: Text(
+                      state.errorMessage,
+                      style: TextStyle(fontSize: 16.sp, color: Colors.red),
+                    ),
                   );
-                }),
-              ),
-              SizedBox(height: 10.h),
-
-              // Services Header
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'services'.tr(),
-                          style: TextStyle(
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.blackTextColor,
-                          ),
-                        ),
-                        Text(
-                          'choose_service'.tr(),
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.greyTextColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    CustomAppButton(
-                      onPressed: widget.onGoToServices,
-                      text: 'view_all',
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 10.h),
-
-              //Home Grid (pass onOpenTask)
-              HomeGridView(onOpenTask: widget.onOpenTask),
-
-              SizedBox(height: 10.h),
-
-              //Bookings Header
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Row(
-                  children: [
-                    Text(
-                      'bookings'.tr(),
-                      style: TextStyle(
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.blackTextColor,
-                      ),
-                    ),
-                    const Spacer(),
-                    CustomAppButton(
-                      onPressed: widget.onGoToBookings,
-                      text: 'view_all',
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 10.h),
-
-              // Bookings List (scrolls independently)
-              BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) {
-                  if (state is HomeLoading || state is HomeInitial) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is HomeFailure) {
-                    return Center(
-                      child: Text(
-                        state.errorMessage,
-                        style: TextStyle(fontSize: 16.sp, color: Colors.red),
-                      ),
-                    );
-                  } else if (state is HomeSuccess) {
-                    if (state.bookings.isEmpty) {
-                      return NoBookingsCard(
-                        onExploreServices: widget.onGoToServices,
-                      );
-                    }
-
-                    return SizedBox(
-                      height: 280.h, // scrollable area height
-                      child: ListView.builder(
-                        itemCount: state.bookings.length,
-                        itemBuilder: (context, index) {
-                          final booking = state.bookings[index];
-                          final imageUrl = booking.imageUrl ?? '';
-                          final titleText =
-                              booking.serviceTitle ??
-                              booking.providerName ??
-                              '';
-
-                          return InkWell(
-                            onTap: () => widget.onOpenBook(booking),
-                            child: ListTile(
-                              leading:
-                                  imageUrl.isNotEmpty
-                                      ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                          8.r,
-                                        ),
-                                        child: CustomCashedImage(
-                                          url: imageUrl,
-                                          size: Size(50.w, 50.h),
-                                        ),
-                                      )
-                                      : CircleAvatar(
-                                        radius: 25.r,
-                                        backgroundColor:
-                                            AppColors.secondaryColor,
-                                        child: Icon(
-                                          Icons.calendar_today,
-                                          size: 18.sp,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                              title: Text(titleText),
-                              subtitle: Text(booking.status),
-                            ),
-                          );
-                        },
-                      ),
+                } else if (state is HomeSuccess) {
+                  if (state.bookings.isEmpty) {
+                    return NoBookingsCard(
+                      onExploreServices: widget.onGoToServices,
                     );
                   }
-
-                  return const SizedBox.shrink();
-                },
-              ),
-
-              SizedBox(height: 20.h),
-            ],
-          ),
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: state.bookings.length,
+                      itemBuilder: (context, index) {
+                        final booking = state.bookings[index];
+                        final imageUrl = booking.imageUrl ?? '';
+                        final titleText =
+                            booking.serviceTitle ?? booking.providerName ?? '';
+                        return InkWell(
+                          onTap: () => widget.onOpenBook(booking),
+                          child: ListTile(
+                            leading:
+                                imageUrl.isNotEmpty
+                                    ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      child: CustomCashedImage(
+                                        url: imageUrl,
+                                        size: Size(50.w, 50.h),
+                                      ),
+                                    )
+                                    : CircleAvatar(
+                                      radius: 25.r,
+                                      backgroundColor: AppColors.secondaryColor,
+                                      child: Icon(
+                                        Icons.calendar_today,
+                                        size: 18.sp,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                            title: Text(titleText),
+                            subtitle: Text(booking.status),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+            SizedBox(height: 20.h),
+          ],
         ),
       ),
     );

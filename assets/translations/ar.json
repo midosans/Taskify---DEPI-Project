@@ -190,3 +190,7 @@
   "profile_updated_subtitle": "تم حفظ التغييرات بنجاح.",
   "ok_button": "حسناً"
 }
+  "call_app_error": "تعذر فتح تطبيق الاتصال",
+  "provider_number_unavailable": "رقم هاتف المزود غير متوفر",
+  "update_Service" : "تحديث الخدمة"
+}

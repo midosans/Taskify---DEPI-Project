@@ -190,4 +190,7 @@
   "profile_updated_subtitle": "Your changes have been saved successfully.",
   "ok_button": "OK"
   
+  "call_app_error": "Failed to open the call app",
+  "provider_number_unavailable": "Provider's phone number is unavailable",
+  "update_Service" : "Update Service"
 }
