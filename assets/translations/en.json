@@ -134,5 +134,6 @@
   "code_resent": "Verification code has been resent to your email",
   "no_services_found": "No services found.",
   "call_app_error": "Failed to open the call app",
-  "provider_number_unavailable": "Provider's phone number is unavailable"
+  "provider_number_unavailable": "Provider's phone number is unavailable",
+  "update_Service" : "Update Service"
 }

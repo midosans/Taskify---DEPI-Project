@@ -65,7 +65,7 @@ class _ProviderUpdateServiceScreenState
         surfaceTintColor: AppColors.backgroundColor,
         centerTitle: true,
         title: Text(
-          'update_service'.tr(),
+          'update_Service'.tr(),
           style: TextStyle(
             fontSize: 22.sp,
             fontWeight: FontWeight.bold,

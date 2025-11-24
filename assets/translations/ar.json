@@ -134,5 +134,6 @@
   "code_resent": "تم إعادة إرسال رمز التحقق إلى بريدك الإلكتروني",
   "no_services_found": "لم يتم العثور على خدمات.",
   "call_app_error": "تعذر فتح تطبيق الاتصال",
-  "provider_number_unavailable": "رقم هاتف المزود غير متوفر"
+  "provider_number_unavailable": "رقم هاتف المزود غير متوفر",
+  "update_Service" : "تحديث الخدمة"
 }

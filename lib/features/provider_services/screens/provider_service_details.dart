@@ -26,11 +26,25 @@ class ProviderServiceDetails extends StatefulWidget {
 class _ProviderServiceDetailsState extends State<ProviderServiceDetails> {
   Color _iconColor = Colors.white;
   Color _titleColor = Colors.white;
+  bool _collapsed = false;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _updateAppBarColor();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    final collapsePoint = 250.h - kToolbarHeight;
+    final isCollapsed = _scrollController.offset > collapsePoint;
+
+    if (isCollapsed != _collapsed) {
+      setState(() {
+        _collapsed = isCollapsed;
+      });
+    }
   }
 
   Future<void> _updateAppBarColor() async {
@@ -41,24 +55,21 @@ class _ProviderServiceDetailsState extends State<ProviderServiceDetails> {
       );
 
       final dominant = paletteGenerator.dominantColor?.color ?? Colors.black;
-      // إذا dominant فاتح نستخدم أسود للـ AppBar
-      if (dominant.computeLuminance() > 0.6) {
+      if (mounted) {
         setState(() {
-          _iconColor = Colors.black;
-          _titleColor = Colors.black;
+          _iconColor =
+              dominant.computeLuminance() > 0.6 ? Colors.black : Colors.white;
+          _titleColor =
+              dominant.computeLuminance() > 0.6 ? Colors.black : Colors.white;
         });
-      } else {
+      }
+    } catch (_) {
+      if (mounted) {
         setState(() {
           _iconColor = Colors.white;
           _titleColor = Colors.white;
         });
       }
-    } catch (_) {
-      // fallback
-      setState(() {
-        _iconColor = Colors.white;
-        _titleColor = Colors.white;
-      });
     }
   }
 
@@ -117,39 +128,36 @@ class _ProviderServiceDetailsState extends State<ProviderServiceDetails> {
         child: Stack(
           children: [
             CustomScrollView(
+              controller: _scrollController,
               slivers: [
                 SliverAppBar(
                   expandedHeight: 250.h,
                   pinned: true,
                   centerTitle: true,
-                  backgroundColor: AppColors.backgroundColor,
                   elevation: 0,
+                  backgroundColor: AppColors.backgroundColor,
+                  surfaceTintColor: AppColors.backgroundColor,
                   leading: IconButton(
                     icon: Icon(
                       Icons.arrow_back_ios_new,
-                      color: _iconColor,
+                      color: _collapsed ? Colors.black : _iconColor,
                       size: 22.sp,
                     ),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                   title: AnimatedDefaultTextStyle(
-                    duration: Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 200),
                     style: TextStyle(
-                      color: _titleColor,
+                      color: _collapsed ? Colors.black : _titleColor,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
                     child: Text(widget.servicesModel.title ?? ''),
                   ),
                   flexibleSpace: FlexibleSpaceBar(
-                    background: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        CustomCashedImage(
-                          url: widget.servicesModel.photo!,
-                          size: Size(double.infinity, 250.h),
-                        ),
-                      ],
+                    background: CustomCashedImage(
+                      url: widget.servicesModel.photo!,
+                      size: Size(double.infinity, 250.h),
                     ),
                   ),
                 ),
@@ -182,21 +190,22 @@ class _ProviderServiceDetailsState extends State<ProviderServiceDetails> {
                         ),
                         SizedBox(height: 16.h),
                         Text(
-                          widget.servicesModel.description ?? '',
+                          // widget.servicesModel.description ??
+                          //     'No description available.',
+                          'i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.',
                           style: TextStyle(
                             fontSize: 16.sp,
                             height: 1.4,
                             color: AppColors.blackTextColor,
                           ),
                         ),
-                        SizedBox(height: 120.h), // space for fixed buttons
+                        SizedBox(height: 120.h),
                       ],
                     ),
                   ),
                 ),
               ],
             ),
-            // Fixed bottom buttons
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
