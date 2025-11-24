@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/features/bookings/cubit/create_booking_cubit.dart';
 import 'package:taskify/features/bookings/data/booking_repo.dart';
+import 'package:taskify/features/services/cubit/contact_cubit.dart';
+import 'package:taskify/features/services/data/contact_repo.dart';
 import 'package:taskify/features/services/screens/booking_service.dart';
 import 'package:taskify/features/services/cubit/services_cubit.dart';
 import 'package:taskify/features/services/data/categories_model.dart';
@@ -48,20 +50,25 @@ class ServicesNavigator extends StatelessWidget {
         } else if (settings.name == serviceDetailsScreenRoute) {
           final service = settings.arguments as ServicesModel;
           return MaterialPageRoute(
-            builder: (context) => ServiceDetailsScreen(servicesModel: service),
+            builder:
+                (context) => BlocProvider(
+                  create: (context) => ContactCubit(contactRepo: ContactRepo()),
+                  child: ServiceDetailsScreen(servicesModel: service),
+                ),
           );
         } else if (settings.name == bookserviceRoute) {
           final book = settings.arguments as ServicesModel;
 
-           return MaterialPageRoute(
-    builder: (context) {
-      return BlocProvider(
-        create: (context) => CreateBookingCubit(bookingRepo: BookingRepo()),
-        child: BookingService(serviceModel: book),
-      );
-    },
-  );
-}
+          return MaterialPageRoute(
+            builder: (context) {
+              return BlocProvider(
+                create:
+                    (context) => CreateBookingCubit(bookingRepo: BookingRepo()),
+                child: BookingService(serviceModel: book),
+              );
+            },
+          );
+        }
         return null;
       },
     );

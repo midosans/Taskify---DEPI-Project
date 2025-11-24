@@ -5,7 +5,7 @@ class LauncherHelper {
     final Uri uri = Uri(scheme: 'tel', path: phoneNumber.trim());
 
     if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      throw Exception('تعذر فتح تطبيق الاتصال');
+      throw Exception('Could not launch $uri');
     }
   }
 }

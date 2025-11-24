@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomCashedImage extends StatelessWidget {
-  const CustomCashedImage({super.key, required this.url, required this.size});
+  const CustomCashedImage({super.key, required this.url, required this.size, this.fit});
   final String url;
   final Size size;
+  final BoxFit? fit;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class CustomCashedImage extends StatelessWidget {
       width: size.width.w,
       height: size.height.h,
       child: CachedNetworkImage(
-        fit: BoxFit.cover,
+        fit: fit ?? BoxFit.cover,
         imageUrl: url,
         placeholder:
             (context, url) => Container(
