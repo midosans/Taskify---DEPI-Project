@@ -79,7 +79,7 @@ class BookingDetails extends StatelessWidget {
                             child: Text(
                               bookingdeatils.date != null
                                   ? _formatFullDateTime(bookingdeatils.date!)
-                                  : '${'scheduled_for'.tr()}',
+                                  : 'scheduled_for'.tr(),
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: AppColors.lightprimarycolor,
@@ -200,32 +200,32 @@ class BookingDetails extends StatelessWidget {
     );
   }
 
-  Widget _buildImage() {
-    if (bookingdeatils.imageUrl == null || bookingdeatils.imageUrl!.isEmpty) {
-      return Image.asset(
-        'assets/pngs/logo.png',
-        height: 66.h,
-        width: 130.w,
-        fit: BoxFit.cover,
-      );
-    }
+  // Widget _buildImage() {
+  //   if (bookingdeatils.imageUrl == null || bookingdeatils.imageUrl!.isEmpty) {
+  //     return Image.asset(
+  //       'assets/pngs/logo.png',
+  //       height: 66.h,
+  //       width: 130.w,
+  //       fit: BoxFit.cover,
+  //     );
+  //   }
 
-    if (bookingdeatils.imageUrl!.startsWith('http')) {
-      return Image.network(
-        bookingdeatils.imageUrl!,
-        height: 66.h,
-        width: 130.w,
-        fit: BoxFit.cover,
-      );
-    }
+  //   if (bookingdeatils.imageUrl!.startsWith('http')) {
+  //     return Image.network(
+  //       bookingdeatils.imageUrl!,
+  //       height: 66.h,
+  //       width: 130.w,
+  //       fit: BoxFit.cover,
+  //     );
+  //   }
 
-    return Image.asset(
-      bookingdeatils.imageUrl!,
-      height: 66.h,
-      width: 130.w,
-      fit: BoxFit.cover,
-    );
-  }
+  //   return Image.asset(
+  //     bookingdeatils.imageUrl!,
+  //     height: 66.h,
+  //     width: 130.w,
+  //     fit: BoxFit.cover,
+  //   );
+  // }
 }
 
 String _formatFullDateTime(DateTime dateTime) {

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/widgets/custom_cashed_image.dart';
 import 'package:taskify/features/provider_services/data/provider_services_model.dart';
@@ -73,7 +74,7 @@ class CustomServiceListTile extends StatelessWidget {
                         backgroundColor: const Color(0xffF0F2F5),
                         elevation: 0,
                         padding: EdgeInsets.zero,
-                        minimumSize: Size(80.w, 30.h),
+                        minimumSize: Size(70.w, 30.h),
                       ),
                       onPressed: onTap,
                       child: Center(
@@ -89,13 +90,14 @@ class CustomServiceListTile extends StatelessWidget {
                   ],
                 ),
               ),
-              ClipRRect(
+              Skeleton.leaf(
+                child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.r),
                 child: CustomCashedImage(
                   url: service.photo ?? '',
                   size: const Size(130, 130),
                 ),
-              ),
+              ),)
             ],
           ),
         ),

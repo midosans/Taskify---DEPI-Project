@@ -100,9 +100,9 @@ class _ProviderServiceDetailsState extends State<ProviderServiceDetails> {
               barrierDismissible: false,
               builder:
                   (_) => CustomNotifyDialog(
-                    title: "Service Deleted",
-                    subtitle: "Your service has been successfully removed.",
-                    buttontext: "OK",
+                    title: "service_deleted_title".tr(),
+                    subtitle: "service_deleted_subtitle".tr(),
+                    buttontext: "ok".tr(),
                     icon: Icons.check_circle,
                   ),
             ).then((_) {
@@ -190,9 +190,9 @@ class _ProviderServiceDetailsState extends State<ProviderServiceDetails> {
                         ),
                         SizedBox(height: 16.h),
                         Text(
-                          // widget.servicesModel.description ??
-                          //     'No description available.',
-                          'i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.',
+                           widget.servicesModel.description ??
+                              'No description available.',
+                          //'i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.',
                           style: TextStyle(
                             fontSize: 16.sp,
                             height: 1.4,
@@ -250,10 +250,11 @@ class _ProviderServiceDetailsState extends State<ProviderServiceDetails> {
                         context.showBlocDialog(
                           cubit: cubit,
                           dialog: CustomConfirmDialog(
-                            title: "Delete Service",
-                            subtitle:
-                                "Are you sure you want to Delete ${widget.servicesModel.title}?",
-                            buttontext: "Delete",
+                            title: "delete_service_title".tr(),
+                            subtitle: "delete_service_subtitle".tr(
+                              args: [servicesModel.title!],
+                            ),
+                            buttontext: "delete".tr(),
                             onConfirm: () {
                               Navigator.of(context, rootNavigator: true).pop();
                               cubit.deleteService(id: widget.servicesModel.id!);

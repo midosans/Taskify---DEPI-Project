@@ -19,7 +19,7 @@ import 'package:taskify/features/provider_services/data/provider_services_model.
 
 class ProviderUpdateServiceScreen extends StatefulWidget {
   final ProviderServicesModel servicesModel;
-  ProviderUpdateServiceScreen({super.key, required this.servicesModel});
+  const ProviderUpdateServiceScreen({super.key, required this.servicesModel});
 
   @override
   State<ProviderUpdateServiceScreen> createState() =>
@@ -37,6 +37,7 @@ class _ProviderUpdateServiceScreenState
   String? title, description;
   double? price;
   XFile? pickedimg;
+
   @override
   void initState() {
     super.initState();
@@ -109,9 +110,9 @@ class _ProviderUpdateServiceScreenState
                 barrierDismissible: false,
                 builder:
                     (_) => CustomNotifyDialog(
-                      title: "Service Updated",
-                      subtitle: "Your service has been updated successfully.",
-                      buttontext: "OK",
+                      title: "service_updated_title".tr(),
+                      subtitle: "service_updated_subtitle".tr(),
+                      buttontext: "ok".tr(),
                       icon: Icons.check_circle,
                     ),
               ).then((_) {
@@ -134,9 +135,9 @@ class _ProviderUpdateServiceScreenState
                 context: context,
                 builder:
                     (_) => CustomNotifyDialog(
-                      title: "Error",
+                      title: "error".tr(),
                       subtitle: state.errorMessage,
-                      buttontext: "OK",
+                      buttontext: "ok".tr(),
                       icon: Icons.error,
                     ),
               );
@@ -168,17 +169,14 @@ class _ProviderUpdateServiceScreenState
                             ),
                           ),
                           HeightSpace(8),
-
                           CustomTextFormField(
                             hintText: "service_name".tr(),
                             controller: nameController,
                             prefixIcon: Icons.build,
-                            // onChanged: (value) => title = value,
                           ),
-
                           HeightSpace(12),
                           Text(
-                            "Description".tr(),
+                            "description".tr(),
                             style: TextStyle(
                               color: AppColors.primaryColor,
                               fontWeight: FontWeight.w500,
@@ -189,7 +187,6 @@ class _ProviderUpdateServiceScreenState
                           CustomTextFormField(
                             controller: descController,
                             maxLines: 4,
-                            // onChanged: (value) => description = value,
                           ),
                           HeightSpace(12),
                           Text(
@@ -205,8 +202,6 @@ class _ProviderUpdateServiceScreenState
                             hintText: "price".tr(),
                             controller: priceController,
                             prefixIcon: Icons.attach_money,
-                            // onChanged:
-                            //     (value) => price = double.tryParse(value),
                             keyboardType: TextInputType.number,
                           ),
                           HeightSpace(12),
@@ -218,7 +213,6 @@ class _ProviderUpdateServiceScreenState
                               color: AppColors.primaryColor,
                             ),
                           ),
-
                           HeightSpace(8),
                           SizedBox(
                             height: 250,
@@ -233,13 +227,12 @@ class _ProviderUpdateServiceScreenState
                                   pickedimg = pickedFile;
                                 });
                               },
-                              child:
-                                  pickedimg == null
-                                      ? CustomCashedImage(
-                                        url: widget.servicesModel.photo!,
-                                        size: Size(double.infinity, 168.h),
-                                      )
-                                      : Image.file(File(pickedimg!.path)),
+                              child: pickedimg == null
+                                  ? CustomCashedImage(
+                                      url: widget.servicesModel.photo!,
+                                      size: Size(double.infinity, 168.h),
+                                    )
+                                  : Image.file(File(pickedimg!.path)),
                             ),
                           ),
                         ],
@@ -247,7 +240,7 @@ class _ProviderUpdateServiceScreenState
                     ),
                   ),
                   CustomButton(
-                    text: 'update_Service'.tr(),
+                    text: 'update_service_button'.tr(),
                     size: Size(size.width.w, 48.h),
                     color: AppColors.primaryColor,
                     fontColor: AppColors.whiteTextColor,
@@ -257,23 +250,22 @@ class _ProviderUpdateServiceScreenState
                         context.showBlocDialog(
                           cubit: cubit,
                           dialog: CustomConfirmDialog(
-                            title: "Edit Service",
-                            subtitle: "Are you sure you want to update?",
-                            buttontext: "Edit",
+                            title: "edit_service_title".tr(),
+                            subtitle: "edit_service_subtitle".tr(),
+                            buttontext: "edit".tr(),
                             onConfirm: () {
                               Navigator.of(
                                 context,
                                 rootNavigator: true,
-                              ).pop(); // closes the dialog
+                              ).pop();
                               cubit.updateService(
                                 id: widget.servicesModel.id!,
                                 title: nameController.text.trim(),
                                 description: descController.text.trim(),
                                 price: double.parse(priceController.text),
-                                photo:
-                                    pickedimg != null
-                                        ? File(pickedimg!.path)
-                                        : null,
+                                photo: pickedimg != null
+                                    ? File(pickedimg!.path)
+                                    : null,
                               );
                             },
                           ),

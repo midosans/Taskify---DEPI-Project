@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomDottedBorder extends StatelessWidget {
   final List<Widget> children;
-  const CustomDottedBorder({super.key, required this.children});
+  final double? height;
+  const CustomDottedBorder({super.key, required this.children, this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class CustomDottedBorder extends StatelessWidget {
       radius: const Radius.circular(12),
       child: Container(
         width: size.width * 0.9,
-        height: 168.h,
+        height: height ?? 168.h,
         alignment: Alignment.center,
         padding: const EdgeInsets.all(16),
         child: Center(

@@ -10,7 +10,7 @@ import 'package:taskify/core/widgets/custom_TextFormField.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
 import 'package:taskify/features/bookings/cubit/create_booking_cubit.dart';
 import 'package:taskify/features/bookings/cubit/create_booking_state.dart';
-import 'package:taskify/features/bookings/widgets/custom_dotted_border.dart';
+import 'package:taskify/core/widgets/custom_dotted_border.dart';
 import 'package:taskify/features/services/widgets/custom_time_picker.dart';
 import 'package:taskify/features/services/data/services_model.dart';
 

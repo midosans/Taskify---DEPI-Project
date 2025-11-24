@@ -1,13 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/constants.dart';
+import 'package:taskify/core/widgets/custom_confirm_dialog.dart';
 import 'package:taskify/features/profile/cubit/profile_cubit.dart';
 import 'package:taskify/features/profile/cubit/profile_state.dart';
 import 'package:taskify/features/profile/data/logout_repo.dart';
+import 'package:taskify/features/profile/data/user_data_model.dart';
 import 'package:taskify/features/profile/widgets/build_settings_item.dart';
-import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -17,6 +19,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  UserdataModel? _userData;
+
   void changeLanguage() {
     setState(() {
       if (context.locale == const Locale('en')) {
@@ -30,8 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit()
-        ..fetchUserData(),
+      create: (context) => ProfileCubit()..fetchUserData(),
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
@@ -43,24 +46,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 BlocBuilder<ProfileCubit, ProfileState>(
                   builder: (context, state) {
                     if (state is ProfileLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(),);
-                    }
-                    else if (state is ProfileError) {
-                      return Center(
-                        child: Text('${state.errorMessage}'),
-                      );
-                    }
-                    else if (state is ProfileLoaded) {
-                      final userData = state.userdataModel;
+                      return Center(child: CircularProgressIndicator());
+                    } else if (state is ProfileError) {
+                      return Center(child: Text('${state.errorMessage}'));
+                    } else if (state is ProfileLoaded) {
+                      _userData = state.userdataModel;
+
+                      final userData = _userData!;
+
                       return Row(
                         children: [
-                          CircleAvatar(
-                            radius: 60.r,
-                            backgroundImage: const AssetImage(
-                              "assets/pngs/profile.png",
-                            ),
-                          ),
+                          userData.avatar != null
+                              ? CircleAvatar(
+                                radius: 60.r,
+                                backgroundImage: CachedNetworkImageProvider(
+                                  userData.avatar!,
+                                ),
+                              )
+                              : CircleAvatar(
+                                radius: 60.r,
+                                backgroundImage: const AssetImage(
+                                  "assets/pngs/profile.png",
+                                ),
+                              ),
                           SizedBox(width: 16.w),
                           Expanded(
                             child: Column(
@@ -87,16 +95,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return SizedBox.shrink();
                   },
                 ),
+
                 SizedBox(height: 30.h),
+
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
+                      if (_userData == null) return;
+
+                      Navigator.pushNamed(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const EditProfileScreen(),
-                        ),
+                        editProfileScreenRoute,
+                        arguments: _userData!, // ← now works
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -116,7 +127,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
+
                 SizedBox(height: 28.h),
+
                 BuildSettingsItem(
                   icon: Icons.language,
                   title: 'language'.tr(),
@@ -126,44 +139,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   icon: Icons.help_outline,
                   title: 'contact_us'.tr(),
                   onTap: () {
-                    Navigator.pushNamed(
-              context,
-              contactScreenRoute,
-            );
+                    Navigator.pushNamed(context, contactScreenRoute);
                   },
                 ),
                 BuildSettingsItem(
                   icon: Icons.info_outline,
                   title: 'about_app'.tr(),
                   onTap: () {
-                    Navigator.pushNamed(
-              context,
-              aboutAppScreenRoute,
-            );
+                    Navigator.pushNamed(context, aboutAppScreenRoute);
                   },
                 ),
                 BuildSettingsItem(
                   icon: Icons.description_outlined,
                   title: 'terms_conditions'.tr(),
                   onTap: () {
-                    Navigator.pushNamed(
-              context,
-              termsConditionsScreenRoute,
-            );
+                    Navigator.pushNamed(context, termsConditionsScreenRoute);
                   },
                 ),
                 BuildSettingsItem(
                   icon: Icons.logout,
                   title: 'logout'.tr(),
-                  onTap: () async {
-                    await LogoutRepo().signOut();
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return CustomConfirmDialog(
+                          title: 'logout'.tr(),
+                          subtitle: 'logout_question'.tr(),
+                          buttontext: 'logout_button'.tr(),
+                          onConfirm: () async {
+                            await LogoutRepo().signOut();
 
-                    Navigator.of(
-                      context,
-                      rootNavigator: true,
-                    ).pushNamedAndRemoveUntil(
-                      userTypeScreenRoute,
-                          (route) => false,
+                            Navigator.of(
+                              context,
+                              rootNavigator: true,
+                            ).pushNamedAndRemoveUntil(
+                              userTypeScreenRoute,
+                              (route) => false,
+                            );
+                          },
+                        );
+                      },
                     );
                   },
                 ),

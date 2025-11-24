@@ -11,7 +11,7 @@ import 'package:taskify/core/widgets/custom_button.dart';
 import 'package:taskify/core/widgets/custom_confirm_dialog.dart';
 import 'package:taskify/core/widgets/custom_notify_dialog.dart';
 import 'package:taskify/core/widgets/spacing_widget.dart';
-import 'package:taskify/features/bookings/widgets/custom_dotted_border.dart';
+import 'package:taskify/core/widgets/custom_dotted_border.dart';
 import 'package:taskify/features/provider_services/cubit/add_service_cubit.dart';
 import 'package:taskify/features/provider_services/cubit/add_service_state.dart';
 
@@ -30,6 +30,14 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
   final formKey = GlobalKey<FormState>();
   bool _submitted = false;
   XFile? pickedimg;
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    descController.dispose();
+    priceController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,9 +95,9 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
                 barrierDismissible: false,
                 builder:
                     (_) => CustomNotifyDialog(
-                      title: "Service Added",
-                      subtitle: "Your service was added successfully.",
-                      buttontext: "OK",
+                      title: "service_added_title".tr(),
+                      subtitle: "service_added_subtitle".tr(),
+                      buttontext: "ok".tr(),
                       icon: Icons.check_circle,
                     ),
               ).then((_) {
@@ -108,9 +116,11 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
                 context: context,
                 builder:
                     (_) => CustomNotifyDialog(
-                      title: "Error",
-                      subtitle: state.errorMessage,
-                      buttontext: "OK",
+                      title: "error_title".tr(),
+                      subtitle:
+                          state
+                              .errorMessage, 
+                      buttontext: "ok".tr(),
                       icon: Icons.error,
                     ),
               );
@@ -149,7 +159,7 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
                           ),
                           HeightSpace(12),
                           Text(
-                            "Description".tr(),
+                            "description".tr(),
                             style: TextStyle(
                               color: AppColors.primaryColor,
                               fontWeight: FontWeight.w500,
@@ -231,10 +241,11 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
                         context.showBlocDialog(
                           cubit: cubit,
                           dialog: CustomConfirmDialog(
-                            title: "Add Service",
-                            subtitle:
-                                "Are you sure you want to Add ${nameController.text}",
-                            buttontext: "Add",
+                            title: "add_service_title".tr(),
+                            subtitle: "add_service_subtitle".tr(
+                              args: [nameController.text],
+                            ),
+                            buttontext: "add".tr(),
                             onConfirm: () {
                               Navigator.of(
                                 context,
@@ -252,8 +263,8 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
                         );
                       } else if (pickedimg == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Please select a photo"),
+                          SnackBar(
+                            content: Text("please_select_photo".tr()),
                             backgroundColor: Colors.orange,
                           ),
                         );

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
@@ -60,7 +61,7 @@ class CustomConfirmDialog extends StatelessWidget {
                   onPressed: onConfirm,
                 ),
                 CustomButton(
-                  text: 'Cancel',
+                  text: 'cancel'.tr(),
                   size: Size(120.w, 50.h),
                   color: AppColors.deleteColor,
                   fontColor: AppColors.secondaryBottomColor,
