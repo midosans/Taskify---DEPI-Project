@@ -25,6 +25,8 @@ class ServiceDetailsScreen extends StatefulWidget {
 class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   Color _iconColor = Colors.white;
   Color _titleColor = Colors.white;
+  bool _collapsed = false;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -33,6 +35,18 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
       providerId: widget.servicesModel.providerid!,
     );
     _analyzeImageBrightness();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    final collapsePoint = 250.h - kToolbarHeight;
+    final isCollapsed = _scrollController.offset > collapsePoint;
+
+    if (isCollapsed != _collapsed) {
+      setState(() {
+        _collapsed = isCollapsed;
+      });
+    }
   }
 
   Future<void> _analyzeImageBrightness() async {
@@ -82,18 +96,19 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
       body: Stack(
         children: [
           CustomScrollView(
+            controller: _scrollController,
             slivers: [
               SliverAppBar(
                 expandedHeight: 250.h,
                 pinned: true,
                 centerTitle: true,
+                elevation: 0,
                 backgroundColor: AppColors.backgroundColor,
                 surfaceTintColor: AppColors.backgroundColor,
-                elevation: 0,
                 leading: IconButton(
                   icon: Icon(
                     Icons.arrow_back_ios_new,
-                    color: _iconColor,
+                    color: _collapsed ? Colors.black : _iconColor,
                     size: 22.sp,
                   ),
                   onPressed: () => Navigator.of(context).pop(),
@@ -101,7 +116,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                 title: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 200),
                   style: TextStyle(
-                    color: _titleColor,
+                    color: _collapsed ? Colors.black : _titleColor,
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                   ),
@@ -144,7 +159,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                       ),
                       SizedBox(height: 16.h),
                       Text(
-                        widget.servicesModel.description ?? '',
+                        widget.servicesModel.description ??
+                            'No description available.',
                         style: TextStyle(
                           fontSize: 16.sp,
                           height: 1.4,
@@ -241,9 +257,9 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                           ),
                           CustomAppButton(
                             onPressed: () {
-                              if (state is ContactSuccess)
+                              if (state is ContactSuccess) {
                                 LauncherHelper.openDialer(phone);
-                              else
+                              } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
@@ -251,6 +267,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                     ),
                                   ),
                                 );
+                              }
                             },
                             text: 'contact'.tr(),
                           ),
