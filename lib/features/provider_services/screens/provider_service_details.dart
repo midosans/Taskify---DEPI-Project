@@ -190,7 +190,7 @@ class _ProviderServiceDetailsState extends State<ProviderServiceDetails> {
                         ),
                         SizedBox(height: 16.h),
                         Text(
-                           widget.servicesModel.description ??
+                          widget.servicesModel.description ??
                               'No description available.',
                           //'i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.i am a test description to check if the description field works properly in the service details screen.',
                           style: TextStyle(
@@ -252,7 +252,7 @@ class _ProviderServiceDetailsState extends State<ProviderServiceDetails> {
                           dialog: CustomConfirmDialog(
                             title: "delete_service_title".tr(),
                             subtitle: "delete_service_subtitle".tr(
-                              args: [servicesModel.title!],
+                              args: [widget.servicesModel.title!],
                             ),
                             buttontext: "delete".tr(),
                             onConfirm: () {
