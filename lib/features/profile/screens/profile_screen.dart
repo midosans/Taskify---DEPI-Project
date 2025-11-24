@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/constants.dart';
+import 'package:taskify/core/widgets/custom_confirm_dialog.dart';
 import 'package:taskify/features/profile/cubit/profile_cubit.dart';
 import 'package:taskify/features/profile/cubit/profile_state.dart';
 import 'package:taskify/features/profile/data/logout_repo.dart';
@@ -106,7 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Navigator.pushNamed(
                         context,
                         editProfileScreenRoute,
-                        arguments: _userData! // ← now works
+                        arguments: _userData!, // ← now works
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -158,15 +159,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 BuildSettingsItem(
                   icon: Icons.logout,
                   title: 'logout'.tr(),
-                  onTap: () async {
-                    await LogoutRepo().signOut();
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return CustomConfirmDialog(
+                          title: 'Logout',
+                          subtitle: "do you want to logout from your account ?",
+                          buttontext: "Logout",
+                          onConfirm: () async {
+                            await LogoutRepo().signOut();
 
-                    Navigator.of(
-                      context,
-                      rootNavigator: true,
-                    ).pushNamedAndRemoveUntil(
-                      userTypeScreenRoute,
-                      (route) => false,
+                            Navigator.of(
+                              context,
+                              rootNavigator: true,
+                            ).pushNamedAndRemoveUntil(
+                              userTypeScreenRoute,
+                              (route) => false,
+                            );
+                          },
+                        );
+                      },
                     );
                   },
                 ),

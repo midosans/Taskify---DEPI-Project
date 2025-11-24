@@ -11,7 +11,7 @@ import 'package:taskify/core/widgets/custom_button.dart';
 import 'package:taskify/core/widgets/custom_confirm_dialog.dart';
 import 'package:taskify/core/widgets/custom_notify_dialog.dart';
 import 'package:taskify/core/widgets/spacing_widget.dart';
-import 'package:taskify/features/bookings/widgets/custom_dotted_border.dart';
+import 'package:taskify/core/widgets/custom_dotted_border.dart';
 import 'package:taskify/features/provider_services/cubit/add_service_cubit.dart';
 import 'package:taskify/features/provider_services/cubit/add_service_state.dart';
 
@@ -30,6 +30,14 @@ class _ProviderAddServiceScreenState extends State<ProviderAddServiceScreen> {
   final formKey = GlobalKey<FormState>();
   bool _submitted = false;
   XFile? pickedimg;
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    descController.dispose();
+    priceController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

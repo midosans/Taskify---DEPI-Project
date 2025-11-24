@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_cashed_image.dart';
@@ -118,13 +119,15 @@ class CustomListTileForProvider extends StatelessWidget {
                 ),
               ),
               // Image section
-              Container(
-                width: 125.h,
-                height: 125.h,
-                margin: EdgeInsets.all(10),
-                child: CustomCashedImage(
-                  url: service.imageUrl!,
-                  size: Size(125.w, 125.h),
+              Skeleton.leaf(
+                child: Container(
+                  width: 125.h,
+                  height: 125.h,
+                  margin: EdgeInsets.all(10),
+                  child: CustomCashedImage(
+                    url: service.imageUrl!,
+                    size: Size(125.w, 125.h),
+                  ),
                 ),
               ),
             ],

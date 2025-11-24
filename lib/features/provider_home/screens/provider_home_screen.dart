@@ -7,6 +7,8 @@ import 'package:taskify/features/provider_home/cubit/fetch_booking_data_state.da
 import 'package:taskify/features/provider_home/cubit/fetch_pending_bookings_cubit.dart';
 import 'package:taskify/features/provider_home/cubit/fetch_accepted_bookings_cubit.dart';
 import 'package:taskify/features/provider_home/widgets/custom_list_tile_for_provider.dart';
+import 'package:taskify/features/provider_home/widgets/custom_loading_book.dart';
+import 'package:taskify/features/provider_home/widgets/custom_no_books.dart';
 
 class ProviderHomeScreen extends StatefulWidget {
   const ProviderHomeScreen({super.key});
@@ -43,106 +45,122 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
         ),
       ),
 
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                "new_orders".tr(),
-                style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          // Call both refresh functions when pulling down
+          context.read<FetchPendingBookingsCubit>().loadPending();
+          context.read<FetchAcceptedBookingsCubit>().loadOngoing();
+        },
+
+        // Needed so RefreshIndicator works even if list is short
+        notificationPredicate: (_) => true,
+
+        child: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(), // IMPORTANT
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  "new_orders".tr(),
+                  style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
-          ),
 
-          BlocBuilder<FetchPendingBookingsCubit, FetchBookingDataState>(
-            builder: (context, state) {
-              if (state is FetchBookingDataLoading) {
-                return const SliverToBoxAdapter(
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-
-              if (state is FetchBookingDataError) {
-                return SliverToBoxAdapter(
-                  child: Center(child: Text(state.message)),
-                );
-              }
-
-              if (state is FetchBookingDataEmpty) {
-                return SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 400.h,
-                    width: double.infinity,
-                    child: Center(child: Text("No new orders."))),
-                );
-              }
-
-              if (state is FetchBookingDataSuccess) {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => CustomListTileForProvider(
-                      service: state.bookings[index],
+            // ----- Pending Bookings -----
+            BlocBuilder<FetchPendingBookingsCubit, FetchBookingDataState>(
+              builder: (context, state) {
+                if (state is FetchBookingDataLoading) {
+                  return const SliverToBoxAdapter(child: CustomLoadingBook());
+                }
+                if (state is FetchBookingDataError) {
+                  return SliverToBoxAdapter(
+                    child: Center(child: Text(state.message)),
+                  );
+                }
+                if (state is FetchBookingDataEmpty) {
+                  return SliverToBoxAdapter(
+                    child: CustomNoBooks(
+                      title: "no_new_orders".tr(),
+                      subtitle: "please_check_back_later".tr(),
+                      onRefresh: () {
+                        context.read<FetchPendingBookingsCubit>().loadPending();
+                      },
                     ),
-                    childCount: state.bookings.length,
+                  );
+                }
+                if (state is FetchBookingDataSuccess) {
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => CustomListTileForProvider(
+                        service: state.bookings[index],
+                      ),
+                      childCount: state.bookings.length,
+                    ),
+                  );
+                }
+                return const SliverToBoxAdapter(child: SizedBox());
+              },
+            ),
+
+            SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+
+            // ----- Ongoing Work -----
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  "ongoing_work".tr(),
+                  style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.bold,
                   ),
-                );
-              }
-
-              return const SliverToBoxAdapter(child: SizedBox());
-            },
-          ),
-
-          SliverToBoxAdapter(child: SizedBox(height: 20.h)),
-
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                "ongoing_work".tr(),
-                style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
-          ),
 
-          BlocBuilder<FetchAcceptedBookingsCubit, FetchBookingDataState>(
-            builder: (context, state) {
-              if (state is FetchBookingDataLoading) {
-                return const SliverToBoxAdapter(
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-
-              if (state is FetchBookingDataError) {
-                return SliverToBoxAdapter(
-                  child: Center(child: Text(state.message)),
-                );
-              }
-
-              if (state is FetchBookingDataEmpty) {
-                return SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 400.h,
-                    width: double.infinity,
-                    child: Center(child: Text("No new orders."))),
-                );
-              }
-
-              if (state is FetchBookingDataSuccess) {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => CustomListTileForProvider(
-                      service: state.bookings[index],
+            BlocBuilder<FetchAcceptedBookingsCubit, FetchBookingDataState>(
+              builder: (context, state) {
+                if (state is FetchBookingDataLoading) {
+                  return const SliverToBoxAdapter(child: CustomLoadingBook());
+                }
+                if (state is FetchBookingDataError) {
+                  return SliverToBoxAdapter(
+                    child: Center(child: Text(state.message)),
+                  );
+                }
+                if (state is FetchBookingDataEmpty) {
+                  return SliverToBoxAdapter(
+                    child: CustomNoBooks(
+                      title: "no_new_orders".tr(),
+                      subtitle: "please_check_back_later".tr(),
+                      onRefresh: () {
+                        context
+                            .read<FetchAcceptedBookingsCubit>()
+                            .loadOngoing();
+                      },
                     ),
-                    childCount: state.bookings.length,
-                  ),
-                );
-              }
-
-              return const SliverToBoxAdapter(child: SizedBox());
-            },
-          ),
-        ],
+                  );
+                }
+                if (state is FetchBookingDataSuccess) {
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => CustomListTileForProvider(
+                        service: state.bookings[index],
+                      ),
+                      childCount: state.bookings.length,
+                    ),
+                  );
+                }
+                return const SliverToBoxAdapter(child: SizedBox());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
