@@ -30,6 +30,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
+    final locale = context.locale;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
