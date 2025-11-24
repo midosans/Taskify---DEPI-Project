@@ -81,9 +81,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             barrierDismissible: false,
             builder:
                 (_) => CustomNotifyDialog(
-                  title: "Profile Updated",
-                  subtitle: "Your changes have been saved successfully.",
-                  buttontext: "OK",
+                  title: "profile_updated_title".tr(),
+                  subtitle: "profile_updated_subtitle".tr(),
+                  buttontext: "ok_button".tr(),
                   icon: Icons.check_circle,
                 ),
           );
@@ -106,9 +106,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             context: context,
             builder:
                 (_) => CustomNotifyDialog(
-                  title: "Error",
+                  title: "Error".tr(),
                   subtitle: state.errorMessage,
-                  buttontext: "OK",
+                  buttontext: "OK".tr(),
                   icon: Icons.error,
                 ),
           );
@@ -251,10 +251,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     context.showBlocDialog(
                       cubit: context.read<UpdateProfileCubit>(),
                       dialog: CustomConfirmDialog(
-                        title: "Update Profile",
-                        subtitle:
-                            "Are you sure you want to update your profile information?",
-                        buttontext: "Update",
+                        title: "update_profile".tr(),
+                        subtitle: "update_profile_question".tr(),
+                        buttontext: "update".tr(),
                         onConfirm: () {
                           // Close dialog
                           Navigator.of(context, rootNavigator: true).pop();

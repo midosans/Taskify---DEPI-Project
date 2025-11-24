@@ -69,9 +69,9 @@ class ProviderServiceDetails extends StatelessWidget {
               barrierDismissible: false,
               builder:
                   (_) => CustomNotifyDialog(
-                    title: "Service Deleted",
-                    subtitle: "Your service has been successfully removed.",
-                    buttontext: "OK",
+                    title: "service_deleted_title".tr(),
+                    subtitle: "service_deleted_subtitle".tr(),
+                    buttontext: "ok".tr(),
                     icon: Icons.check_circle,
                   ),
             ).then((_) {
@@ -177,10 +177,11 @@ class ProviderServiceDetails extends StatelessWidget {
                         context.showBlocDialog(
                           cubit: cubit,
                           dialog: CustomConfirmDialog(
-                            title: "Delete Service",
-                            subtitle:
-                                "Are you sure you want to Delete ${servicesModel.title}?",
-                            buttontext: "Delete",
+                            title: "delete_service_title".tr(),
+                            subtitle: "delete_service_subtitle".tr(
+                              args: [servicesModel.title!],
+                            ),
+                            buttontext: "delete".tr(),
                             onConfirm: () {
                               Navigator.of(
                                 context,

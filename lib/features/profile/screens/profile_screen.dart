@@ -164,9 +164,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       context: context,
                       builder: (context) {
                         return CustomConfirmDialog(
-                          title: 'Logout',
-                          subtitle: "do you want to logout from your account ?",
-                          buttontext: "Logout",
+                          title: 'logout'.tr(),
+                          subtitle: 'logout_question'.tr(),
+                          buttontext: 'logout_button'.tr(),
                           onConfirm: () async {
                             await LogoutRepo().signOut();
 

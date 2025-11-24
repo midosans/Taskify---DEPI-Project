@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
@@ -36,7 +37,7 @@ class CustomNoBooks extends StatelessWidget {
               width: 120.w,
   height: 40.h,
               child: CustomButton(
-                text: 'refresh',
+                text: 'refresh'.tr(),
                 size: Size(30.w, 30.h),
                 color: AppColors.primaryColor,
                 fontColor: AppColors.secondaryBottomColor,
