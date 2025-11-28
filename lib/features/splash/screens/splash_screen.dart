@@ -1,9 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:taskify/app_services/internet_checker.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/api_helper.dart';
 import 'package:taskify/core/constants.dart';
+import 'package:taskify/core/widgets/custom_no_internet_dialog.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,11 +18,35 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final SupabaseClient _client = Supabase.instance.client;
 
-  @override
-  void initState() {
-    super.initState();
+ @override
+void initState() {
+  super.initState();
+  _initSplash();
+}
+
+void _initSplash() async {
+  bool connected = await hasInternet();
+
+  if (connected) {
     _checkUser();
+  } else {
+    Future.delayed(const Duration(seconds: 1), () {
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (context) => CustomNoInternetDialog(
+          title: 'no_internet'.tr(),
+          subtitle: 'please_check_connection'.tr(),
+          buttontext: 'retry'.tr(),
+          onConfirm: () {
+            Navigator.pop(context);
+            _initSplash(); 
+          },
+        ),
+      );
+    });
   }
+}
 
   Future<void> _checkUser() async {
     await Future.delayed(const Duration(seconds: 2));
@@ -31,11 +58,12 @@ class _SplashScreenState extends State<SplashScreen> {
       return;
     }
 
-    final profileResponse = await _client
-        .from(profileTable)
-        .select()
-        .eq('id', user.id)
-        .maybeSingle();
+    final profileResponse =
+        await _client
+            .from(profileTable)
+            .select()
+            .eq('id', user.id)
+            .maybeSingle();
 
     if (profileResponse == null) {
       Navigator.pushReplacementNamed(context, userTypeScreenRoute);
@@ -47,12 +75,12 @@ class _SplashScreenState extends State<SplashScreen> {
     if (role == null || role.isEmpty) {
       Navigator.pushReplacementNamed(context, userTypeScreenRoute);
     } else if (role == 'User') {
-       Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            layoutWrapperRoute,
-                            (routes)=> false,
-                            arguments: "User",
-                          ); 
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        layoutWrapperRoute,
+        (routes) => false,
+        arguments: "User",
+      );
     } else {
       Navigator.pushNamedAndRemoveUntil(
         context,

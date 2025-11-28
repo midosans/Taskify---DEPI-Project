@@ -1,16 +1,20 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taskify/app_services/internet_checker.dart';
 import 'package:taskify/features/auth/cubit/login_state.dart';
 import 'package:taskify/features/auth/data/login_repo.dart';
 
-class LoginCubit extends Cubit<LoginState>{
-  LoginCubit({required this.loginRepo }) : super(LoginInitial());
+class LoginCubit extends Cubit<LoginState> {
+  LoginCubit({required this.loginRepo}) : super(LoginInitial());
   final LoginRepo loginRepo;
 
-  void Login({
-    required String email,
-    required String password,
-  }) async {
+  void Login({required String email, required String password}) async {
     emit(LoginLoading());
+    bool connected = await hasInternet();
+    if (!connected) {
+      emit(LoginFailure('no_internet_connection'.tr()));
+      return;
+    }
     try {
       final profileData = await loginRepo.login(
         email: email,

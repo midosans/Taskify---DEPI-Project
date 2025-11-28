@@ -1,6 +1,7 @@
 import 'dart:io';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taskify/app_services/internet_checker.dart';
 import 'package:taskify/features/provider_services/cubit/add_service_state.dart';
 import 'package:taskify/features/provider_services/data/add_service_repo.dart';
 
@@ -14,16 +15,21 @@ class AddServiceCubit extends Cubit<AddServiceState> {
     required File photo,
   }) async {
     emit(AddServiceLoading());
-    try {
-      addServiceRepo.addService(
-        title: title,
-        description: description,
-        price: price,
-        photo: photo,
-      );
-      emit(AddServiceSuccess());
-    } catch (e) {
-      emit(AddServiceFailure(errorMessage: e.toString()));
+    bool connected = await hasInternet();
+    if (connected == true) {
+      try {
+        addServiceRepo.addService(
+          title: title,
+          description: description,
+          price: price,
+          photo: photo,
+        );
+        emit(AddServiceSuccess());
+      } catch (e) {
+        emit(AddServiceFailure(errorMessage: e.toString()));
+      }
+    } else {
+      emit(AddServiceFailure(errorMessage: 'no_internet_connection'.tr()));
     }
   }
 }

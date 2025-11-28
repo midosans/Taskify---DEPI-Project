@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:taskify/app_services/internet_checker.dart';
 import 'package:taskify/core/api_helper.dart';
 import 'package:taskify/features/bookings/data/booking_model.dart';
 
@@ -7,6 +8,10 @@ class HomeRepo {
   Future<Either<String, List<BookingModel>>> getBookinghome() async {
     final supabase = Supabase.instance.client;
     final user = supabase.auth.currentUser;
+    bool connected = await hasInternet();
+    if (!connected) {
+      return const Left('no_internet_connection');
+    }
     if (user == null) throw Exception("Not logged in");
     try {
       final response = await supabase
@@ -28,6 +33,10 @@ class HomeRepo {
   Future<Either<String, List<BookingModel>>> getUpcomingBookings() async {
     final supabase = Supabase.instance.client;
     final user = supabase.auth.currentUser;
+        bool connected = await hasInternet();
+    if (!connected) {
+      return const Left('no_internet_connection');
+    }
     if (user == null) throw Exception("Not logged in");
     try {
       final response = await supabase

@@ -186,5 +186,12 @@
   "ok_button": "حسناً",
   "call_app_error": "تعذر فتح تطبيق الاتصال",
   "provider_number_unavailable": "رقم هاتف المزود غير متوفر",
-  "update_Service": "تحديث الخدمة"
+  "update_Service": "تحديث الخدمة",
+  "unexpected_error": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+   "no_internet_connection": "لا يوجد اتصال بالإنترنت",
+   "no_internet": "لا يوجد اتصال بالإنترنت",
+  "please_check_connection": "يرجى التحقق من الاتصال والمحاولة مرة أخرى",
+  "retry": "إعادة المحاولة",
+  "exit": "خروج"
+
 }

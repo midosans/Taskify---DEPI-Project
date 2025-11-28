@@ -110,18 +110,17 @@ class MyApp extends StatelessWidget {
               case verifyCodeScreenRoute:
                 // final args =
                 //     ModalRoute.of(context)!.settings.arguments as String;
-                return MaterialPageRoute(
-                  builder: (_) => VerifyCodeScreen(),
-                );
+                return MaterialPageRoute(builder: (_) => VerifyCodeScreen());
               case resetPasswordScreenRoute:
-                return MaterialPageRoute(builder: (_) => ResetPasswordScreen(
-                ));
-                case contactScreenRoute:
+                return MaterialPageRoute(builder: (_) => ResetPasswordScreen());
+              case contactScreenRoute:
                 return MaterialPageRoute(builder: (_) => ContactScreen());
-                case aboutAppScreenRoute:
+              case aboutAppScreenRoute:
                 return MaterialPageRoute(builder: (_) => AboutAppScreen());
-                case termsConditionsScreenRoute:
-                return MaterialPageRoute(builder: (_) => TermsConditionsScreen());
+              case termsConditionsScreenRoute:
+                return MaterialPageRoute(
+                  builder: (_) => TermsConditionsScreen(),
+                );
               default:
                 return null;
             }

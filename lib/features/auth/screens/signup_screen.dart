@@ -6,6 +6,7 @@ import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_TextFormField.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
+import 'package:taskify/core/widgets/custom_notify_dialog.dart';
 import 'package:taskify/features/auth/cubit/signup_cubit.dart';
 import 'package:taskify/features/auth/cubit/signup_state.dart';
 import 'package:taskify/features/auth/widgets/custom_hyper_link.dart';
@@ -24,8 +25,11 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
   bool _submitted = false;
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
-  String? email, password, phone, username;
   String? selectedRole;
 
   final List<String> roles = [
@@ -41,6 +45,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'internet_technician',
     'satellite_technician',
   ];
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +83,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   arguments: '$userType',
                 );
               } else if (state is SignupFailure) {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.errorMessage)),
-                );
+                 if (Navigator.of(context, rootNavigator: true).canPop()) {
+                Navigator.of(context, rootNavigator: true).pop();
+              }
+
+              if (!context.mounted) return;
+
+              showDialog(
+                context: context,
+                builder:
+                    (_) => CustomNotifyDialog(
+                      title: "error_title".tr(),
+                      subtitle:
+                          state
+                              .errorMessage, 
+                      buttontext: "ok".tr(),
+                      icon: Icons.error,
+                    ),
+              );
               }
             });
           },
@@ -98,33 +125,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       children: [
                         CustomTextFormField(
+                          controller: usernameController,
                           labelText: 'username'.tr(),
                           prefixIcon: Icons.person,
-                          onChanged: (value) => username = value,
                         ),
                         SizedBox(height: 10.h),
 
                         CustomTextFormField(
+                          controller: emailController,
                           labelText: 'email'.tr(),
                           prefixIcon: Icons.email,
-                          onChanged: (value) => email = value,
                           validator: emailValidator.validate,
                         ),
                         SizedBox(height: 10.h),
 
                         CustomTextFormField(
+                          controller: passwordController,
                           labelText: 'password'.tr(),
                           prefixIcon: Icons.lock,
                           isObscureText: true,
-                          onChanged: (value) => password = value,
                           validator: passwordValidator.validate,
                         ),
                         SizedBox(height: 10.h),
 
                         CustomTextFormField(
+                          controller: phoneController,
                           labelText: 'phone'.tr(),
                           prefixIcon: Icons.phone,
-                          onChanged: (value) => phone = value,
                           validator: phoneValidator.validate,
                         ),
                         SizedBox(height: 10.h),
@@ -188,13 +215,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             setState(() => _submitted = true);
                             if (formKey.currentState!.validate()) {
                               context.read<SignupCubit>().SignUp(
-                                    email: email!,
-                                    password: password!,
+                                    email: emailController.text.trim(),
+                                    password: passwordController.text.trim(),
                                     role: userType == 'Technician'
                                         ? selectedRole ?? ''
                                         : 'User',
-                                    username: username!,
-                                    phone: phone!,
+                                    username: usernameController.text.trim(),
+                                    phone: phoneController.text.trim(),
                                   );
                             }
                           },

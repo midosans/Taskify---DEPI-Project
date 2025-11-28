@@ -6,6 +6,7 @@ import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/features/provider_home/cubit/fetch_booking_data_state.dart';
 import 'package:taskify/features/provider_home/cubit/fetch_pending_bookings_cubit.dart';
 import 'package:taskify/features/provider_home/cubit/fetch_accepted_bookings_cubit.dart';
+import 'package:taskify/features/provider_home/widgets/custom_error_for_provider.dart';
 import 'package:taskify/features/provider_home/widgets/custom_list_tile_for_provider.dart';
 import 'package:taskify/features/provider_home/widgets/custom_loading_book.dart';
 import 'package:taskify/features/provider_home/widgets/custom_no_books.dart';
@@ -81,7 +82,12 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                 }
                 if (state is FetchBookingDataError) {
                   return SliverToBoxAdapter(
-                    child: Center(child: Text(state.message)),
+                    child: CustomErrorForProvider(
+                      subtitle: state.message,
+                      onRefresh: () {
+                        context.read<FetchPendingBookingsCubit>().loadPending();
+                      },
+                    ),
                   );
                 }
                 if (state is FetchBookingDataEmpty) {
@@ -132,7 +138,14 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                 }
                 if (state is FetchBookingDataError) {
                   return SliverToBoxAdapter(
-                    child: Center(child: Text(state.message)),
+                    child: CustomErrorForProvider(
+                      subtitle: state.message,
+                      onRefresh: () {
+                        context
+                            .read<FetchAcceptedBookingsCubit>()
+                            .loadOngoing();
+                      },
+                    ),
                   );
                 }
                 if (state is FetchBookingDataEmpty) {

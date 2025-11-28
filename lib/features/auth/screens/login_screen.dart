@@ -6,6 +6,7 @@ import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_TextFormField.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
+import 'package:taskify/core/widgets/custom_notify_dialog.dart';
 import 'package:taskify/features/auth/cubit/login_cubit.dart';
 import 'package:taskify/features/auth/cubit/login_state.dart';
 import 'package:taskify/features/auth/widgets/custom_image_header.dart';
@@ -22,17 +23,30 @@ class AuthLogin extends StatefulWidget {
 class _AuthLoginState extends State<AuthLogin> {
   final formkey = GlobalKey<FormState>();
   bool _submitted = false;
+
+  // 🔹 Added Controllers
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    // 🔹 Dispose Controllers
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     final emailValidator = EmailValidator();
     final passwordValidator = PasswordValidator();
 
-    String? email, password;
     return Scaffold(
       body: SafeArea(
         child: BlocListener<LoginCubit, LoginState>(
-          listener: (context, state) {if (state is LoginLoading) {
+          listener: (context, state) {
+            if (state is LoginLoading) {
               showDialog(
                 context: context,
                 barrierDismissible: false,
@@ -47,9 +61,23 @@ class _AuthLoginState extends State<AuthLogin> {
                 arguments: '${state.profileData?['role']}',
               );
             } else if (state is LoginFailure) {
-              Navigator.pop(context); 
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errorMessage)),
+               if (Navigator.of(context, rootNavigator: true).canPop()) {
+                Navigator.of(context, rootNavigator: true).pop();
+              }
+
+              if (!context.mounted) return;
+
+              showDialog(
+                context: context,
+                builder:
+                    (_) => CustomNotifyDialog(
+                      title: "error_title".tr(),
+                      subtitle:
+                          state
+                              .errorMessage, 
+                      buttontext: "ok".tr(),
+                      icon: Icons.error,
+                    ),
               );
             }
           },
@@ -71,45 +99,40 @@ class _AuthLoginState extends State<AuthLogin> {
                     child: Form(
                       key: formkey,
                       autovalidateMode:
-                          _submitted
-                              ? AutovalidateMode.always
-                              : AutovalidateMode.disabled,
+                          _submitted ? AutovalidateMode.always : AutovalidateMode.disabled,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomTextFormField(
+                            controller: emailController, // 🔹 Added
                             labelText: 'email'.tr(),
                             prefixIcon: Icons.email,
-                            onChanged: (value) {
-                              email = value;
-                            },
                             validator: emailValidator.validate,
                           ),
                           SizedBox(height: 10.h),
                           CustomTextFormField(
+                            controller: passwordController, // 🔹 Added
                             labelText: "password".tr(),
                             prefixIcon: Icons.lock,
                             isObscureText: true,
-                            onChanged: (value) {
-                              password = value;
-                            },
                             validator: passwordValidator.validate,
                           ),
                           SizedBox(height: 10.h),
-                           Align(
-                          alignment: AlignmentDirectional.centerEnd,
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                forgotPasswordScreenRoute,
-                              );
-                            },
-                            child: Text(
-                              'forgot_password'.tr(),
-                              style: TextStyle(color: AppColors.primaryColor),
-                            ),)),
-
+                          Align(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  forgotPasswordScreenRoute,
+                                );
+                              },
+                              child: Text(
+                                'forgot_password'.tr(),
+                                style: TextStyle(color: AppColors.primaryColor),
+                              ),
+                            ),
+                          ),
                           SizedBox(height: 10.h),
                           CustomButton(
                             text: "login".tr(),
@@ -120,20 +143,12 @@ class _AuthLoginState extends State<AuthLogin> {
                               setState(() => _submitted = true);
                               if (formkey.currentState!.validate()) {
                                 BlocProvider.of<LoginCubit>(context).Login(
-                                  email: email!.trim(),
-                                  password: password!.trim(),
+                                  email: emailController.text.trim(),    // 🔹 Updated
+                                  password: passwordController.text.trim(), // 🔹 Updated
                                 );
                               }
                             },
                           ),
-                          // SizedBox(height: 10.h),
-                          // CustomButton(
-                          //   text: "sign_up_with_google".tr(),
-                          //   size: Size(size.width.w, 48.h),
-                          //   color: AppColors.secondaryBottomColor,
-                          //   fontColor: AppColors.blackTextColor,
-                          //   iconPath: 'assets/svgs/google.svg',
-                          // ),
                           SizedBox(height: 100.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -150,9 +165,7 @@ class _AuthLoginState extends State<AuthLogin> {
                                 },
                                 child: Text(
                                   'sign_up_exclamation'.tr(),
-                                  style: TextStyle(
-                                    color: AppColors.primaryColor,
-                                  ),
+                                  style: TextStyle(color: AppColors.primaryColor),
                                 ),
                               ),
                             ],
