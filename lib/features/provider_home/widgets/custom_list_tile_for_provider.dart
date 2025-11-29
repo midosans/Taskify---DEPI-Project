@@ -44,7 +44,7 @@ class CustomListTileForProvider extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        _formatDateTime(service.date!),
+                        '${_formatDateTime(service.date)} ${cleanTime(service.time!)}',
                         style: TextStyle(color: AppColors.lightprimarycolor),
                       ),
                       Text(
@@ -137,9 +137,13 @@ class CustomListTileForProvider extends StatelessWidget {
     );
   }
 
-  String _formatDateTime(DateTime dateTime) {
-    // Format to "Mon, Jul 15 • 10:00 AM"
-    final formatter = DateFormat('E, MMM d • h:mm a');
+  String _formatDateTime(DateTime? dateTime) {
+    if (dateTime == null) return 'No date';
+    final formatter = DateFormat('E, MMM d • ');
     return formatter.format(dateTime);
   }
+
+String cleanTime(String time) {
+  return time.substring(0, 5);   // "06:25"
+}
 }
