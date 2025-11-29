@@ -199,7 +199,7 @@
   "pending": "قيد الانتظار",
   "check_our_services": "تصفح خدماتنا",
   "confirm_booking_title": "تأكيد الحجز",
-  "confirm_booking_subtitle": "هل أنت متأكد أنك تريد حجز الخدمة: {0}؟",
+  "confirm_booking_subtitle": "هل أنت متأكد أنك تريد حجز الخدمة؟",
   "confirm": "تأكيد",
   "missing_photo": "مطلوب صورة",
   "missing_photo_subtitle": "يرجى اختيار صورة قبل المتابعة.",

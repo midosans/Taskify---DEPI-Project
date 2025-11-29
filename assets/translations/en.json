@@ -200,7 +200,7 @@
   "pending": "Pending",
   "check_our_services": "Check our services",
   "confirm_booking_title": "Confirm Booking",
-  "confirm_booking_subtitle": "Are you sure you want to book the service",
+  "confirm_booking_subtitle": "Are you sure you want to book the service?",
   "confirm": "Confirm",
   "missing_photo": "Photo Required",
   "missing_photo_subtitle": "Please select a photo before submitting.",
