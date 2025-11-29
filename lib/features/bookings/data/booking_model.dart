@@ -7,7 +7,6 @@ class BookingModel {
   final String? providerName;
   final String? userName;
   final String? serviceTitle;
-
   final DateTime? date;   // keep this 
   final String? time;     // <-- FIXED: time is string
   final String? address;

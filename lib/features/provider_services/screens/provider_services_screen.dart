@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
+import 'package:taskify/core/widgets/custom_error.dart';
 import 'package:taskify/features/provider_services/cubit/provider_services_cubit.dart';
 import 'package:taskify/features/provider_services/cubit/provider_services_state.dart';
 import 'package:taskify/features/provider_services/widgets/custom_loading_service.dart';
@@ -50,7 +51,9 @@ class _ProviderServicesScreensState extends State<ProviderServicesScreen> {
               if (state is ProviderServicesLoading) {
                 return const Center(child: CustomLoadingService());
               } else if (state is ProviderServicesFailure) {
-                return Center(child: Text(state.errorMessage));
+                return CustomError(subtitle: state.errorMessage.tr(), onRefresh: (){
+                  context.read<ProviderServicesCubit>().fetchData();
+                });
               } else if (state is ProviderServicesSuccess) {
                 final services = state.providerServicesdata;
                 debugPrint(services.isEmpty.toString());

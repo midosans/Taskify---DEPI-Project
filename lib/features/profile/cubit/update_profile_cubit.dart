@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taskify/app_services/internet_checker.dart';
 import 'package:taskify/features/profile/cubit/update_profile_state.dart';
 import 'package:taskify/features/profile/data/update_user_repo.dart';
 
@@ -15,6 +17,11 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     File? avatarFile,
   }) async {
     emit(UpdateProfileLoading());
+    bool connected = await hasInternet();
+    if (!connected) {
+      emit(UpdateProfileError('no_internet_connection'.tr()));
+      return;
+    }
 
     try {
       await updateProfileRepo.updateUser(username: username, phone: phone, role: role);

@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:taskify/app_services/internet_checker.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_confirm_dialog.dart';
 import 'package:taskify/features/profile/cubit/profile_cubit.dart';
@@ -159,28 +160,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 BuildSettingsItem(
                   icon: Icons.logout,
                   title: 'logout'.tr(),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return CustomConfirmDialog(
-                          title: 'logout'.tr(),
-                          subtitle: 'logout_question'.tr(),
-                          buttontext: 'logout_button'.tr(),
-                          onConfirm: () async {
-                            await LogoutRepo().signOut();
-
-                            Navigator.of(
-                              context,
-                              rootNavigator: true,
-                            ).pushNamedAndRemoveUntil(
-                              userTypeScreenRoute,
-                              (route) => false,
-                            );
-                          },
-                        );
-                      },
-                    );
+                  onTap: ()  {
+                    handleLogout(context);
                   },
                 ),
               ],
@@ -188,6 +169,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+void handleLogout(BuildContext context) async {
+  final hasInternetConnection = await hasInternet();
+
+  if (!hasInternetConnection) {
+    // Show no-internet dialog
+    return showDialog(
+      context: context,
+      builder: (context) => CustomConfirmDialog(
+        title: 'no_internet'.tr(),
+        subtitle: 'please_check_connection'.tr(),
+        buttontext: 'retry'.tr(),
+        onConfirm: () {
+          Navigator.pop(context);
+
+          // 🔁 Re-call the logout logic again
+          handleLogout(context);
+        },
+      ),
+    );
+  } else {
+    // Show logout confirm dialog
+    showDialog(
+      context: context,
+      builder: (context) {
+        return CustomConfirmDialog(
+          title: 'logout'.tr(),
+          subtitle: 'logout_question'.tr(),
+          buttontext: 'logout_button'.tr(),
+          onConfirm: () async {
+            await LogoutRepo().signOut();
+
+            Navigator.of(
+              context,
+              rootNavigator: true,
+            ).pushNamedAndRemoveUntil(
+              userTypeScreenRoute,
+              (route) => false,
+            );
+          },
+        );
+      },
     );
   }
 }

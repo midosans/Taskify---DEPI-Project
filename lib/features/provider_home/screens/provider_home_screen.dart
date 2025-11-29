@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
+import 'package:taskify/core/widgets/custom_no_data.dart';
 import 'package:taskify/features/provider_home/cubit/fetch_booking_data_state.dart';
 import 'package:taskify/features/provider_home/cubit/fetch_pending_bookings_cubit.dart';
 import 'package:taskify/features/provider_home/cubit/fetch_accepted_bookings_cubit.dart';
+import 'package:taskify/features/provider_home/widgets/custom_error_for_provider.dart';
 import 'package:taskify/features/provider_home/widgets/custom_list_tile_for_provider.dart';
 import 'package:taskify/features/provider_home/widgets/custom_loading_book.dart';
-import 'package:taskify/features/provider_home/widgets/custom_no_books.dart';
 
 class ProviderHomeScreen extends StatefulWidget {
   const ProviderHomeScreen({super.key});
@@ -81,12 +82,17 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                 }
                 if (state is FetchBookingDataError) {
                   return SliverToBoxAdapter(
-                    child: Center(child: Text(state.message)),
+                    child: CustomErrorForProvider(
+                      subtitle: state.message,
+                      onRefresh: () {
+                        context.read<FetchPendingBookingsCubit>().loadPending();
+                      },
+                    ),
                   );
                 }
                 if (state is FetchBookingDataEmpty) {
                   return SliverToBoxAdapter(
-                    child: CustomNoBooks(
+                    child: CustomNoData(
                       title: "no_new_orders".tr(),
                       subtitle: "please_check_back_later".tr(),
                       onRefresh: () {
@@ -132,12 +138,19 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                 }
                 if (state is FetchBookingDataError) {
                   return SliverToBoxAdapter(
-                    child: Center(child: Text(state.message)),
+                    child: CustomErrorForProvider(
+                      subtitle: state.message,
+                      onRefresh: () {
+                        context
+                            .read<FetchAcceptedBookingsCubit>()
+                            .loadOngoing();
+                      },
+                    ),
                   );
                 }
                 if (state is FetchBookingDataEmpty) {
                   return SliverToBoxAdapter(
-                    child: CustomNoBooks(
+                    child: CustomNoData(
                       title: "no_new_orders".tr(),
                       subtitle: "please_check_back_later".tr(),
                       onRefresh: () {
