@@ -4,23 +4,28 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
 
-class CustomErrorProvider extends StatelessWidget {
+class CustomNoData extends StatelessWidget {
+  final String title;
   final String subtitle;
   final VoidCallback onRefresh;
-  const CustomErrorProvider({
+  const CustomNoData({
     super.key,
+    required this.title,
     required this.subtitle,
     required this.onRefresh,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SizedBox(
+      height: 347.h,
+      width: double.infinity,
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('unexpected_error'.tr(),
+            Text(title,
                 style: TextStyle(
                     fontSize: 20.sp, fontWeight: FontWeight.bold)),
             Text(subtitle,
@@ -41,7 +46,7 @@ class CustomErrorProvider extends StatelessWidget {
             ),
           ],
         ),
-      );
-    
+      ),
+    );
   }
 }

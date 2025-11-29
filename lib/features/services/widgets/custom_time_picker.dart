@@ -29,17 +29,26 @@ class CustomTimePickerState extends State<CustomTimePicker> {
   }
 
   Future<void> _pickDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2030),
-      useRootNavigator: true,
-    );
-    if (picked != null) {
-      setState(() => selectedDate = picked);
-    }
+  final now = DateTime.now();
+
+  // Prevent freezing when selectedDate < firstDate
+  if (selectedDate != null && selectedDate!.isBefore(
+      DateTime(now.year, now.month, now.day))) {
+    selectedDate = null;
   }
+
+  final picked = await showDatePicker(
+    context: context,
+    initialDate: selectedDate ?? now,
+    firstDate: now,
+    lastDate: DateTime(2030),
+    useRootNavigator: true,
+  );
+
+  if (picked != null) {
+    setState(() => selectedDate = picked);
+  }
+}
 
   Future<void> _pickTime() async {
     final picked = await showTimePicker(

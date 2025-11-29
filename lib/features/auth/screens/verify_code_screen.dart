@@ -88,7 +88,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                             SizedBox(height: 8.h),
                             Text(
                               //made edit here
-                              "enter_code_sent_to",
+                              "enter_code_sent_to".tr(),
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: AppColors.primaryColor,

@@ -188,10 +188,22 @@
   "provider_number_unavailable": "رقم هاتف المزود غير متوفر",
   "update_Service": "تحديث الخدمة",
   "unexpected_error": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
-   "no_internet_connection": "لا يوجد اتصال بالإنترنت",
-   "no_internet": "لا يوجد اتصال بالإنترنت",
+  "no_internet_connection": "لا يوجد اتصال بالإنترنت",
+  "no_internet": "لا يوجد اتصال بالإنترنت",
   "please_check_connection": "يرجى التحقق من الاتصال والمحاولة مرة أخرى",
   "retry": "إعادة المحاولة",
-  "exit": "خروج"
-
+  "exit": "خروج",
+  "see_details": "عرض التفاصيل",
+  "no_services_available": "لا توجد خدمات متاحة",
+  "accepted": "مقبول",
+  "pending": "قيد الانتظار",
+  "check_our_services": "تصفح خدماتنا",
+  "confirm_booking_title": "تأكيد الحجز",
+  "confirm_booking_subtitle": "هل أنت متأكد أنك تريد حجز الخدمة: {0}؟",
+  "confirm": "تأكيد",
+  "missing_photo": "مطلوب صورة",
+  "missing_photo_subtitle": "يرجى اختيار صورة قبل المتابعة.",
+  "booking_success_title": "تم تأكيد الحجز",
+  "booking_success_subtitle": "تم إنشاء الحجز بنجاح!",
+  "enter_code_sent_to": "أدخل الرمز المرسل إلى"
 }

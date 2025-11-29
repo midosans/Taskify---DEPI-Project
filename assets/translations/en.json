@@ -193,5 +193,18 @@
   "no_internet": "No Internet Connection",
   "please_check_connection": "Please check your connection and try again",
   "retry": "Retry",
-  "exit": "Exit"
+  "exit": "Exit",
+  "see_details": "See details",
+  "no_services_available": "No services available",
+  "accepted": "Accepted",
+  "pending": "Pending",
+  "check_our_services": "Check our services",
+  "confirm_booking_title": "Confirm Booking",
+  "confirm_booking_subtitle": "Are you sure you want to book the service",
+  "confirm": "Confirm",
+  "missing_photo": "Photo Required",
+  "missing_photo_subtitle": "Please select a photo before submitting.",
+  "booking_success_title": "Booking Confirmed",
+  "booking_success_subtitle": "Your booking has been created successfully!",
+  "enter_code_sent_to": "Enter the code sent to"
 }

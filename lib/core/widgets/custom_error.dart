@@ -3,29 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
-import 'package:taskify/core/widgets/custom_dotted_border.dart';
 
-class CustomNoBooks extends StatelessWidget {
-  final String title;
+class CustomError extends StatelessWidget {
   final String subtitle;
   final VoidCallback onRefresh;
-  const CustomNoBooks({
+  const CustomError({
     super.key,
-    required this.title,
     required this.subtitle,
     required this.onRefresh,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 347.h,
-      width: double.infinity,
-      child: Center(
-        child: CustomDottedBorder(
-          height: 300.h,
+    return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(title,
+            Text('unexpected_error'.tr(),
+            textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 20.sp, fontWeight: FontWeight.bold)),
             Text(subtitle,
@@ -46,7 +42,7 @@ class CustomNoBooks extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
+    
   }
 }
