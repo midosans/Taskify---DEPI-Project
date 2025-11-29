@@ -60,7 +60,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      selectedUserType = 'Customer';
+                      selectedUserType = 'User';
                     });
                   },
                   child: Container(
@@ -75,7 +75,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                         width: 2,
                       ),
                       color:
-                          selectedUserType == 'Customer'
+                          selectedUserType == 'User'
                               ? AppColors.primaryColor.withOpacity(0.1)
                               : Colors.white,
                     ),
@@ -96,7 +96,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                             fontSize: 22.sp,
                             fontWeight: FontWeight.bold,
                             color:
-                                selectedUserType == 'Customer'
+                                selectedUserType == 'User'
                                     ? AppColors.primaryColor
                                     : AppColors.blackTextColor,
                           ),
