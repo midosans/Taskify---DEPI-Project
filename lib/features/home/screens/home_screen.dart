@@ -198,9 +198,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   } else if (state is HomeFailure) {
                     return Center(
-                      child: CustomError(subtitle: state.errorMessage.tr(), onRefresh: () {
-                        context.read<HomeCubit>().getUpcomingBookings();
-                        },)
+                      child: CustomError(
+                        subtitle: state.errorMessage.tr(),
+                        onRefresh: () {
+                          context.read<HomeCubit>().getUpcomingBookings();
+                        },
+                      ),
                     );
                   } else if (state is HomeSuccess) {
                     if (state.bookings.isEmpty) {
@@ -213,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         // Call both refresh functions when pulling down
                         context.read<HomeCubit>().getUpcomingBookings();
                       },
-          
+
                       // Needed so RefreshIndicator works even if list is short
                       notificationPredicate: (_) => true,
                       child: Padding(

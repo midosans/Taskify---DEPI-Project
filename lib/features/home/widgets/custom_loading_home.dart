@@ -9,19 +9,15 @@ class CustomLoadingHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Skeletonizer(
       enabled: true,
-      child: Column(
+      child: ListView(
         children: List.generate(
-          1,
+          3,
           (index) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: CustomListTileHome(
-               imageUrl: '', titleText: '', status: '',
-            ),
+            child: CustomListTileHome(imageUrl: '', titleText: '', status: ''),
           ),
         ),
       ),
     );
   }
 }
-
-
