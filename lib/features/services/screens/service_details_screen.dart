@@ -1,9 +1,7 @@
-import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:palette_generator/palette_generator.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_app_button.dart';
@@ -23,156 +21,99 @@ class ServiceDetailsScreen extends StatefulWidget {
 }
 
 class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
-  Color _iconColor = Colors.white;
-  Color _titleColor = Colors.white;
-  bool _collapsed = false;
-  final ScrollController _scrollController = ScrollController();
-
   @override
   void initState() {
     super.initState();
     context.read<ContactCubit>().getPhone(
       providerId: widget.servicesModel.providerid!,
     );
-    _analyzeImageBrightness();
-    _scrollController.addListener(_scrollListener);
-  }
-
-  void _scrollListener() {
-    final collapsePoint = 250.h - kToolbarHeight;
-    final isCollapsed = _scrollController.offset > collapsePoint;
-
-    if (isCollapsed != _collapsed) {
-      setState(() {
-        _collapsed = isCollapsed;
-      });
-    }
-  }
-
-  Future<void> _analyzeImageBrightness() async {
-    try {
-      final networkImage = NetworkImage(widget.servicesModel.photo ?? '');
-      final completer = Completer<ImageInfo>();
-      final stream = networkImage.resolve(const ImageConfiguration());
-      final listener = ImageStreamListener(
-        (info, _) {
-          if (!completer.isCompleted) completer.complete(info);
-        },
-        onError: (error, _) {
-          if (!completer.isCompleted) completer.completeError(error);
-        },
-      );
-
-      stream.addListener(listener);
-      final imageInfo = await completer.future;
-      stream.removeListener(listener);
-
-      final palette = await PaletteGenerator.fromImage(imageInfo.image);
-      final dominantColor = palette.dominantColor?.color ?? Colors.black;
-      final brightness = ThemeData.estimateBrightnessForColor(dominantColor);
-
-      if (mounted) {
-        setState(() {
-          _iconColor =
-              brightness == Brightness.dark ? Colors.white : Colors.black;
-          _titleColor =
-              brightness == Brightness.dark ? Colors.white : Colors.black;
-        });
-      }
-    } catch (_) {
-      if (mounted) {
-        setState(() {
-          _iconColor = Colors.white;
-          _titleColor = Colors.white;
-        });
-      }
-    }
+    // _analyzeImageBrightness();
+    // _scrollController.addListener(_scrollListener);
   }
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      body: Stack(
+      appBar: AppBar(
+        backgroundColor: AppColors.backgroundColor,
+        surfaceTintColor: AppColors.backgroundColor,
+        centerTitle: true,
+        title: Text(
+          widget.servicesModel.title ?? '',
+          style: TextStyle(
+            fontSize: 22.sp,
+            fontWeight: FontWeight.bold,
+            color: AppColors.blackTextColor,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.blackTextColor,
+            size: 22.sp,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+
+      body: Column(
         children: [
-          CustomScrollView(
-            controller: _scrollController,
-            slivers: [
-              SliverAppBar(
-                expandedHeight: 250.h,
-                pinned: true,
-                centerTitle: true,
-                elevation: 0,
-                backgroundColor: AppColors.backgroundColor,
-                surfaceTintColor: AppColors.backgroundColor,
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios_new,
-                    color: _collapsed ? Colors.black : _iconColor,
-                    size: 22.sp,
-                  ),
-                  onPressed: () => Navigator.of(context).pop(),
+          Expanded(
+            child: ListView(
+              children: [
+                CustomCashedImage(
+                  url: widget.servicesModel.photo ?? 'assets/pngs/error.png',
+                  size: Size(size.width, 250.h),
                 ),
-                title: AnimatedDefaultTextStyle(
-                  duration: const Duration(milliseconds: 200),
-                  style: TextStyle(
-                    color: _collapsed ? Colors.black : _titleColor,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  child: Text(widget.servicesModel.title ?? ''),
-                ),
-                flexibleSpace: FlexibleSpaceBar(
-                  background: CustomCashedImage(
-                    url: widget.servicesModel.photo ?? 'assets/pngs/error.png',
-                    size: Size(double.infinity, 250.h),
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 16.h,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.servicesModel.title ?? '',
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 4.h),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4.w),
-                        child: Text(
-                          '${'price'.tr()}: ${widget.servicesModel.price ?? ''} ${'egp'.tr()}',
+                // Image.asset(
+                //   servicesModel.photo ?? '',
+                //   width: MediaQuery.of(context).size.width,
+                //   height: 250.h,
+                //   fit: BoxFit.cover,
+                // ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                  child: SizedBox(
+                    width: size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.servicesModel.title ?? '',
+                          maxLines: 1,
                           style: TextStyle(
-                            fontSize: 16.sp,
-                            color: AppColors.hintTextColor,
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                      SizedBox(height: 16.h),
-                      Text(
-                        widget.servicesModel.description ??
-                            'No description available.',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          height: 1.4,
-                          color: AppColors.blackTextColor,
+                        SizedBox(height: 4.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 4.w),
+                          child: Text(
+                            '${'price'.tr()}: ${widget.servicesModel.price ?? ''} ${'egp'.tr()}',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              color: AppColors.hintTextColor,
+                            ),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 135.h),
-                    ],
+                        SizedBox(height: 16.h),
+                        Text(
+                          widget.servicesModel.description ?? '',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            height: 1.4,
+                            color: AppColors.blackTextColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Align(
             alignment: Alignment.bottomCenter,

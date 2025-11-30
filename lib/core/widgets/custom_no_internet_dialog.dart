@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/widgets/custom_button.dart';
 
@@ -12,13 +13,12 @@ class CustomNoInternetDialog extends StatelessWidget {
     required this.subtitle,
     required this.buttontext,
     required this.onConfirm,
-    
   });
   final String title;
   final String subtitle;
   final String buttontext;
   final VoidCallback onConfirm;
-  
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -28,12 +28,12 @@ class CustomNoInternetDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.live_help_outlined,
-              color: AppColors.primaryColor,
-              size: 48,
+            SizedBox(
+              width: 120.w,
+              height: 120.h,
+              child: Lottie.asset('assets/animations/no_internet.json'),
             ),
-             SizedBox(height: 16.h),
+            SizedBox(height: 16.h),
             Text(
               title,
               textAlign: TextAlign.center,
@@ -43,13 +43,13 @@ class CustomNoInternetDialog extends StatelessWidget {
                 color: AppColors.blackTextColor,
               ),
             ),
-             SizedBox(height: 12.h),
+            SizedBox(height: 12.h),
             Text(
               subtitle,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14.sp, color: AppColors.greyTextColor),
             ),
-             SizedBox(height: 20.h),
+            SizedBox(height: 20.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +67,7 @@ class CustomNoInternetDialog extends StatelessWidget {
                   color: AppColors.deleteColor,
                   fontColor: AppColors.secondaryBottomColor,
                   onPressed: () {
-                   SystemNavigator.pop();
+                    SystemNavigator.pop();
                   },
                 ),
               ],

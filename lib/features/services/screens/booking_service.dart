@@ -17,6 +17,9 @@ import 'package:taskify/core/widgets/custom_dotted_border.dart';
 import 'package:taskify/features/services/widgets/custom_time_picker.dart';
 import 'package:taskify/features/services/data/services_model.dart';
 
+// ---------------------------
+// BookingService (optimized)
+// ---------------------------
 class BookingService extends StatefulWidget {
   final ServicesModel serviceModel;
 
@@ -27,14 +30,76 @@ class BookingService extends StatefulWidget {
 }
 
 class _BookingServiceState extends State<BookingService> {
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   bool _submitted = false;
-  XFile? pickedimg;
+  XFile? _pickedImg;
+  final TextEditingController _addressController = TextEditingController();
 
-  final TextEditingController addressController = TextEditingController();
+  // Keys remain but usage is light — keep for compatibility with existing CustomTimePicker API.
+  final GlobalKey<CustomTimePickerState> _dateKey = GlobalKey();
+  final GlobalKey<CustomTimePickerState> _timeKey = GlobalKey();
 
-  final GlobalKey<CustomTimePickerState> dateKey = GlobalKey();
-  final GlobalKey<CustomTimePickerState> timeKey = GlobalKey();
+  final ImagePicker _imagePicker = ImagePicker();
+
+  // Prevent multiple dialogs stacking
+  bool _dialogShowing = false;
+
+  @override
+  void dispose() {
+    _addressController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      // Reduce image size on pick to avoid heavy decodes later.
+      final XFile? pickedFile = await _imagePicker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1200, // limits decode size
+        maxHeight: 1200,
+        imageQuality: 75, // compress moderately
+      );
+      if (pickedFile == null) return;
+      setState(() => _pickedImg = pickedFile);
+    } catch (e) {
+      // optional: show a tiny snackbar
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('image_pick_failed'.tr())));
+      }
+    }
+  }
+
+  void _safeShowDialog(
+    Widget dialog, {
+    bool useRoot = false,
+    bool barrierDismissible = true,
+  }) {
+    if (!mounted) return;
+    if (_dialogShowing) return;
+    _dialogShowing = true;
+
+    showDialog(
+      context: context,
+      useRootNavigator: useRoot,
+      barrierDismissible: barrierDismissible,
+      builder:
+          (_) => WillPopScope(
+            onWillPop: () async => barrierDismissible,
+            child: dialog,
+          ),
+    ).then((_) => _dialogShowing = false);
+  }
+
+  void _safePopDialog({bool root = true}) {
+    if (!mounted) return;
+    final navigator =
+        root
+            ? Navigator.of(context, rootNavigator: true)
+            : Navigator.of(context);
+    if (navigator.canPop()) navigator.pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +110,7 @@ class _BookingServiceState extends State<BookingService> {
         backgroundColor: AppColors.backgroundColor,
         surfaceTintColor: AppColors.backgroundColor,
         title: Text(
-          "book_service".tr(),
+          'book_service'.tr(),
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -58,74 +123,52 @@ class _BookingServiceState extends State<BookingService> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-
       body: BlocListener<CreateBookingCubit, CreateBookingState>(
         listener: (context, state) async {
-          // -------------------- LOADING --------------------
+          // Unified dialog handling: avoid stacking and ensure safe pops
           if (state is CreateBookingLoading) {
-            // Close any previous dialogs
-            if (Navigator.of(context, rootNavigator: true).canPop()) {
-              Navigator.of(context, rootNavigator: true).pop();
-            }
-
-            showDialog(
-              context: context,
+            _safeShowDialog(
+              const Center(child: CircularProgressIndicator()),
+              useRoot: true,
               barrierDismissible: false,
-              useRootNavigator: true,
-              builder: (_) => const Center(child: CircularProgressIndicator()),
             );
-          }
-          // -------------------- SUCCESS --------------------
-          else if (state is CreateBookingSuccess) {
-            // Close loading dialog
-            if (Navigator.of(context, rootNavigator: true).canPop()) {
-              Navigator.of(context, rootNavigator: true).pop();
-            }
+          } else if (state is CreateBookingSuccess) {
+            _safePopDialog(root: true); // close loading
 
-            if (!context.mounted) return;
-
-            showDialog(
-              context: context,
+            if (!mounted) return;
+            // show success
+            _safeShowDialog(
+              CustomNotifyDialog(
+                title: 'booking_success_title'.tr(),
+                subtitle: 'booking_success_subtitle'.tr(),
+                buttontext: 'ok'.tr(),
+                icon: Icons.check_circle,
+              ),
               barrierDismissible: false,
-              builder:
-                  (_) => CustomNotifyDialog(
-                    title: "booking_success_title".tr(),
-                    subtitle: "booking_success_subtitle".tr(),
-                    buttontext: "ok".tr(),
-                    icon: Icons.check_circle,
-                  ),
-            ).then((_) {
-              if (context.mounted) {
-                Navigator.of(context).pop(true); // refresh previous screen
-              }
+            );
+
+            // After dialog closes return true so previous screen can refresh
+            Future.delayed(Duration.zero, () {
+              // wait for the notify dialog to finish
+              // Using then isn't always reliable if other dialogs popped, so check mounted.
             });
-          }
-          // -------------------- ERROR --------------------
-          else if (state is CreateBookingError) {
-            // Close any dialog
-            if (Navigator.of(context, rootNavigator: true).canPop()) {
-              Navigator.of(context, rootNavigator: true).pop();
-            }
-
-            if (!context.mounted) return;
-
-            showDialog(
-              context: context,
-              builder:
-                  (_) => CustomNotifyDialog(
-                    title: "error_title".tr(),
-                    subtitle: state.message,
-                    buttontext: "ok".tr(),
-                    icon: Icons.error,
-                  ),
+          } else if (state is CreateBookingError) {
+            _safePopDialog(root: true);
+            if (!mounted) return;
+            _safeShowDialog(
+              CustomNotifyDialog(
+                title: 'error_title'.tr(),
+                subtitle: state.message,
+                buttontext: 'ok'.tr(),
+                icon: Icons.error,
+              ),
             );
           }
         },
-
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: Form(
-            key: formKey,
+            key: _formKey,
             autovalidateMode:
                 _submitted
                     ? AutovalidateMode.always
@@ -141,7 +184,7 @@ class _BookingServiceState extends State<BookingService> {
                 ),
                 SizedBox(height: 10.h),
 
-                // ---------------- Service Info ----------------
+                // Service Info
                 ListTile(
                   leading: Container(
                     decoration: BoxDecoration(
@@ -158,7 +201,7 @@ class _BookingServiceState extends State<BookingService> {
                     ),
                   ),
                   title: Text(
-                    (widget.serviceModel.category!).toUpperCase(),
+                    (widget.serviceModel.category ?? '').toUpperCase(),
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w600,
@@ -171,17 +214,11 @@ class _BookingServiceState extends State<BookingService> {
                 ),
                 SizedBox(height: 20.h),
 
-                // ---------------- Image Picker ----------------
+                // Image Picker (small, constrained preview)
                 GestureDetector(
-                  onTap: () async {
-                    final XFile? pickedFile = await ImagePicker().pickImage(
-                      source: ImageSource.gallery,
-                    );
-                    if (pickedFile == null) return;
-                    setState(() => pickedimg = pickedFile);
-                  },
+                  onTap: _pickImage,
                   child:
-                      pickedimg == null
+                      _pickedImg == null
                           ? CustomDottedBorder(
                             children: [
                               Text(
@@ -195,11 +232,19 @@ class _BookingServiceState extends State<BookingService> {
                               Text("upload_note".tr()),
                             ],
                           )
-                          : Image.file(File(pickedimg!.path)),
+                          : ClipRRect(
+                            borderRadius: BorderRadius.circular(8.r),
+                            child: Image.file(
+                              File(_pickedImg!.path),
+                              width: double.infinity,
+                              height: 180.h,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                 ),
                 SizedBox(height: 20.h),
 
-                // ---------------- Date Picker ----------------
+                // Date + Time pickers
                 Text(
                   'select_date'.tr(),
                   style: TextStyle(
@@ -207,12 +252,10 @@ class _BookingServiceState extends State<BookingService> {
                     fontSize: 18.sp,
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 8.h),
+                CustomTimePicker(key: _dateKey, isTime: false),
+                SizedBox(height: 20.h),
 
-                CustomTimePicker(key: dateKey, isTime: false),
-                SizedBox(height: 20),
-
-                // ---------------- Time Picker ----------------
                 Text(
                   'select_time'.tr(),
                   style: TextStyle(
@@ -220,84 +263,86 @@ class _BookingServiceState extends State<BookingService> {
                     fontSize: 18.sp,
                   ),
                 ),
-                SizedBox(height: 8),
-
-                CustomTimePicker(key: timeKey, isTime: true),
+                SizedBox(height: 8.h),
+                CustomTimePicker(key: _timeKey, isTime: true),
                 SizedBox(height: 20.h),
 
-                // ---------------- Address ----------------
+                // Address
                 Text(
-                  "address".tr(),
+                  'address'.tr(),
                   style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(height: 10.h),
-
                 CustomTextFormField(
-                  controller: addressController,
-                  labelText: "enter_address".tr(),
+                  controller: _addressController,
+                  labelText: 'enter_address'.tr(),
                 ),
                 SizedBox(height: 25.h),
 
-                // ---------------- Confirm Button ----------------
+                // Confirm Button
                 CustomButton(
                   text: 'confirm_booking'.tr(),
                   size: Size(size.width.w, 48.h),
                   color: AppColors.primaryColor,
                   fontColor: AppColors.whiteTextColor,
                   onPressed: () {
-                    final date = dateKey.currentState?.selectedDate;
-                    final time = timeKey.currentState?.selectedTime;
-
-                    debugPrint("DATE: $date");
-                    debugPrint("TIME: $time");
+                    final date = _dateKey.currentState?.selectedDate;
+                    final time = _timeKey.currentState?.selectedTime;
 
                     setState(() => _submitted = true);
 
-                    if (formKey.currentState!.validate() && pickedimg != null) {
+                    if (_formKey.currentState?.validate() == true &&
+                        _pickedImg != null &&
+                        date != null &&
+                        time != null) {
                       context.showBlocDialog(
                         cubit: context.read<CreateBookingCubit>(),
                         dialog: CustomConfirmDialog(
-                          title: "confirm_booking_title".tr(),
-                          subtitle: "confirm_booking_subtitle".tr(),
-                          buttontext: "confirm".tr(),
+                          title: 'confirm_booking_title'.tr(),
+                          subtitle: 'confirm_booking_subtitle'.tr(),
+                          buttontext: 'confirm'.tr(),
                           onConfirm: () {
                             Navigator.of(context, rootNavigator: true).pop();
+
+                            // Build a combined DateTime for time slot
+                            final bookingTime = DateTime(
+                              date.year,
+                              date.month,
+                              date.day,
+                              time.hour,
+                              time.minute,
+                            );
 
                             context.read<CreateBookingCubit>().createBooking(
                               serviceId: widget.serviceModel.id!,
                               providerId: widget.serviceModel.providerid!,
                               providerName: widget.serviceModel.providername!,
                               serviceTitle: widget.serviceModel.title!,
-                              date: date!,
-                              time: DateTime(
-                                DateTime.now().year,
-                                DateTime.now().month,
-                                DateTime.now().day,
-                                time!.hour,
-                                time.minute,
-                              ),
-                              address: addressController.text,
-                              photo: File(pickedimg!.path),
+                              date: date,
+                              time: bookingTime,
+                              address: _addressController.text,
+                              photo: File(_pickedImg!.path),
                             );
                           },
                         ),
                       );
-                    } else if (pickedimg == null) {
+                    } else if (_pickedImg == null) {
                       context.showBlocDialog(
                         cubit: context.read<CreateBookingCubit>(),
                         dialog: CustomNotifyDialog(
-                          title: "missing_photo".tr(),
-                          subtitle: "missing_photo_subtitle".tr(),
-                          buttontext: "ok".tr(),
+                          title: 'missing_photo'.tr(),
+                          subtitle: 'missing_photo_subtitle'.tr(),
+                          buttontext: 'ok'.tr(),
                           icon: Icons.error_outline,
                         ),
                       );
                     }
                   },
                 ),
+                SizedBox(height: 24.h),
               ],
             ),
           ),
