@@ -11,10 +11,26 @@ import 'package:taskify/features/services/cubit/contact_state.dart';
 import 'package:taskify/features/services/data/services_model.dart';
 import 'package:taskify/features/services/widgets/launcher_helper.dart';
 
-class ServiceDetailsScreen extends StatelessWidget {
+class ServiceDetailsScreen extends StatefulWidget {
   final ServicesModel servicesModel;
 
   const ServiceDetailsScreen({super.key, required this.servicesModel});
+
+  @override
+  State<ServiceDetailsScreen> createState() => _ServiceDetailsScreenState();
+}
+
+class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ContactCubit>().getPhone(
+      providerId: widget.servicesModel.providerid!,
+    );
+    // _analyzeImageBrightness();
+    // _scrollController.addListener(_scrollListener);
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.sizeOf(context);
@@ -25,7 +41,7 @@ class ServiceDetailsScreen extends StatelessWidget {
         surfaceTintColor: AppColors.backgroundColor,
         centerTitle: true,
         title: Text(
-          servicesModel.title ?? '',
+          widget.servicesModel.title ?? '',
           style: TextStyle(
             fontSize: 22.sp,
             fontWeight: FontWeight.bold,
@@ -48,7 +64,7 @@ class ServiceDetailsScreen extends StatelessWidget {
             child: ListView(
               children: [
                 CustomCashedImage(
-                  url: servicesModel.photo ?? 'assets/pngs/error.png',
+                  url: widget.servicesModel.photo ?? 'assets/pngs/error.png',
                   size: Size(size.width, 250.h),
                 ),
                 // Image.asset(
@@ -65,7 +81,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          servicesModel.title ?? '',
+                          widget.servicesModel.title ?? '',
                           maxLines: 1,
                           style: TextStyle(
                             fontSize: 20.sp,
@@ -76,7 +92,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 4.w),
                           child: Text(
-                            '${'price'.tr()}: ${servicesModel.price ?? ''} ${'egp'.tr()}',
+                            '${'price'.tr()}: ${widget.servicesModel.price ?? ''} ${'egp'.tr()}',
                             style: TextStyle(
                               fontSize: 16.sp,
                               color: AppColors.hintTextColor,
@@ -85,7 +101,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 16.h),
                         Text(
-                          servicesModel.description ?? '',
+                          widget.servicesModel.description ?? '',
                           style: TextStyle(
                             fontSize: 16.sp,
                             height: 1.4,
@@ -159,7 +175,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  servicesModel.providername ?? '',
+                                  widget.servicesModel.providername ?? '',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -169,7 +185,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
-                                  servicesModel.category?.tr() ?? '',
+                                  widget.servicesModel.category?.tr() ?? '',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -206,7 +222,7 @@ class ServiceDetailsScreen extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         bookserviceRoute,
-                        arguments: servicesModel,
+                        arguments: widget.servicesModel,
                       );
                     },
                     text: 'book_now'.tr(),
@@ -218,103 +234,6 @@ class ServiceDetailsScreen extends StatelessWidget {
               ),
             ),
           ),
-          // SizedBox(
-          //   width: size.width,
-          //   child: Padding(
-          //     padding: EdgeInsets.symmetric(horizontal: 4.w),
-          //     child: Column(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       mainAxisAlignment: MainAxisAlignment.center,
-          //       children: [
-          //         Align(
-          //           alignment: AlignmentDirectional.centerStart,
-          //           child: Text(
-          //             'about_vendor'.tr(),
-          //             style: TextStyle(
-          //               color: AppColors.blackTextColor,
-          //               fontSize: 22.sp,
-          //               fontWeight: FontWeight.bold,
-          //             ),
-          //           ),
-          //         ),
-          //         Padding(
-          //           padding: EdgeInsets.all(8.w),
-          //           child: Row(
-          //             children: [
-          //               CircleAvatar(
-          //                 radius: 28.r,
-          //                 child: CustomCashedImage(
-          //                   url: servicesModel.photo!, // ⚠⚠⚠❌❌
-          //                   size: Size(28.r, 28.r),
-          //                 ),
-          //                 // child: Image.asset('assets/pngs/vendor_photo.png'),
-          //               ),
-          //               SizedBox(width: 8.w),
-          //               Expanded(
-          //                 child: Column(
-          //                   crossAxisAlignment: CrossAxisAlignment.start,
-          //                   children: [
-          //                     Text(
-          //                       servicesModel.providername ?? '',
-          //                       maxLines: 1,
-          //                       overflow: TextOverflow.ellipsis,
-          //                       style: TextStyle(
-          //                         fontSize: 18.sp,
-          //                         fontWeight: FontWeight.bold,
-          //                       ),
-          //                     ),
-          //                     SizedBox(height: 4.h),
-          //                     Text(
-          //                       servicesModel.category?.tr() ?? '',
-          //                       maxLines: 1,
-          //                       overflow: TextOverflow.ellipsis,
-          //                       style: TextStyle(
-          //                         fontSize: 15.sp,
-          //                         color: AppColors.hintTextColor,
-          //                       ),
-          //                     ),
-          //                   ],
-          //                 ),
-          //               ),
-          //               Spacer(),
-          //               CustomAppButton(
-          //                 onPressed: () async {
-          //                   final phoneNumber = '01060052583'; // ◀◀◀🔂
-          //                   if (phoneNumber.isNotEmpty) {
-          //                     await LauncherHelper.openDialer(phoneNumber);
-          //                   } else {
-          //                     ScaffoldMessenger.of(context).showSnackBar(
-          //                       SnackBar(
-          //                         content: Text(
-          //                           'provider_number_unavailable'.tr(),
-          //                         ),
-          //                       ),
-          //                     );
-          //                   }
-          //                 },
-          //                 text: 'contact'.tr(),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //         CustomAppButton(
-          //           onPressed: () {
-          //             Navigator.pushNamed(
-          //               context,
-          //               bookserviceRoute,
-          //               arguments: servicesModel,
-          //             );
-          //           },
-          //           text: 'book_now'.tr(),
-          //           size: Size(size.width, 48.h),
-          //           isBuld: true,
-          //           fontSize: 18,
-          //         ),
-          //         SizedBox(height: 8.h),
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
