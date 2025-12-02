@@ -16,107 +16,110 @@ class CustomTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Skeletonizer(
       enabled: isLoading,
-      child: Card(
-        color: AppColors.backgroundColor,
-        margin: EdgeInsets.symmetric(vertical: 8.h),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: Row(
-            children: [
-              // Text section
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // --- Date ---
-                      Text(
-                        service.date != null
-                            ? '${_formatDateTime(service.date)} ${cleanTime(service.time!)}'
-                            : "No date",
-                        style: TextStyle(color: AppColors.lightprimarycolor),
-                      ),
-
-                      // --- Title ---
-                      Text(
-                        service.serviceTitle ?? 'Unnamed Service',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.sp,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.w),
+        child: Card(
+          color: AppColors.backgroundColor,
+          margin: EdgeInsets.symmetric(vertical: 8.h),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            child: Row(
+              children: [
+                // Text section
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // --- Date ---
+                        Text(
+                          service.date != null
+                              ? '${_formatDateTime(service.date)} ${cleanTime(service.time!)}'
+                              : "No date",
+                          style: TextStyle(color: AppColors.lightprimarycolor),
                         ),
-                      ),
-
-                      // --- Provider ---
-                      Text(
-                        service.providerName != null
-                            ? "By ${service.providerName}"
-                            : "Provider not specified",
-                        style: TextStyle(color: AppColors.lightprimarycolor),
-                      ),
-
-                      // --- Address container ---
-                      if (service.address != null)
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 5.w,
-                            vertical: 4.h,
-                          ),
-                          child: Container(
-                            height: 32.h,
-                            width: 147.w,
-                            decoration: BoxDecoration(
-                              color: AppColors.lightGreyColor,
-                              borderRadius: BorderRadius.circular(5.r),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  service.address ?? 'No address',
-                                  style: TextStyle(fontSize: 12.sp),
-                                ),
-                                SvgPicture.asset(
-                                  'assets/svgs/location.svg',
-                                  width: 18.w,
-                                  height: 18.h,
-                                ),
-                              ],
-                            ),
+        
+                        // --- Title ---
+                        Text(
+                          service.serviceTitle ?? 'Unnamed Service',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
                           ),
                         ),
-
-                      SizedBox(height: 4.h),
-
-                      // --- Status ---
-                      Text(
-                        service.status.toUpperCase(),
-                        style: TextStyle(
-                          color: _getStatusColor(service.status.toLowerCase()),
-                          fontWeight: FontWeight.w600,
+        
+                        // --- Provider ---
+                        Text(
+                          service.providerName != null
+                              ? "By ${service.providerName}"
+                              : "Provider not specified",
+                          style: TextStyle(color: AppColors.lightprimarycolor),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // --- Image section ---
-              Skeleton.leaf(
-                child: Container(
-                  width: 100.h,
-                  height: 100.h,
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: _getImage(),
-                      fit: BoxFit.cover,
+        
+                        // --- Address container ---
+                        if (service.address != null)
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 5.w,
+                              vertical: 4.h,
+                            ),
+                            child: Container(
+                              height: 32.h,
+                              width: 147.w,
+                              decoration: BoxDecoration(
+                                color: AppColors.lightGreyColor,
+                                borderRadius: BorderRadius.circular(5.r),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    service.address ?? 'No address',
+                                    style: TextStyle(fontSize: 12.sp),
+                                  ),
+                                  SvgPicture.asset(
+                                    'assets/svgs/location.svg',
+                                    width: 18.w,
+                                    height: 18.h,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+        
+                        SizedBox(height: 4.h),
+        
+                        // --- Status ---
+                        Text(
+                          service.status.toUpperCase(),
+                          style: TextStyle(
+                            color: _getStatusColor(service.status.toLowerCase()),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
-                    borderRadius: BorderRadius.circular(8.r),
                   ),
                 ),
-              ),
-            ],
+        
+                // --- Image section ---
+                Skeleton.leaf(
+                  child: Container(
+                    width: 100.h,
+                    height: 100.h,
+                    margin: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: _getImage(),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

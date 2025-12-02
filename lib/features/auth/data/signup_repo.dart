@@ -7,8 +7,8 @@ class SignupRepo {
   required String email,
   required String password,
   required String role, 
-  String? username,
-  String? phone,
+  required String username,
+  required String phone,
 }) async {
   final supabase = Supabase.instance.client;
 

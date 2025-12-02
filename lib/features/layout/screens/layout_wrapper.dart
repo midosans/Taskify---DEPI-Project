@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskify/features/bookings/cubit/bookings_cubit.dart';
 import 'package:taskify/features/bookings/data/booking_repo.dart';
-import 'package:taskify/features/home/cubit/home_cubit.dart';
-import 'package:taskify/features/home/data/home_repo.dart';
 import 'package:taskify/features/layout/screens/layout_screen.dart';
 import 'package:taskify/features/profile/cubit/profile_cubit.dart';
 
@@ -14,7 +12,6 @@ class LayoutWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // debugPrint('🔍 User Type: $userType');
 
     // Choose Cubits based on user type
     final providers = <BlocProvider>[
@@ -23,10 +20,6 @@ class LayoutWrapper extends StatelessWidget {
 
     if (userType == "User") {
       providers.addAll([
-        BlocProvider(
-          lazy: false,
-          create: (_) => HomeCubit(homeRepo: HomeRepo()),
-        ),
         BlocProvider(create: (_) => BookingsCubit(bookingRepo: BookingRepo())),
       ]);
     }

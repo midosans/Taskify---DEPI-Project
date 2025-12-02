@@ -24,13 +24,11 @@ class _AuthLoginState extends State<AuthLogin> {
   final formkey = GlobalKey<FormState>();
   bool _submitted = false;
 
-  // 🔹 Added Controllers
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   void dispose() {
-    // 🔹 Dispose Controllers
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -104,14 +102,14 @@ class _AuthLoginState extends State<AuthLogin> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomTextFormField(
-                            controller: emailController, // 🔹 Added
+                            controller: emailController,
                             labelText: 'email'.tr(),
                             prefixIcon: Icons.email,
                             validator: emailValidator.validate,
                           ),
                           SizedBox(height: 10.h),
                           CustomTextFormField(
-                            controller: passwordController, // 🔹 Added
+                            controller: passwordController, 
                             labelText: "password".tr(),
                             prefixIcon: Icons.lock,
                             isObscureText: true,
@@ -139,12 +137,12 @@ class _AuthLoginState extends State<AuthLogin> {
                             size: Size(size.width.w, 48.h),
                             color: AppColors.primaryColor,
                             fontColor: AppColors.whiteTextColor,
-                            onPressed: () async {
+                            onPressed: () {
                               setState(() => _submitted = true);
                               if (formkey.currentState!.validate()) {
                                 BlocProvider.of<LoginCubit>(context).Login(
-                                  email: emailController.text.trim(),    // 🔹 Updated
-                                  password: passwordController.text.trim(), // 🔹 Updated
+                                  email: emailController.text.trim(),    
+                                  password: passwordController.text.trim(), 
                                 );
                               }
                             },
