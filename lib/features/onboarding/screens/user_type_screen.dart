@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
+import 'package:taskify/core/widgets/custom_notify_dialog.dart';
 import 'package:taskify/features/auth/widgets/custom_hyper_link.dart';
 
 class UserTypeScreen extends StatefulWidget {
@@ -164,62 +165,11 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                       showDialog(
                         context: context,
                         builder: (context) {
-                          return Dialog(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.warning_amber_rounded,
-                                    color: AppColors.primaryColor,
-                                    size: 48,
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    'please_select_role'.tr(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.blackTextColor,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    'need_to_choose_role'.tr(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: AppColors.greyTextColor,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      minimumSize: const Size(120, 50),
-                                      backgroundColor: AppColors.primaryColor,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      'ok'.tr(),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                          return CustomNotifyDialog(
+                            title: 'please_select_role'.tr(),
+                            subtitle: 'need_to_choose_role'.tr(),
+                            buttontext: 'ok'.tr(),
+                            icon: Icons.warning_amber_rounded,
                           );
                         },
                       );

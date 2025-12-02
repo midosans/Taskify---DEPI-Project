@@ -12,8 +12,8 @@ class SignupCubit extends Cubit<SignupState>{
     required String email,
     required String password,
     required String role, 
-    String? username,
-    String? phone,
+    required String username,
+    required String phone,
   }) async {
     emit(SignupLoading());
             bool connected = await hasInternet();
