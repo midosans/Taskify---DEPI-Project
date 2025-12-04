@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     if (state is ProfileLoading) {
                       return Center(child: CircularProgressIndicator());
                     } else if (state is ProfileError) {
-                      return Center(child: Text('${state.errorMessage}'));
+                      return Center(child: Text(state.errorMessage));
                     } else if (state is ProfileLoaded) {
                       _userData = state.userdataModel;
 

@@ -28,10 +28,12 @@ import 'package:taskify/features/splash/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
+ // عشان ميقلبش  
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  await EasyLocalization.ensureInitialized();
+  
   await Supabase.initialize(url: Project_URL, anonKey: API_KEY);
   Bloc.observer = AppBlocObserver();
 
@@ -39,7 +41,8 @@ void main() async {
     EasyLocalization(
       supportedLocales: [Locale('en'), Locale('ar')],
       path: 'assets/translations',
-      fallbackLocale: Locale('ar'),
+      fallbackLocale: Locale('en'),
+      saveLocale: false,
       child: const MyApp(),
     ),
   );

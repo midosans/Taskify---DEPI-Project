@@ -58,7 +58,7 @@ class _ProviderServicesScreensState extends State<ProviderServicesScreen> {
                 final services = state.providerServicesdata;
                 debugPrint(services.isEmpty.toString());
                 if (services.isEmpty) {
-                  return const Center(child: Text("You don't have any service"));
+                  return Center(child: Text("You_don't_have_any_service".tr()));
                 }
         
                 return ListView.builder(
