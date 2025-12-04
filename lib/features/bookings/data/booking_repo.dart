@@ -82,8 +82,8 @@ class BookingRepo {
     String? photoUrl;
     if (photo.path.isNotEmpty) {
       final fileName = "${user.id}_${DateTime.now().millisecondsSinceEpoch}.jpg";
-      await _supabase.storage.from(serviceBucket).upload(fileName, photo);
-      photoUrl = _supabase.storage.from(serviceBucket).getPublicUrl(fileName);
+      await _supabase.storage.from(bookingBucket).upload(fileName, photo);
+      photoUrl = _supabase.storage.from(bookingBucket).getPublicUrl(fileName);
     }
 
     // -----------------------------------

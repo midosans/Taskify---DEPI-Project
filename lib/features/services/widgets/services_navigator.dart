@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskify/core/constants.dart';
-import 'package:taskify/features/bookings/cubit/create_booking_cubit.dart';
+import 'package:taskify/features/services/cubit/create_booking_cubit.dart';
 import 'package:taskify/features/bookings/data/booking_repo.dart';
 import 'package:taskify/features/services/cubit/contact_cubit.dart';
 import 'package:taskify/features/services/data/contact_repo.dart';

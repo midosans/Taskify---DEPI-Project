@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taskify/app_services/dialog_extension.dart';
+import 'package:taskify/app_services/validator_service.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/widgets/custom_confirm_dialog.dart';
 import 'package:taskify/core/widgets/custom_notify_dialog.dart';
@@ -56,6 +57,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final passwordValidator = PasswordValidator();
+    final phoneValidator = EgyptianPhoneValidator();
     return BlocListener<UpdateProfileCubit, UpdateProfileState>(
       listener: (context, state) async {
         if (state is UpdateProfileLoading) {
@@ -215,6 +218,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 keyboard: TextInputType.phone,
                 label: 'phone_number'.tr(),
                 hint: 'enter_new_phone_number'.tr(),
+                validator: phoneValidator.validate
               ),
 
               _buildField(
@@ -223,6 +227,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 label: 'password'.tr(),
                 hint: 'enter_new_password'.tr(),
                 obscure: true,
+                validator: passwordValidator.validate
               ),
 
               SizedBox(height: 30.h),
@@ -294,6 +299,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     required String label,
     required String hint,
     TextInputType? keyboard,
+    String? Function(String?)? validator,
     bool obscure = false,
   }) {
     return Card(
@@ -306,6 +312,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           controller: controller,
           obscureText: obscure,
           keyboardType: keyboard,
+          validator:
+              validator ??
+              (String? textValue) {
+                if (textValue == null || textValue.isEmpty) {
+                  return 'required!';
+                }
+                return null;
+              },
           decoration: InputDecoration(
             prefixIcon: Icon(icon, color: AppColors.primaryColor),
             labelText: label,

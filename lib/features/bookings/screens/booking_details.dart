@@ -146,7 +146,7 @@ class BookingDetails extends StatelessWidget {
                     Expanded(
                       child: CustomTextColumn(
                         title: "time".tr(),
-                        subtitle: _formatTime(bookingdeatils.date!),
+                        subtitle: _cleanTime(bookingdeatils.time!) ,
                       ),
                     ),
                   ],
@@ -228,6 +228,10 @@ class BookingDetails extends StatelessWidget {
   // }
 }
 
+String _cleanTime(String time) {
+  return time.substring(0, 5);   // "06:25"
+}
+
 String _formatFullDateTime(DateTime dateTime) {
   final formatter = DateFormat('E, MMM d • h:mm a');
   return formatter.format(dateTime);
@@ -238,7 +242,3 @@ String _formatDateTime(DateTime dateTime) {
   return formatter.format(dateTime);
 }
 
-String _formatTime(DateTime dateTime) {
-  final formatter = DateFormat('h:mm a');
-  return formatter.format(dateTime);
-}
