@@ -144,7 +144,7 @@ class _ProviderBookingDetailsState extends State<ProviderBookingDetails> {
                             SizedBox(width: 6.w),
                             Expanded(
                               child: Text(
-                                bookingdeatils.date != null
+                                widget.bookingdeatils.date != null
                                     ? '${_formatDateTime(widget.bookingdeatils.date!)} • ${_cleanTime(widget.bookingdeatils.time!)}'
                                     : "scheduled_for".tr(),
                                 style: TextStyle(
@@ -209,7 +209,7 @@ class _ProviderBookingDetailsState extends State<ProviderBookingDetails> {
                     Expanded(
                       child: CustomTextColumn(
                         title: "time".tr(),
-                        subtitle: _formatTime(widget.bookingdeatils.date!),
+                        subtitle: _cleanTime(widget.bookingdeatils.time!),
                       ),
                     ),
                   ],
