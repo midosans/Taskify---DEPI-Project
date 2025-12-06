@@ -6,6 +6,8 @@ import 'package:taskify/features/bookings/data/booking_model.dart';
 import 'package:taskify/features/bookings/screens/booking_details.dart';
 import 'package:taskify/features/bookings/widgets/custom_tile.dart';
 import 'package:taskify/features/provider_home/widgets/custom_loading_book.dart';
+import 'package:taskify/features/services/cubit/contact_cubit.dart';
+import 'package:taskify/features/services/data/contact_repo.dart';
 
 class AllBookingsTab extends StatelessWidget {
   final int tabIndex;
@@ -20,7 +22,7 @@ class AllBookingsTab extends StatelessWidget {
     return BlocBuilder<BookingsCubit, BookingState>(
       builder: (context, state) {
         if (state is BookingLoading) {
-          return const Center(child:CustomLoadingBook());
+          return const Center(child: CustomLoadingBook());
         } else if (state is BookingError) {
           return Center(child: Text(state.message));
         } else if (state is BookingEmpty) {
@@ -30,13 +32,13 @@ class AllBookingsTab extends StatelessWidget {
             return const Center(child: Text('No bookings yet'));
           }
           return RefreshIndicator(
-        onRefresh: () async {
-          // Call both refresh functions when pulling down
-          context.read<BookingsCubit>().fetchForTab(tabIndex);
-        },
+            onRefresh: () async {
+              // Call both refresh functions when pulling down
+              context.read<BookingsCubit>().fetchForTab(tabIndex);
+            },
 
-        // Needed so RefreshIndicator works even if list is short
-        notificationPredicate: (_) => true,
+            // Needed so RefreshIndicator works even if list is short
+            notificationPredicate: (_) => true,
             child: ListView.builder(
               itemCount: state.bookings.length,
               itemBuilder: (context, index) {
@@ -46,7 +48,13 @@ class AllBookingsTab extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => BookingDetails(bookingdeatils: booking),
+                        builder:
+                            (_) => BlocProvider(
+                              create:
+                                  (context) =>
+                                      ContactCubit(contactRepo: ContactRepo()),
+                              child: BookingDetails(bookingdeatils: booking),
+                            ),
                       ),
                     );
                   },
