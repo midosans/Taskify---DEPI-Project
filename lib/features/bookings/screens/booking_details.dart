@@ -95,9 +95,7 @@ class _BookingDetailsState extends State<BookingDetails> {
                           Expanded(
                             child: Text(
                               widget.bookingdeatils.date != null
-                                  ? _formatFullDateTime(
-                                    widget.bookingdeatils.date!,
-                                  )
+                                  ? '${_formatDateTime(widget.bookingdeatils.date!,)} • ${_cleanTime(widget.bookingdeatils.time!)}'
                                   : 'scheduled_for'.tr(),
                               style: TextStyle(
                                 fontSize: 14.sp,
@@ -241,12 +239,7 @@ class _BookingDetailsState extends State<BookingDetails> {
 }
 
 String _cleanTime(String time) {
-  return time.substring(0, 5); // "06:25"
-}
-
-String _formatFullDateTime(DateTime dateTime) {
-  final formatter = DateFormat('E, MMM d • h:mm a');
-  return formatter.format(dateTime);
+  return time.substring(0, 5); 
 }
 
 String _formatDateTime(DateTime dateTime) {
