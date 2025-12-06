@@ -1,15 +1,32 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/widgets/custom_cashed_image.dart';
 import 'package:taskify/features/bookings/data/booking_model.dart';
 import 'package:taskify/features/bookings/widgets/custom_text_column.dart';
+import 'package:taskify/features/services/cubit/contact_cubit.dart';
+import 'package:taskify/features/services/cubit/contact_state.dart';
+import 'package:taskify/features/services/widgets/launcher_helper.dart';
 
-class BookingDetails extends StatelessWidget {
+class BookingDetails extends StatefulWidget {
   final BookingModel bookingdeatils;
   const BookingDetails({super.key, required this.bookingdeatils});
+
+  @override
+  State<BookingDetails> createState() => _BookingDetailsState();
+}
+
+class _BookingDetailsState extends State<BookingDetails> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ContactCubit>().getPhone(
+      providerId: widget.bookingdeatils.providerId!,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +72,7 @@ class BookingDetails extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        bookingdeatils.serviceTitle ?? 'Unnamed Service',
+                        widget.bookingdeatils.serviceTitle ?? 'Unnamed Service',
                         style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.w700,
@@ -77,8 +94,10 @@ class BookingDetails extends StatelessWidget {
                           SizedBox(width: 6.w),
                           Expanded(
                             child: Text(
-                              bookingdeatils.date != null
-                                  ? _formatFullDateTime(bookingdeatils.date!)
+                              widget.bookingdeatils.date != null
+                                  ? _formatFullDateTime(
+                                    widget.bookingdeatils.date!,
+                                  )
                                   : 'scheduled_for'.tr(),
                               style: TextStyle(
                                 fontSize: 14.sp,
@@ -99,7 +118,10 @@ class BookingDetails extends StatelessWidget {
                   child: SizedBox(
                     width: 130.w,
                     height: 66.h,
-                    child: CustomCashedImage(url:bookingdeatils.imageUrl! , size: Size(130.w,66.h),),
+                    child: CustomCashedImage(
+                      url: widget.bookingdeatils.imageUrl!,
+                      size: Size(130.w, 66.h),
+                    ),
                   ),
                 ),
               ],
@@ -115,21 +137,23 @@ class BookingDetails extends StatelessWidget {
                     child: CustomTextColumn(
                       title: "service".tr(),
                       subtitle:
-                          bookingdeatils.serviceTitle ?? 'Unnamed Service',
+                          widget.bookingdeatils.serviceTitle ??
+                          'Unnamed Service',
                     ),
                   ),
                   SizedBox(width: 16.w),
                   Expanded(
                     child: CustomTextColumn(
                       title: "vendor".tr(),
-                      subtitle: bookingdeatils.providerName ?? 'Not specified',
+                      subtitle:
+                          widget.bookingdeatils.providerName ?? 'Not specified',
                     ),
                   ),
                 ],
               ),
             ),
             const Divider(thickness: 0.45, indent: 1, endIndent: 2, height: 25),
-            if (bookingdeatils.date != null)
+            if (widget.bookingdeatils.date != null)
               SizedBox(
                 width: size.width,
                 child: Row(
@@ -139,14 +163,14 @@ class BookingDetails extends StatelessWidget {
                     Expanded(
                       child: CustomTextColumn(
                         title: "date".tr(),
-                        subtitle: _formatDateTime(bookingdeatils.date!),
+                        subtitle: _formatDateTime(widget.bookingdeatils.date!),
                       ),
                     ),
                     SizedBox(width: 16.w),
                     Expanded(
                       child: CustomTextColumn(
                         title: "time".tr(),
-                        subtitle: _cleanTime(bookingdeatils.time!) ,
+                        subtitle: _cleanTime(widget.bookingdeatils.time!),
                       ),
                     ),
                   ],
@@ -161,7 +185,7 @@ class BookingDetails extends StatelessWidget {
               ),
             ),
             Text(
-              bookingdeatils.address ?? 'No address provided',
+              widget.bookingdeatils.address ?? 'No address provided',
               style: TextStyle(fontSize: 14.sp),
             ),
             Spacer(),
@@ -192,6 +216,21 @@ class BookingDetails extends StatelessWidget {
                 "contact_provider_subtitle".tr(),
                 style: TextStyle(color: AppColors.lightprimarycolor),
               ),
+              onTap: () {
+                final phone =
+                    context.read<ContactCubit>().state is ContactSuccess
+                        ? (context.read<ContactCubit>().state as ContactSuccess)
+                            .contactModel
+                            .phone
+                        : null;
+                if (phone != null) {
+                  LauncherHelper.openDialer(phone);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('provider_number_unavailable'.tr())),
+                  );
+                }
+              },
             ),
             const Divider(thickness: 0.45, indent: 1, endIndent: 2, height: 25),
           ],
@@ -199,37 +238,10 @@ class BookingDetails extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _buildImage() {
-  //   if (bookingdeatils.imageUrl == null || bookingdeatils.imageUrl!.isEmpty) {
-  //     return Image.asset(
-  //       'assets/pngs/logo.png',
-  //       height: 66.h,
-  //       width: 130.w,
-  //       fit: BoxFit.cover,
-  //     );
-  //   }
-
-  //   if (bookingdeatils.imageUrl!.startsWith('http')) {
-  //     return Image.network(
-  //       bookingdeatils.imageUrl!,
-  //       height: 66.h,
-  //       width: 130.w,
-  //       fit: BoxFit.cover,
-  //     );
-  //   }
-
-  //   return Image.asset(
-  //     bookingdeatils.imageUrl!,
-  //     height: 66.h,
-  //     width: 130.w,
-  //     fit: BoxFit.cover,
-  //   );
-  // }
 }
 
 String _cleanTime(String time) {
-  return time.substring(0, 5);   // "06:25"
+  return time.substring(0, 5); // "06:25"
 }
 
 String _formatFullDateTime(DateTime dateTime) {
@@ -241,4 +253,3 @@ String _formatDateTime(DateTime dateTime) {
   final formatter = DateFormat('E, MMM d');
   return formatter.format(dateTime);
 }
-

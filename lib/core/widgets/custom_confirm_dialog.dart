@@ -11,13 +11,12 @@ class CustomConfirmDialog extends StatelessWidget {
     required this.subtitle,
     required this.buttontext,
     required this.onConfirm,
-    
   });
   final String title;
   final String subtitle;
   final String buttontext;
   final VoidCallback onConfirm;
-  
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -32,7 +31,7 @@ class CustomConfirmDialog extends StatelessWidget {
               color: AppColors.primaryColor,
               size: 48,
             ),
-             SizedBox(height: 16.h),
+            SizedBox(height: 16.h),
             Text(
               title,
               textAlign: TextAlign.center,
@@ -42,13 +41,13 @@ class CustomConfirmDialog extends StatelessWidget {
                 color: AppColors.blackTextColor,
               ),
             ),
-             SizedBox(height: 12.h),
+            SizedBox(height: 12.h),
             Text(
               subtitle,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14.sp, color: AppColors.greyTextColor),
             ),
-             SizedBox(height: 20.h),
+            SizedBox(height: 20.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
