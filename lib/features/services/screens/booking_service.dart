@@ -169,7 +169,6 @@ class _BookingServiceState extends State<BookingService> {
                 SizedBox(height: 20.h),
 
                 // ---------------- Image Picker ----------------
-                // ---------------- Image Picker (Improved Preview) ----------------
                 GestureDetector(
                   onTap: () async {
                     final XFile? pickedFile = await ImagePicker().pickImage(
@@ -203,6 +202,7 @@ class _BookingServiceState extends State<BookingService> {
                             ),
                           ),
                 ),
+                SizedBox(height: 20.h,),
                 // ---------------- Date Picker ----------------
                 Text(
                   'select_date'.tr(),
@@ -252,8 +252,8 @@ class _BookingServiceState extends State<BookingService> {
                     final date = dateKey.currentState?.selectedDate;
                     final time = timeKey.currentState?.selectedTime;
 
-                    debugPrint("DATE: $date");
-                    debugPrint("TIME: $time");
+                    // debugPrint("DATE: $date");
+                    // debugPrint("TIME: $time");
 
                     setState(() => _submitted = true);
 
