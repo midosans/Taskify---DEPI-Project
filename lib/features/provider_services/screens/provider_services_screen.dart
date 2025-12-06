@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:taskify/core/app_colors.dart';
 import 'package:taskify/core/constants.dart';
 import 'package:taskify/core/widgets/custom_error.dart';
+import 'package:taskify/core/widgets/custom_no_data.dart';
 import 'package:taskify/features/provider_services/cubit/provider_services_cubit.dart';
 import 'package:taskify/features/provider_services/cubit/provider_services_state.dart';
 import 'package:taskify/features/provider_services/widgets/custom_loading_service.dart';
@@ -51,38 +52,51 @@ class _ProviderServicesScreensState extends State<ProviderServicesScreen> {
               if (state is ProviderServicesLoading) {
                 return const Center(child: CustomLoadingService());
               } else if (state is ProviderServicesFailure) {
-                return CustomError(subtitle: state.errorMessage.tr(), onRefresh: (){
-                  context.read<ProviderServicesCubit>().fetchData();
-                });
+                return CustomError(
+                  subtitle: state.errorMessage.tr(),
+                  onRefresh: () {
+                    context.read<ProviderServicesCubit>().fetchData();
+                  },
+                );
               } else if (state is ProviderServicesSuccess) {
                 final services = state.providerServicesdata;
-                debugPrint(services.isEmpty.toString());
                 if (services.isEmpty) {
-                  return Center(child: Text("You_don't_have_any_service".tr()));
-                }
-        
-                return ListView.builder(
-                itemCount: services.length,
-                itemBuilder: (context, index) {
-                  final service = services[index];
-                  return CustomServiceListTile(
-                    service: service,
-                    onTap: () async {
-                      final result = await Navigator.pushNamed(
-                        context,
-                        providerServiceDetailsRoute,
-                        arguments: service,
-                      );
-        
-                      // 🔄 Refresh the list when returning from details screen
-                      if (result == true && context.mounted) {
-                        await Future.delayed(const Duration(milliseconds: 300)); // optional small delay
+                  return Center(
+                    child: CustomNoData(
+                      title: "You_don't_have_any_service".tr(),
+                      subtitle: "You haven't added any services yet. Refresh to update.".tr(),
+                      onRefresh: () {
                         context.read<ProviderServicesCubit>().fetchData();
-                      }
-                    },
+                      },
+                    ),
+                    // Text("You_don't_have_any_service".tr())
                   );
-                },
-              );
+                }
+
+                return ListView.builder(
+                  itemCount: services.length,
+                  itemBuilder: (context, index) {
+                    final service = services[index];
+                    return CustomServiceListTile(
+                      service: service,
+                      onTap: () async {
+                        final result = await Navigator.pushNamed(
+                          context,
+                          providerServiceDetailsRoute,
+                          arguments: service,
+                        );
+
+                        // 🔄 Refresh the list when returning from details screen
+                        if (result == true && context.mounted) {
+                          await Future.delayed(
+                            const Duration(milliseconds: 300),
+                          ); // optional small delay
+                          context.read<ProviderServicesCubit>().fetchData();
+                        }
+                      },
+                    );
+                  },
+                );
               } else {
                 return const SizedBox();
               }

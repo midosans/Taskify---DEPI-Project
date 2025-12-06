@@ -207,6 +207,7 @@
   "booking_success_title": "Booking Confirmed",
   "booking_success_subtitle": "Your booking has been created successfully!",
   "enter_code_sent_to": "Enter the code sent to",
-  "You_don't_have_any_service": "You don't have any service"
+  "You_don't_have_any_service": "You don't have any service",
+  "no_services_refresh": "You haven't added any services yet. Refresh to update."
 
 }

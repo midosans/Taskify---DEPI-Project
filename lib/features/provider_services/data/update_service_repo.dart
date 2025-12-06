@@ -29,14 +29,11 @@ class UpdateServiceRepo {
       if (price != null) 'price': price,
       if (description != null) 'description': description,
       if (photoUrl != null) 'photo': photoUrl,
-
-      // if (availability != null) 'availability': availability,
     };
 
     await supabase
         .from(servicesTable)
         .update(updates)
-        // .update({'status': updates})
         .eq('id', serviceId);
   }
 }

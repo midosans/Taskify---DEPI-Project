@@ -9,10 +9,7 @@ class DeleteServiceRepo {
     if (user == null) throw Exception('Not authenticated');
 
     // Attempt to delete the booking
-    await supabase
-        .from(servicesTable)
-        .delete()
-        .match({'id':serviceId });
+    await supabase.from(servicesTable).delete().eq('id', serviceId);
 
     // if (response.error != null) {
     //   throw Exception(response.error!.message);

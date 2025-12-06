@@ -206,5 +206,6 @@
   "booking_success_title": "تم تأكيد الحجز",
   "booking_success_subtitle": "تم إنشاء الحجز بنجاح!",
   "enter_code_sent_to": "أدخل الرمز المرسل إلى",
-  "You_don't_have_any_service": "ليس لديك أي خدمة"
+  "You_don't_have_any_service": "ليس لديك أي خدمة",
+  "no_services_refresh": "لم تقم بإضافة أي خدمات بعد. قم بالتحديث لعرض التغييرات."
 }
