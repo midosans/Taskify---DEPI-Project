@@ -12,10 +12,26 @@ import 'package:taskify/features/bookings/data/booking_model.dart';
 import 'package:taskify/features/bookings/widgets/custom_text_column.dart';
 import 'package:taskify/features/provider_home/cubit/update_booking_cubit.dart';
 import 'package:taskify/features/provider_home/cubit/update_booking_state.dart';
+import 'package:taskify/features/services/cubit/contact_cubit.dart';
+import 'package:taskify/features/services/cubit/contact_state.dart';
+import 'package:taskify/features/services/widgets/launcher_helper.dart';
 
-class ProviderBookingDetails extends StatelessWidget {
+class ProviderBookingDetails extends StatefulWidget {
   final BookingModel bookingdeatils;
   const ProviderBookingDetails({super.key, required this.bookingdeatils});
+
+  @override
+  State<ProviderBookingDetails> createState() => _ProviderBookingDetailsState();
+}
+
+class _ProviderBookingDetailsState extends State<ProviderBookingDetails> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ContactCubit>().getPhone(
+      providerId: widget.bookingdeatils.userId,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +123,8 @@ class ProviderBookingDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          bookingdeatils.serviceTitle ?? 'unnamed_service'.tr(),
+                          widget.bookingdeatils.serviceTitle ??
+                              'unnamed_service'.tr(),
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w700,
@@ -128,7 +145,7 @@ class ProviderBookingDetails extends StatelessWidget {
                             Expanded(
                               child: Text(
                                 bookingdeatils.date != null
-                                    ? '${_formatDateTime(bookingdeatils.date!)} • ${_cleanTime(bookingdeatils.time!)}'
+                                    ? '${_formatDateTime(widget.bookingdeatils.date!)} • ${_cleanTime(widget.bookingdeatils.time!)}'
                                     : "scheduled_for".tr(),
                                 style: TextStyle(
                                   fontSize: 14.sp,
@@ -161,14 +178,17 @@ class ProviderBookingDetails extends StatelessWidget {
                     child: CustomTextColumn(
                       title: "service".tr(),
                       subtitle:
-                          bookingdeatils.serviceTitle ?? 'unnamed_service'.tr(),
+                          widget.bookingdeatils.serviceTitle ??
+                          'unnamed_service'.tr(),
                     ),
                   ),
                   SizedBox(width: 16.w),
                   Expanded(
                     child: CustomTextColumn(
                       title: "client".tr(),
-                      subtitle: bookingdeatils.userName ?? 'not_specified'.tr(),
+                      subtitle:
+                          widget.bookingdeatils.userName ??
+                          'not_specified'.tr(),
                     ),
                   ),
                 ],
@@ -176,20 +196,20 @@ class ProviderBookingDetails extends StatelessWidget {
 
               const Divider(height: 25),
 
-              if (bookingdeatils.date != null)
+              if (widget.bookingdeatils.date != null)
                 Row(
                   children: [
                     Expanded(
                       child: CustomTextColumn(
                         title: "date".tr(),
-                        subtitle: _formatDateTime(bookingdeatils.date!),
+                        subtitle: _formatDateTime(widget.bookingdeatils.date!),
                       ),
                     ),
                     SizedBox(width: 16.w),
                     Expanded(
                       child: CustomTextColumn(
                         title: "time".tr(),
-                        subtitle: _cleanTime(bookingdeatils.time!),
+                        subtitle: _formatTime(widget.bookingdeatils.date!),
                       ),
                     ),
                   ],
@@ -205,7 +225,7 @@ class ProviderBookingDetails extends StatelessWidget {
                 ),
               ),
               Text(
-                bookingdeatils.address ?? 'no_address'.tr(),
+                widget.bookingdeatils.address ?? 'no_address'.tr(),
                 style: TextStyle(fontSize: 14.sp),
               ),
 
@@ -241,11 +261,29 @@ class ProviderBookingDetails extends StatelessWidget {
                   "contact_provider_subtitle".tr(),
                   style: TextStyle(color: AppColors.lightprimarycolor),
                 ),
+                onTap: () {
+                  final phone =
+                      context.read<ContactCubit>().state is ContactSuccess
+                          ? (context.read<ContactCubit>().state
+                                  as ContactSuccess)
+                              .contactModel
+                              .phone
+                          : null;
+                  if (phone != null) {
+                    LauncherHelper.openDialer(phone);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('provider_number_unavailable'.tr()),
+                      ),
+                    );
+                  }
+                },
               ),
 
               SizedBox(height: 10.h),
 
-              bookingdeatils.status == 'accepted'
+              widget.bookingdeatils.status == 'accepted'
                   ? CustomButton(
                     text: "mark_as_completed".tr(),
                     size: Size(250.w, 45.h),
@@ -258,7 +296,8 @@ class ProviderBookingDetails extends StatelessWidget {
                           title: "finish_service".tr(),
                           subtitle: "finish_service_subtitle".tr(
                             namedArgs: {
-                              "service": bookingdeatils.serviceTitle ?? "",
+                              "service":
+                                  widget.bookingdeatils.serviceTitle ?? "",
                             },
                           ),
                           buttontext: "finish".tr(),
@@ -266,7 +305,7 @@ class ProviderBookingDetails extends StatelessWidget {
                             Navigator.of(context, rootNavigator: true).pop();
                             cubit.updateBoookingStatus(
                               status: "completed",
-                              bookingId: bookingdeatils.id!,
+                              bookingId: widget.bookingdeatils.id!,
                             );
                           },
                         ),
@@ -288,7 +327,8 @@ class ProviderBookingDetails extends StatelessWidget {
                               title: "accept_service".tr(),
                               subtitle: "accept_service_subtitle".tr(
                                 namedArgs: {
-                                  "service": bookingdeatils.serviceTitle ?? "",
+                                  "service":
+                                      widget.bookingdeatils.serviceTitle ?? "",
                                 },
                               ),
                               buttontext: "accept".tr(),
@@ -299,7 +339,7 @@ class ProviderBookingDetails extends StatelessWidget {
                                 ).pop();
                                 cubit.updateBoookingStatus(
                                   status: "accepted",
-                                  bookingId: bookingdeatils.id!,
+                                  bookingId: widget.bookingdeatils.id!,
                                 );
                               },
                             ),
@@ -318,7 +358,8 @@ class ProviderBookingDetails extends StatelessWidget {
                               title: "cancel_service".tr(),
                               subtitle: "cancel_service_subtitle".tr(
                                 namedArgs: {
-                                  "service": bookingdeatils.serviceTitle ?? "",
+                                  "service":
+                                      widget.bookingdeatils.serviceTitle ?? "",
                                 },
                               ),
                               buttontext: "decline".tr(),
@@ -329,7 +370,7 @@ class ProviderBookingDetails extends StatelessWidget {
                                 ).pop();
                                 cubit.updateBoookingStatus(
                                   status: "cancelled",
-                                  bookingId: bookingdeatils.id!,
+                                  bookingId: widget.bookingdeatils.id!,
                                 );
                               },
                             ),
@@ -348,15 +389,16 @@ class ProviderBookingDetails extends StatelessWidget {
   }
 
   Widget _buildImage() {
-    if (bookingdeatils.imageUrl == null || bookingdeatils.imageUrl!.isEmpty) {
+    if (widget.bookingdeatils.imageUrl == null ||
+        widget.bookingdeatils.imageUrl!.isEmpty) {
       return Image.asset('assets/pngs/logo.png', fit: BoxFit.cover);
     }
 
-    if (bookingdeatils.imageUrl!.startsWith('http')) {
-      return Image.network(bookingdeatils.imageUrl!, fit: BoxFit.cover);
+    if (widget.bookingdeatils.imageUrl!.startsWith('http')) {
+      return Image.network(widget.bookingdeatils.imageUrl!, fit: BoxFit.cover);
     }
 
-    return Image.asset(bookingdeatils.imageUrl!, fit: BoxFit.cover);
+    return Image.asset(widget.bookingdeatils.imageUrl!, fit: BoxFit.cover);
   }
 }
 

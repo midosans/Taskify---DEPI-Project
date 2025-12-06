@@ -9,6 +9,8 @@ import 'package:taskify/features/provider_home/data/fetch_booking_repo.dart';
 import 'package:taskify/features/provider_home/data/update_booking_repo.dart';
 import 'package:taskify/features/provider_home/screens/provider_booking_details.dart';
 import 'package:taskify/features/provider_home/screens/provider_home_screen.dart';
+import 'package:taskify/features/services/cubit/contact_cubit.dart';
+import 'package:taskify/features/services/data/contact_repo.dart';
 
 class ProviderHomeNavigator extends StatelessWidget {
   const ProviderHomeNavigator({super.key});
@@ -43,11 +45,18 @@ class ProviderHomeNavigator extends StatelessWidget {
           final book = settings.arguments as BookingModel;
           return MaterialPageRoute(
             builder:
-                (context) => BlocProvider(
-                  create:
-                      (context) => UpdateBookingCubit(
-                        repo: UpdateBookingRepo(),
-                      ),
+                (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create:
+                          (context) =>
+                              UpdateBookingCubit(repo: UpdateBookingRepo()),
+                    ),
+                    BlocProvider(
+                      create:
+                          (context) => ContactCubit(contactRepo: ContactRepo()),
+                    ),
+                  ],
                   child: ProviderBookingDetails(bookingdeatils: book),
                 ),
           );
