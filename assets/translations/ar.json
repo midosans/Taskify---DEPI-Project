@@ -207,5 +207,10 @@
   "booking_success_subtitle": "تم إنشاء الحجز بنجاح!",
   "enter_code_sent_to": "أدخل الرمز المرسل إلى",
   "You_don't_have_any_service": "ليس لديك أي خدمة",
-  "no_services_refresh": "لم تقم بإضافة أي خدمات بعد. قم بالتحديث لعرض التغييرات."
+  "no_services_refresh": "لم تقم بإضافة أي خدمات بعد. قم بالتحديث لعرض التغييرات.",
+  "delete_booking_title": "حذف الحجز",
+  "delete_booking_subtitle": "هل أنت متأكد أنك تريد حذف {}؟",
+  "booking_deleted_title": "تم حذف الحجز",
+  "booking_deleted_subtitle": "تم حذف حجزك بنجاح.",
+  "delete_booking": "حذف الحجز"
 }

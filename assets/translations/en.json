@@ -208,6 +208,9 @@
   "booking_success_subtitle": "Your booking has been created successfully!",
   "enter_code_sent_to": "Enter the code sent to",
   "You_don't_have_any_service": "You don't have any service",
-  "no_services_refresh": "You haven't added any services yet. Refresh to update."
-
+  "delete_booking_title": "Delete Booking",
+  "delete_booking_subtitle": "Are you sure you want to delete {}?",
+  "booking_deleted_title": "Booking Deleted",
+  "booking_deleted_subtitle": "Your booking has been removed successfully.",
+  "delete_booking": "Delete Booking"
 }

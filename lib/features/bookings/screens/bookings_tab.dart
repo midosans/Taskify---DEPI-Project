@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskify/features/bookings/cubit/bookings_state.dart';
 import 'package:taskify/features/bookings/cubit/bookings_cubit.dart';
+import 'package:taskify/features/bookings/cubit/delete_booking_cubit.dart';
 import 'package:taskify/features/bookings/data/booking_model.dart';
+import 'package:taskify/features/bookings/data/delete_booking_repo.dart';
 import 'package:taskify/features/bookings/screens/booking_details.dart';
 import 'package:taskify/features/bookings/widgets/custom_tile.dart';
 import 'package:taskify/features/provider_home/widgets/custom_loading_book.dart';
@@ -49,10 +51,21 @@ class AllBookingsTab extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder:
-                            (_) => BlocProvider(
-                              create:
-                                  (context) =>
-                                      ContactCubit(contactRepo: ContactRepo()),
+                            (context) => MultiBlocProvider(
+                              providers: [
+                                BlocProvider(
+                                  create:
+                                      (context) => ContactCubit(
+                                        contactRepo: ContactRepo(),
+                                      ),
+                                ),
+                                BlocProvider(
+                                  create:
+                                      (context) => DeleteBookingCubit(
+                                        deleteBookingRepo: DeleteBookingRepo(),
+                                      ),
+                                ),
+                              ],
                               child: BookingDetails(bookingdeatils: booking),
                             ),
                       ),
