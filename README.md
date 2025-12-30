@@ -44,19 +44,27 @@
 
 4. Run the app:
    ```bash
-    flutter run
+   flutter run
 
 ##🗂️ Project Structure
 
 lib/
 ├── main.dart          # Entry point
+
 ├── core/              # Constants, themes, and utils
+
 ├── features/          # Each feature in separate folder
+
 │   ├── auth/          # Login and registration
+
 │   ├── onboarding/    # Intro for new users
+
 │   └── tasks/         # Task management
+
 ├── localization/      # Language files
+
 └── shared/            # General widgets
+
 
 ##🌐 Language Support
 
