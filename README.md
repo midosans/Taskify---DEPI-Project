@@ -1,6 +1,6 @@
 # Taskfiy
 
-![Taskfiy Logo](https://via.placeholder.com/150)
+![Taskfiy Logo]([https://via.placeholder.com/150](https://tse2.mm.bing.net/th/id/OIP.ABEHy1Uj3JjSeS3yGwVAxwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3))
 
 **Taskfiy** is a smart and organized task management app that helps you organize your daily tasks, track your progress, and get reminders easily and efficiently.
 
@@ -22,9 +22,9 @@
 - **Flutter** for building the UI
 - **Dart** as the main programming language
 - **Easy Localization** for multi-language support
-- **Provider / Riverpod / GetIt** for state management
+- **cubit** for state management
 - **Shared Preferences** for local data storage
-- **Firebase** (optional) for syncing data across devices
+- **Subabase** Backend as a service
 
 ---
 
