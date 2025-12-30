@@ -46,35 +46,16 @@
    ```bash
    flutter run
 
-##🗂️ Project Structure
 
-lib/
-├── main.dart          # Entry point
+🌐 Language Support
 
-├── core/              # Constants, themes, and utils
-
-├── features/          # Each feature in separate folder
-
-│   ├── auth/          # Login and registration
-
-│   ├── onboarding/    # Intro for new users
-
-│   └── tasks/         # Task management
-
-├── localization/      # Language files
-
-└── shared/            # General widgets
-
-
-##🌐 Language Support
-
-  ###fallbackLocale: Locale('en')
+  fallbackLocale: Locale('en')
     → If the device language is not available, English will be used as default.
 
-  ###saveLocale: true
+  saveLocale: true
     → Saves the last used language and applies it automatically on app restart.
 
-##🤝 Contributing
+🤝 Contributing
 
 Contributions are welcome!
 Feel free to open an Issue or Pull Request for improvements or new ideas.
